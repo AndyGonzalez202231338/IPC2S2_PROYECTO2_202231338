@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">{{ getFormTitle() }}</h3>
+          
+          <form [formGroup]="newAccountForm" (ngSubmit)="submit()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="name" formControlName="name"
+                     placeholder="Ingrese su nombre">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" formControlName="email"
+                     placeholder="Ingrese su correo">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" formControlName="password"
+                     placeholder="Ingrese su contraseña">
+            </div>
+
+            <!-- ROLES PARA UN USUARIO CREADO POR UN ADMIN DE SISTEMA -->
+            @if (isAdminMode) {
+              <div class="mb-3">
+                <label for="type" class="form-label">Tipo de Usuario</label>
+                <select id="type" class="form-control" formControlName="type">
+                  <option *ngFor="let option of availableCountTypes" [value]="option.key">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            }
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="newAccountForm.invalid">
+                {{ getSubmitButtonText() }}
+              </button>
+              
+              <!-- Botón "Volver" solo en modo público -->
+              @if (!isAdminMode) {
+                <button type="button" class="btn btn-secondary" routerLink="/login">
+                  Volver al Login
+                </button>
+              }
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
