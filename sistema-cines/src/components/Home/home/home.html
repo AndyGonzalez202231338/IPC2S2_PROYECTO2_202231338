@@ -1,0 +1,30 @@
+<!-- hacer un cambio de hearder-->
+
+<app-header-admin-sistema></app-header-admin-sistema>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Bienvenido al Home</h1>
+      
+      <!-- Mostrar información del usuario si está logueado -->
+      <div *ngIf="currentUser" class="user-info alert alert-success">
+        <h3>¡Inicio de sesión exitoso!</h3>
+        <p><strong>Nombre:</strong> {{ currentUser.nombreCompleto }}</p>
+        <p><strong>Email:</strong> {{ currentUser.email }}</p>
+        <p><strong>Rol:</strong> {{ currentUser.role }}</p>
+      </div>
+      
+      <div *ngIf="!currentUser" class="alert alert-warning">
+        <p>No hay usuario logueado</p>
+      </div>
+      
+      <!-- Tu contenido del home aquí -->
+      <div class="mt-4">
+        <h2>Contenido Principal</h2>
+        <p>Este es el contenido de tu aplicación...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

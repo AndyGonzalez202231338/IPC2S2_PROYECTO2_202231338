@@ -1,56 +1,139 @@
-<div class="container">
-  <div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title text-center mb-4">{{ getFormTitle() }}</h3>
-          
-          <form [formGroup]="newAccountForm" (ngSubmit)="submit()">
-            <div class="mb-3">
-              <label for="name" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="name" formControlName="name"
-                     placeholder="Ingrese su nombre">
-            </div>
+@if(isLoading) {
+<div class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Procesando...</p>
+</div>
+} @else {
+    @if(operationDone) {
+    <div class="alert alert-success d-flex align-items-center">
+        <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+        <div>
+            Operación realizada con éxito.
+        </div>
+    </div>
+    }
 
-            <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="email" formControlName="email"
-                     placeholder="Ingrese su correo">
+    <form [formGroup]="newUserForm" (ngSubmit)="submit()">
+        <div class="row g-3">
+            
+            <!-- ID del usuario (solo visible en edición) -->
+            @if(isEditMode) {
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="idUsuario" class="form-label">ID Usuario:</label>
+                    <label class="form-control bg-light">{{userToUpdate?.idUsuario}}</label>
+                    <input type="hidden" name="idUsuario" [value]="userToUpdate?.idUsuario" />
+                </div>
             </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" formControlName="password"
-                     placeholder="Ingrese su contraseña">
-            </div>
-
-            <!-- ROLES PARA UN USUARIO CREADO POR UN ADMIN DE SISTEMA -->
-            @if (isAdminMode) {
-              <div class="mb-3">
-                <label for="type" class="form-label">Tipo de Usuario</label>
-                <select id="type" class="form-control" formControlName="type">
-                  <option *ngFor="let option of availableCountTypes" [value]="option.key">
-                    {{ option.value }}
-                  </option>
-                </select>
-              </div>
             }
 
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary" [disabled]="newAccountForm.invalid">
-                {{ getSubmitButtonText() }}
-              </button>
-              
-              <!-- Botón "Volver" solo en modo público -->
-              @if (!isAdminMode) {
-                <button type="button" class="btn btn-secondary" routerLink="/login">
-                  Volver al Login
-                </button>
-              }
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="nombreCompleto" class="form-label">Nombre Completo:</label>
+                    <input type="text" class="form-control" id="nombreCompleto" formControlName="nombreCompleto"
+                           placeholder="Ingrese el nombre completo"
+                           [class.is-invalid]="newUserForm.controls['nombreCompleto'].dirty && newUserForm.controls['nombreCompleto'].invalid">
+                    @if (newUserForm.controls['nombreCompleto'].invalid && newUserForm.controls['nombreCompleto'].touched) {
+                    <div class="invalid-feedback">
+                        <div>
+                            Por favor ingrese un nombre válido (máximo 100 caracteres)
+                        </div>
+                    </div>
+                    }
+                </div>
             </div>
-          </form>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="email" class="form-label">Correo electrónico:</label>
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                           placeholder="Ingrese el correo electrónico"
+                           [class.is-invalid]="newUserForm.controls['email'].dirty && newUserForm.controls['email'].invalid"
+                           [readonly]="isEditMode">
+                    @if (newUserForm.controls['email'].invalid && newUserForm.controls['email'].touched) {
+                    <div class="invalid-feedback">
+                        <div>
+                            Por favor ingrese un correo electrónico válido
+                        </div>
+                    </div>
+                    }
+                    @if (isEditMode) {
+                    <small class="form-text text-muted">El correo electrónico no puede ser modificado.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" formControlName="password"
+                           placeholder="Ingrese la contraseña"
+                           [class.is-invalid]="newUserForm.controls['password'].dirty && newUserForm.controls['password'].invalid">
+                    @if (newUserForm.controls['password'].invalid && newUserForm.controls['password'].touched) {
+                    <div class="invalid-feedback">
+                        <div>
+                            La contraseña debe tener entre 3 y 12 caracteres
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- SECCIÓN SOLO PARA ADMINISTRADORES -->
+            @if (isAdminMode) {
+            <div class="col-6">
+                <label for="rol" class="form-label">Rol:</label>
+                <select id="rol" class="form-control" formControlName="rol"
+                        [compareWith]="compareRoles"
+                        [class.is-invalid]="newUserForm.controls['rol'].dirty && newUserForm.controls['rol'].invalid">
+                    <option *ngFor="let role of availableRoles" [ngValue]="role">
+                        {{ role.nombreRol }}
+                    </option>
+                </select>
+                @if (newUserForm.controls['rol'].invalid && newUserForm.controls['rol'].touched) {
+                <div class="invalid-feedback">
+                    <div>
+                        Por favor seleccione un rol
+                    </div>
+                </div>
+                }
+            </div>
+
+            <div class="col-6">
+                <label for="estado" class="form-label">Estado:</label>
+                <select id="estado" class="form-control" formControlName="estado">
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="INACTIVO">INACTIVO</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label for="fechaCreacion" class="form-label">Fecha de Creación:</label>
+                <input type="datetime-local" class="form-control" id="fechaCreacion" formControlName="fechaCreacion"
+                       [readonly]="isEditMode">
+                @if (isEditMode) {
+                <small class="form-text text-muted">La fecha de creación no puede ser modificada.</small>
+                }
+            </div>
+            } @else {
+                <!-- Campos ocultos para modo público -->
+                <input type="hidden" formControlName="rol" />
+                <input type="hidden" formControlName="estado" />
+                <input type="hidden" formControlName="fechaCreacion" />
+            }
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+        <hr class="my-4">
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-secondary me-md-2" type="button" (click)="reset()" [disabled]="isLoading">
+                {{ isEditMode ? 'Restablecer' : 'Limpiar' }}
+            </button>
+            <button class="btn btn-primary" [disabled]="newUserForm.invalid || isLoading">
+                {{ getSubmitButtonText() }}
+            </button>
+        </div>
+    </form>
+}

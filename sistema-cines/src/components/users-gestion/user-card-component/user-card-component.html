@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header">
+        {{ user.email }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ user.nombreCompleto }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Rol: {{ user.rol.nombreRol }}</h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Estado: {{ user.estado }}</h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">ID: {{ user.idUsuario }}</h6>
+        
+        <a [routerLink]="['/admin/users/update', user.email]" class="btn btn-primary">Editar usuario</a>
+    </div>
+</div>
