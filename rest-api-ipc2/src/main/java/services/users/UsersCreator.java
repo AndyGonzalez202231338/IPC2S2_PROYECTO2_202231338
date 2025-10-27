@@ -9,33 +9,44 @@ import dtos.users.NewUserRequest;
 import models.users.User;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.UserDataInvalidException;
+import models.users.PasswordHasher;
 
 /**
  *
  * @author andy
  */
 public class UsersCreator {
-    public User createUser(NewUserRequest newUserRequest) throws UserDataInvalidException,
-            EntityAlreadyExistsException {
-        UsersDB usersDB = new UsersDB();
-        User user = extractUser(newUserRequest);
-        if (usersDB.existsUser(newUserRequest.getIdUsuario())) {
-            throw new EntityAlreadyExistsException(
-                    String.format("El usuario con id %s ya existe", user.getIdUsuario()));
-        }
-        
-        usersDB.createUser(user);
-        
-        return user;
+    // En UsersCreator.java, modifica el método createUser:
+public User createUser(NewUserRequest newUserRequest) throws UserDataInvalidException,
+        EntityAlreadyExistsException {
+    UsersDB usersDB = new UsersDB();
+    User user = extractUser(newUserRequest);
+    
+    if (usersDB.existsUser(newUserRequest.getIdUsuario())) {
+        throw new EntityAlreadyExistsException(
+                String.format("El usuario con id %s ya existe", user.getIdUsuario()));
     }
+    
+    // Crear el usuario
+    usersDB.createUser(user);
+    
+    // CREAR CARTERA DIGITAL AUTOMÁTICAMENTE
+    CarteraDigitalService carteraService = new CarteraDigitalService();
+    carteraService.crearCarteraParaUsuario(user.getIdUsuario());
+    
+    return user;
+}
     
     private User extractUser(NewUserRequest newUserRequest) throws UserDataInvalidException {
         try {
+            // Encriptar la contraseña antes de crear el usuario
+            String hashedPassword = PasswordHasher.hashPassword(newUserRequest.getPassword());
+            
             User user = new User(
                     newUserRequest.getIdUsuario(),
                     newUserRequest.getRol(),
                     newUserRequest.getEmail(),
-                    newUserRequest.getPassword(),
+                    hashedPassword, // Usar la contraseña encriptada
                     newUserRequest.getNombreCompleto(),
                     newUserRequest.getEstado(),
                     newUserRequest.getFechaCreacion()
