@@ -9,18 +9,25 @@ import { NgFor } from '@angular/common';
 import { Footer } from '../../components/footer/footer';
 import { User } from '../../services/homes/homes.services';
 import { UserCardComponent } from '../../components/users-gestion/user-card-component/user-card-component';
+import { ConfirmationModalComponent } from '../../shared/restapi/components/confirmation-modal-component/confirmation-modal-component';
 
 @Component({
   selector: 'app-users-page',
-  imports: [UserCardComponent, RouterLink, Footer, HeaderAdminSistema],
+  imports: [UserCardComponent, RouterLink, Footer, HeaderAdminSistema, ConfirmationModalComponent],
   templateUrl: './users-page.html',
 })
 export class UsersPage {
   protected users: Count[] = [];
+  selectedUser!: Count;
+  deleted: boolean = false;
 
   constructor(private countsService: CountsService) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData(): void {
     this.countsService.getAllUsers().subscribe({
       next: (usersFromService: Count[]) => { 
         this.users = usersFromService;
@@ -30,4 +37,23 @@ export class UsersPage {
       }
     });
   }
+
+  onSelectedUser(user: Count): void {
+    this.selectedUser = user;
+    this.deleted = false;
+  }
+
+  deleteUser(): void {
+    this.countsService.deleteUser(this.selectedUser.email).subscribe({
+      next: () => {
+        // deleted
+        this.loadData();
+        this.deleted = true;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+  
 }

@@ -88,6 +88,7 @@
                 <select id="rol" class="form-control" formControlName="rol"
                         [compareWith]="compareRoles"
                         [class.is-invalid]="newUserForm.controls['rol'].dirty && newUserForm.controls['rol'].invalid">
+                    <option [ngValue]="null" disabled>Seleccione un rol</option>
                     <option *ngFor="let role of availableRoles" [ngValue]="role">
                         {{ role.nombreRol }}
                     </option>
@@ -112,16 +113,19 @@
             <div class="col-12">
                 <label for="fechaCreacion" class="form-label">Fecha de Creación:</label>
                 <input type="datetime-local" class="form-control" id="fechaCreacion" formControlName="fechaCreacion"
-                       [readonly]="isEditMode">
-                @if (isEditMode) {
-                <small class="form-text text-muted">La fecha de creación no puede ser modificada.</small>
-                }
+                       readonly>
+                <small class="form-text text-muted">La fecha de creación se asigna automáticamente.</small>
             </div>
             } @else {
-                <!-- Campos ocultos para modo público -->
-                <input type="hidden" formControlName="rol" />
-                <input type="hidden" formControlName="estado" />
-                <input type="hidden" formControlName="fechaCreacion" />
+                <!-- CAMPOS OCULTOS PARA MODO REGISTRO NORMAL -->
+                <!-- Rol COMUN por defecto -->
+                <input type="hidden" formControlName="rol" [value]="getDefaultRole()" />
+                
+                <!-- Estado siempre ACTIVO -->
+                <input type="hidden" formControlName="estado" value="ACTIVO" />
+                
+                <!-- Fecha actual -->
+                <input type="hidden" formControlName="fechaCreacion" [value]="getCurrentDateTimeForInput()" />
             }
         </div>
 

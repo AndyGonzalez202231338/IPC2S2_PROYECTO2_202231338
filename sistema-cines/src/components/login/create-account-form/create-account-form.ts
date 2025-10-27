@@ -30,7 +30,6 @@ export class createAccountComponent implements OnInit {
         private formBuilder: FormBuilder,
         private countsService: CountsService
     ) {
-        // Inicializar el formulario inmediatamente en el constructor
         this.initializeForm();
     }
 
@@ -49,18 +48,29 @@ export class createAccountComponent implements OnInit {
             nombreCompleto: ['', [Validators.required, Validators.maxLength(100)]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(12)]],
-            rol: [null, this.isAdminMode ? Validators.required : []],
-            estado: ['ACTIVO'],
+            rol: [this.isAdminMode ? null : this.getDefaultRole(), this.isAdminMode ? Validators.required : []],
+            estado: [this.isAdminMode ? 'ACTIVO' : 'ACTIVO'],
             fechaCreacion: [this.getCurrentDateTimeForInput()]
         });
 
-        // En modo edición, bloquear email y fechaCreacion
+        // En modo edición, bloquear email
         if (this.isEditMode) {
             this.newUserForm.get('email')?.disable();
-            if (this.isAdminMode) {
-                this.newUserForm.get('fechaCreacion')?.disable();
-            }
         }
+        
+        // En modo admin, fecha de creación es de solo lectura
+        if (this.isAdminMode) {
+            this.newUserForm.get('fechaCreacion')?.disable();
+        }
+    }
+
+    // Método para obtener el rol COMUN por defecto
+    getDefaultRole(): Role {
+        return {
+            idRol: 4,
+            nombreRol: 'COMUN',
+            descripcion: 'Usuario que compra boletos...'
+        };
     }
 
     private loadAvailableRoles(): void {
@@ -85,7 +95,6 @@ export class createAccountComponent implements OnInit {
         });
     }
 
-    // Función robusta para manejar diferentes formatos de fecha
     private formatDateTimeForInput(dateTimeString: string): string {
         if (!dateTimeString) {
             return this.getCurrentDateTimeForInput();
@@ -94,76 +103,45 @@ export class createAccountComponent implements OnInit {
         try {
             let date: Date;
             
-            // Si la fecha ya está en formato ISO (contiene 'T')
             if (dateTimeString.includes('T')) {
                 date = new Date(dateTimeString);
-            } 
-            // Si está en formato "yyyy-MM-dd HH:mm:ss" (como viene del backend)
-            else if (dateTimeString.includes(' ')) {
-                // Reemplazar espacio por 'T' para crear formato ISO
+            } else if (dateTimeString.includes(' ')) {
                 const isoString = dateTimeString.replace(' ', 'T');
                 date = new Date(isoString);
-            }
-            // Si es otro formato, intentar parsear directamente
-            else {
+            } else {
                 date = new Date(dateTimeString);
             }
             
-            // Verificar si la fecha es válida
             if (isNaN(date.getTime())) {
-                console.warn('Fecha inválida recibida:', dateTimeString);
                 return this.getCurrentDateTimeForInput();
             }
             
             return date.toISOString().slice(0, 16);
         } catch (error) {
-            console.error('Error formateando fecha:', error, 'Valor recibido:', dateTimeString);
             return this.getCurrentDateTimeForInput();
         }
     }
 
-    private getCurrentDateTimeForInput(): string {
+    getCurrentDateTimeForInput(): string {
         const now = new Date();
-        // Ajustar por diferencia de zona horaria para input datetime-local
         const timezoneOffset = now.getTimezoneOffset() * 60000;
         const localTime = new Date(now.getTime() - timezoneOffset);
         return localTime.toISOString().slice(0, 16);
     }
 
-    private formatDateTimeForBackend(dateTimeString: string): string {
-        if (!dateTimeString) {
-            return this.formatDateToBackend(new Date());
-        }
-        
-        try {
-            const date = new Date(dateTimeString);
-            if (isNaN(date.getTime())) {
-                return this.formatDateToBackend(new Date());
-            }
-            return this.formatDateToBackend(date);
-        } catch (error) {
-            console.error('Error formateando fecha para backend:', error);
-            return this.formatDateToBackend(new Date());
-        }
-    }
-
-    private formatDateToBackend(date: Date): string {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-        
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
-
     submit(): void {
         if (this.newUserForm.valid) {
             console.log('Formulario válido, procediendo con la operación...');
+            
+            // Asegurar que en modo registro se envíen los valores correctos
+            if (!this.isAdminMode) {
+                this.ensureDefaultValues();
+            }
+            
             if (this.isEditMode) {
                 this.updateUser();
             } else {
+                console.log('Creando nuevo usuario...');
                 this.createUser();
             }
         } else {
@@ -171,99 +149,119 @@ export class createAccountComponent implements OnInit {
         }
     }
 
+    // Método para asegurar valores por defecto en modo registro
+    private ensureDefaultValues(): void {
+        const currentValues = this.newUserForm.value;
+        
+        // Forzar valores por defecto
+        this.newUserForm.patchValue({
+            rol: this.getDefaultRole(),
+            estado: 'ACTIVO',
+            fechaCreacion: this.getCurrentDateTimeForInput()
+        }, { emitEvent: false });
+    }
+
     reset(): void {
         if (this.isEditMode && this.userToUpdate) {
             this.populateForm();
         } else {
-            this.newUserForm.reset({
-                estado: 'ACTIVO',
-                fechaCreacion: this.isAdminMode ? this.getCurrentDateTimeForInput() : ''
-            });
+            const defaultValues: any = {
+                nombreCompleto: '',
+                email: '',
+                password: '',
+                estado: this.isAdminMode ? 'ACTIVO' : 'ACTIVO',
+                fechaCreacion: this.getCurrentDateTimeForInput()
+            };
+            
+            if (this.isAdminMode) {
+                defaultValues.rol = null;
+            } else {
+                defaultValues.rol = this.getDefaultRole();
+            }
+            
+            this.newUserForm.reset(defaultValues);
         }
         this.operationDone = false;
     }
 
     private createUser(): void {
-    this.newUser = this.newUserForm.value as Count;
-    this.countsService.createNewCount(this.newUser).subscribe({
-        next: () => {
-            this.reset();
-            this.operationDone = true;
-        },
-        error: (error: any) => {
-            console.log(error);
-        }
-    });
-    console.log('Este usuario llego del form:', this.newUser);
-}
+        // Usar getRawValue() para incluir campos deshabilitados
+        const formValues = this.newUserForm.getRawValue();
+        
+        // Convertir fecha al formato ISO
+        const userToCreate = {
+            ...formValues,
+            fechaCreacion: this.convertToISOFormat(formValues.fechaCreacion)
+        };
+        
+        this.newUser = userToCreate as Count;
+        
+        this.countsService.createNewCount(this.newUser).subscribe({
+            next: () => {
+                this.reset();
+                this.operationDone = true;
+            },
+            error: (error: any) => {
+                console.log('Error creando usuario:', error);
+            }
+        });
+        console.log('Usuario a crear:', this.newUser);
+    }
 
     private updateUser(): void {
-    // Obtener valores del formulario
-    const formValues = this.newUserForm.getRawValue();
-    
-    // Convertir la fecha al formato ISO que espera el backend
-    const fechaCreacionISO = this.convertToISOFormat(this.userToUpdate.fechaCreacion);
-    
-    // Crear objeto de actualización con el formato correcto
-    const userToUpdateRequest: UserToUpdateRequest = {
-        idUsuario: this.userToUpdate.idUsuario,
-        rol: formValues.rol,
-        email: this.userToUpdate.email, // ← Incluir el email (requerido según tu DTO)
-        password: formValues.password,
-        nombreCompleto: formValues.nombreCompleto,
-        estado: formValues.estado,
-        fechaCreacion: fechaCreacionISO // ← Enviar en formato ISO
-    };
+        const formValues = this.newUserForm.getRawValue();
+        const fechaCreacionISO = this.convertToISOFormat(this.userToUpdate.fechaCreacion);
+        
+        const userToUpdateRequest: UserToUpdateRequest = {
+            idUsuario: this.userToUpdate.idUsuario,
+            rol: formValues.rol,
+            email: this.userToUpdate.email,
+            password: formValues.password,
+            nombreCompleto: formValues.nombreCompleto,
+            estado: formValues.estado,
+            fechaCreacion: fechaCreacionISO
+        };
 
-    console.log('Enviando actualización:', userToUpdateRequest);
+        console.log('Enviando actualización:', userToUpdateRequest);
 
-    this.countsService.updateUser(this.userToUpdate.email, userToUpdateRequest).subscribe({
-        next: (updatedUser) => {
-            this.operationDone = true;
-            this.userToUpdate = updatedUser;
-            setTimeout(() => this.operationDone = false, 3000);
-        },
-        error: (error: any) => {
-            console.error('Error al actualizar usuario:', error);
-        }
-    });
-}
-
-// Nueva función para convertir a formato ISO
-private convertToISOFormat(dateTimeString: string): string {
-    if (!dateTimeString) {
-        return new Date().toISOString();
+        this.countsService.updateUser(this.userToUpdate.email, userToUpdateRequest).subscribe({
+            next: (updatedUser) => {
+                this.operationDone = true;
+                this.userToUpdate = updatedUser;
+                setTimeout(() => this.operationDone = false, 3000);
+            },
+            error: (error: any) => {
+                console.error('Error al actualizar usuario:', error);
+            }
+        });
     }
-    
-    try {
-        let date: Date;
-        
-        // Si ya está en formato ISO
-        if (dateTimeString.includes('T')) {
-            date = new Date(dateTimeString);
-        } 
-        // Si está en formato "yyyy-MM-dd HH:mm:ss"
-        else if (dateTimeString.includes(' ')) {
-            const isoString = dateTimeString.replace(' ', 'T');
-            date = new Date(isoString);
-        }
-        // Otros formatos
-        else {
-            date = new Date(dateTimeString);
-        }
-        
-        if (isNaN(date.getTime())) {
-            console.warn('Fecha inválida, usando fecha actual');
+
+    private convertToISOFormat(dateTimeString: string): string {
+        if (!dateTimeString) {
             return new Date().toISOString();
         }
         
-        return date.toISOString();
-    } catch (error) {
-        console.error('Error convirtiendo fecha a ISO:', error);
-        return new Date().toISOString();
+        try {
+            let date: Date;
+            
+            if (dateTimeString.includes('T')) {
+                date = new Date(dateTimeString);
+            } else if (dateTimeString.includes(' ')) {
+                const isoString = dateTimeString.replace(' ', 'T');
+                date = new Date(isoString);
+            } else {
+                date = new Date(dateTimeString);
+            }
+            
+            if (isNaN(date.getTime())) {
+                return new Date().toISOString();
+            }
+            
+            return date.toISOString();
+        } catch (error) {
+            return new Date().toISOString();
+        }
     }
-}
-
 
     private markAllFieldsAsTouched(): void {
         Object.keys(this.newUserForm.controls).forEach(key => {
@@ -276,7 +274,6 @@ private convertToISOFormat(dateTimeString: string): string {
         return role1 && role2 ? role1.idRol === role2.idRol : role1 === role2;
     }
 
-    // Métodos para el template
     getFormTitle(): string {
         return this.isEditMode ? 'Editar Usuario' : 
                this.isAdminMode ? 'Crear Nuevo Usuario' : 'Crear Nueva Cuenta';
@@ -287,4 +284,3 @@ private convertToISOFormat(dateTimeString: string): string {
                this.isAdminMode ? 'Crear Usuario' : 'Crear Cuenta';
     }
 }
-

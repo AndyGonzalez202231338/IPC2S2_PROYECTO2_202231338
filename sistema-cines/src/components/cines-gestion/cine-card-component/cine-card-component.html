@@ -1,1 +1,71 @@
-<p>cine-card-component works!</p>
+<div class="card h-100 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <strong>Cine #{{ selectedCine.idCine }}</strong>
+    </div>
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title text-primary">{{ selectedCine.nombre }}</h5>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-geo-alt"></i> Dirección:</strong> 
+            {{ selectedCine.direccion }}
+        </div>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-calendar"></i> Fecha de creación:</strong> 
+            <br>
+            <small class="text-muted">{{ formatFecha(selectedCine.fechaCreacion) }}</small>
+            <!-- Debug: muestra el tipo de fecha -->
+            <!-- <small class="text-muted">(Tipo: {{ getTipoFecha() }})</small> -->
+        </div>
+        
+        <div class="mb-3">
+            <strong><i class="bi bi-circle-fill"></i> Estado:</strong> 
+            <span [class]="selectedCine.estado === 'ACTIVO' ? 'badge bg-success ms-2' : 'badge bg-danger ms-2'">
+                {{ selectedCine.estado }}
+            </span>
+        </div>
+        
+        <div class="mb-3 flex-grow-1">
+            <strong><i class="bi bi-people"></i> Administradores ({{ selectedCine.administradores?.length || 0 }}):</strong>
+            
+            @if (selectedCine.administradores && selectedCine.administradores.length > 0) {
+                <div class="mt-2">
+                    @for (adminId of selectedCine.administradores; track adminId) {
+                        @let adminInfo = getAdministradorData(adminId);
+                        <div class="admin-item p-2 border rounded mb-2 bg-light">
+                            @if (adminInfo) {
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <strong class="d-block">{{ adminInfo.nombreCompleto }}</strong>
+                                        <small class="text-muted">{{ adminInfo.email }}</small>
+                                    </div>
+                                    <span [class]="adminInfo.estado === 'ACTIVO' ? 'badge bg-success' : 'badge bg-secondary'">
+                                        {{ adminInfo.estado }}
+                                    </span>
+                                </div>
+                            } @else {
+                                <div class="text-muted text-center">
+                                    <i class="bi bi-person-x"></i>
+                                    <br>
+                                    <small>Usuario #{{ adminId }} no encontrado</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="text-muted mt-2 text-center py-2 border rounded bg-light">
+                    <i class="bi bi-info-circle"></i>
+                    <br>
+                    <small>No hay administradores asignados</small>
+                </div>
+            }
+        </div>
+
+        <div class="d-grid gap-2 mt-auto">
+            <a [routerLink]="['/admin/cines/update', selectedCine.idCine]" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Editar Cine
+            </a>
+        </div>
+    </div>
+</div>
