@@ -7,6 +7,7 @@ package services.login;
 import db.UsersDB;
 import exceptions.EntityNotFoundException;
 import java.util.Optional;
+import models.users.PasswordHasher;
 import models.users.User;
 
 /**
@@ -26,8 +27,8 @@ public class UsersLoginService {
         
         User user = userOpt.get();
         
-        // Verificar contraseña
-        if (!user.getPassword().equals(password)) {
+        // Verificar contraseña usando PasswordHasher (ENCRIPTADA)
+        if (!PasswordHasher.verifyPassword(password, user.getPassword())) {
             throw new EntityNotFoundException("Credenciales incorrectas");
         }
         

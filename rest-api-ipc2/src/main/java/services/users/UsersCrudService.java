@@ -12,6 +12,7 @@ import exceptions.UserDataInvalidException;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
+import models.users.PasswordHasher;
 
 /**
  *
@@ -45,7 +46,13 @@ public class UsersCrudService {
         user.setIdUsuario(updateUserRequest.getIdUsuario());
         user.setRol(updateUserRequest.getRol());
         user.setEmail(updateUserRequest.getEmail());
-        user.setPassword(updateUserRequest.getPassword());
+        
+        // Solo encriptar la contraseña si se está actualizando
+        if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
+            String hashedPassword = PasswordHasher.hashPassword(updateUserRequest.getPassword());
+            user.setPassword(hashedPassword);
+        }
+        
         user.setNombreCompleto(updateUserRequest.getNombreCompleto());
         user.setEstado(updateUserRequest.getEstado());
         user.setFechaCreacion(updateUserRequest.getFechaCreacion());
@@ -57,7 +64,6 @@ public class UsersCrudService {
         usersDB.updateUserByEmail(correo, user);
         
         return user;
-        
     }
     
     public void deleteUserByEmail(String email) throws EntityNotFoundException {

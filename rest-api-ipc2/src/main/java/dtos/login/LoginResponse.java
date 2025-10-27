@@ -4,6 +4,7 @@
  */
 package dtos.login;
 
+import dtos.users.UserResponse;
 import models.users.User;
 
 /**
@@ -12,13 +13,13 @@ import models.users.User;
  */
 public class LoginResponse {
     private boolean success;
-    private User user;
+    private UserResponse user;  // Cambiar de User a UserResponse para seguridad
     private String message;
 
     // Constructores
     public LoginResponse() {}
 
-    public LoginResponse(boolean success, User user, String message) {
+    public LoginResponse(boolean success, UserResponse user, String message) {
         this.success = success;
         this.user = user;
         this.message = message;
@@ -26,7 +27,8 @@ public class LoginResponse {
 
     // Métodos estáticos para crear respuestas fácilmente
     public static LoginResponse success(User user) {
-        return new LoginResponse(true, user, "Login exitoso");
+        UserResponse userResponse = new UserResponse(user);
+        return new LoginResponse(true, userResponse, "Login exitoso");
     }
 
     public static LoginResponse error(String message) {
@@ -37,8 +39,8 @@ public class LoginResponse {
     public boolean isSuccess() { return success; }
     public void setSuccess(boolean success) { this.success = success; }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public UserResponse getUser() { return user; }
+    public void setUser(UserResponse user) { this.user = user; }
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
