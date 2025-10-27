@@ -1,3 +1,11 @@
+@if(deleted) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Operacion realizada con exito.
+    </div>
+</div>
+}
 <app-header-admin-sistema></app-header-admin-sistema>
 <div class="container text-center">
     <a routerLink="/create-user" class="btn btn-primary">
@@ -9,8 +17,9 @@
     <h1>Listado de usuarios</h1>
     <div class="row">
         @for (user of users; track $index) {
-            <app-user-card [user]="user" />
+            <app-user-card [user]="user" (userSelected)="onSelectedUser(user)"/>
         }
     </div>
 </div>
+<app-confirmation-modal-component [selectedUser]="selectedUser" (confirmationExecuter)="deleteUser()" />
 <app-footer></app-footer>

@@ -1,11 +1,39 @@
 <app-header-admin-sistema></app-header-admin-sistema>
-<div class="container">
-    <a routerLink="/cines/create" class="btn btn-primary">
-        <i class="bi bi-plus"></i> Crear Cine
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a routerLink="/admin/cines/create" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i>
+      Crear Nuevo Cine
     </a>
-    <h1 class="mt-4">Listado de Cines</h1>
-    <div class="row">
-        <!-- Aquí iría el listado de cines -->
+  </div>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2">Cargando cines y administradores...</p>
     </div>
+  } @else {
+    <div class="row">
+      @for (cine of cines; track cine.idCine) {
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <app-cine-card-component 
+            [selectedCine]="cine"
+            [administradoresData]="administradoresData">
+          </app-cine-card-component>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i>
+            No hay cines registrados en el sistema.
+          </div>
+        </div>
+      }
+    </div>
+  }
 </div>
+
 <app-footer></app-footer>

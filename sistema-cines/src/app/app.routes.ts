@@ -8,6 +8,10 @@ import { CinesPage } from '../pages/cines-page/cines-page';
 import { createAccountComponent } from '../components/login/create-account-form/create-account-form';
 import { UpdateUserPageComponent } from '../pages/update-user-page/update-user-page';
 import { CreateUserPageComponent } from '../pages/create-user-page/create-user-page';
+import { CreateCinesComponent } from '../components/cines-gestion/create-cines-component/create-cines-component';
+import { CreateCinePage } from '../pages/create-cine-page/create-cine-page';
+import { UpdateCinePage } from '../pages/update-cine-page/update-cine-page';
+import { RoleGuardService } from '../services/security/role-guard.service';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -44,9 +48,11 @@ export const routes: Routes = [
             { 
                 path: 'users/create', 
                 component: createAccountComponent,
+                canActivate: [RoleGuardService],
                 data: { 
                     isAdminMode: true,
-                    isEditMode: false 
+                    isEditMode: false,
+                    allowedRoles: ['ADMINISTRADOR DE SISTEMA']
                 }
             },
             { 
@@ -54,15 +60,39 @@ export const routes: Routes = [
                 component: UpdateUserPageComponent,
                 data: { 
                     isAdminMode: true,
+                    isEditMode: true,
+                    allowedRoles: ['ADMINISTRADOR DE SISTEMA']
+                }
+            },
+            { 
+                path: 'cines/update/:id', 
+                component: UpdateCinePage,
+                data: { 
+                    isAdminMode: true,
                     isEditMode: true 
                 }
             },
             { 
-                path: 'cines', 
-                component: CinesPage 
-            }
+                path: 'cines/create', 
+                component: CreateCinePage,
+                data: { 
+                    isAdminMode: true,
+                    isEditMode: false 
+                }
+            },
+
         ]
     },
+
+    { 
+        path: 'cines', 
+        component: CinesPage 
+    },
+    {
+        path: 'create-cine',
+        component: CreateCinePage
+    },
+
 
     // Rutas legacy (mantener compatibilidad)
     { 

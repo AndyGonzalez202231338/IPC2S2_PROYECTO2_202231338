@@ -1,1 +1,126 @@
-<p>create-cines-component works!</p>
+@if(operationDone) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Operación realizada con éxito.
+    </div>
+</div>
+}
+
+@if(loading) {
+<div class="alert alert-info text-center">
+    <i class="bi bi-arrow-repeat spinner"></i>
+    Cargando administradores...
+</div>
+}
+
+<form [formGroup]="newCineForm" (ngSubmit)="submit()">
+    <div class="row g-3">
+        <!-- Nombre -->
+        <div class="col-12">
+            <div class="form-group">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                    [class.is-invalid]="newCineForm.controls['nombre'].invalid && newCineForm.controls['nombre'].touched">
+                @if (newCineForm.controls['nombre'].invalid && newCineForm.controls['nombre'].touched) {
+                <div class="invalid-feedback">
+                    @if (newCineForm.controls['nombre'].errors?.['required']) {
+                    <div>El nombre es requerido</div>
+                    }
+                    @if (newCineForm.controls['nombre'].errors?.['maxlength']) {
+                    <div>Se debe ingresar un nombre con 100 caracteres como máximo</div>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="col-12">
+            <div class="form-group">
+                <label for="direccion" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="direccion" formControlName="direccion"
+                    [class.is-invalid]="newCineForm.controls['direccion'].invalid && newCineForm.controls['direccion'].touched">
+                @if (newCineForm.controls['direccion'].invalid && newCineForm.controls['direccion'].touched) {
+                <div class="invalid-feedback">
+                    @if (newCineForm.controls['direccion'].errors?.['required']) {
+                    <div>La dirección es requerida</div>
+                    }
+                    @if (newCineForm.controls['direccion'].errors?.['maxlength']) {
+                    <div>Se debe ingresar una dirección con 255 caracteres como máximo</div>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Lista de Administradores (Selección Múltiple) -->
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label">Administradores del Cine:</label>
+                
+                <!-- Validación de selección múltiple -->
+                @if (selectedAdministradores.length === 0 && newCineForm.touched) {
+                <div class="alert alert-warning py-2">
+                    <small>Debe seleccionar al menos un administrador</small>
+                </div>
+                }
+
+                <!-- Lista de checkboxes -->
+                <div class="border rounded p-3 bg-light">
+                    @for (admin of adminCinesList; track admin.idUsuario) {
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" 
+                               [id]="'admin_' + admin.idUsuario"
+                               [checked]="isAdministradorSelected(admin.idUsuario)"
+                               (change)="onAdministradorSelect($event, admin.idUsuario)">
+                        <label class="form-check-label" [for]="'admin_' + admin.idUsuario">
+                            <strong>{{ admin.nombreCompleto }}</strong> 
+                            <br>
+                            <small class="text-muted">{{ admin.email }} | {{ admin.rol }}</small>
+                        </label>
+                    </div>
+                    }
+                    @if (adminCinesList.length === 0 && !loading) {
+                    <div class="text-muted">No hay administradores de cine disponibles</div>
+                    }
+                </div>
+
+                <!-- En el template - Reemplaza la sección de seleccionados -->
+@if (selectedAdministradores.length > 0) {
+<div class="mt-2">
+    <small class="text-success">
+        <strong>Seleccionados:</strong>
+    </small>
+    <div class="mt-1">
+        @for (adminId of selectedAdministradores; track adminId) {
+        <span class="badge bg-success me-1 mb-1">
+            {{ getAdministradorName(adminId) }}
+            <button type="button" class="btn-close btn-close-white ms-1" 
+                    style="font-size: 0.7rem;"
+                    (click)="removeAdministrador(adminId)"></button>
+        </span>
+        }
+    </div>
+</div>
+}
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="col-12">
+            <hr class="my-4">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-secondary me-md-2" type="button" (click)="reset()">
+                    <i class="bi bi-arrow-clockwise"></i> Limpiar
+                </button>
+                <button class="btn btn-primary" 
+                        type="submit"
+                        [disabled]="newCineForm.invalid || selectedAdministradores.length === 0">
+                    <i class="bi bi-check-circle"></i>
+                    {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

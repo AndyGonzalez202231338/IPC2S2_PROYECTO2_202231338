@@ -1,9 +1,8 @@
 export interface Cine {
-    id_cine: number;
-    id_usuario_admin: number;
+    idCine?: number;
     nombre: string;
     direccion: string;
-    fecha_creacion: Date;
-    //estado activo/inactivo
-    estado: boolean;
+    fechaCreacion?: string | Date;
+    estado?: 'ACTIVO' | 'INACTIVO';
+    administradores?: number[]; // Array de IDs de usuarios administradores
 }

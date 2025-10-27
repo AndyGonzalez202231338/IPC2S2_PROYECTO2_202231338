@@ -27,10 +27,17 @@ export class CountsService {
     public getCountByEmail(email: string): Observable<Count> {
         return this.httpClient.get<Count>(`${this.restConstants.getApiURL()}users/${email}`);
     }
-
+    public getCountById(idUsuario: number): Observable<Count> {
+        return this.httpClient.get<Count>(`${this.restConstants.getApiURL()}users/id/${idUsuario}`);
+    }
     public updateUser(correo: string, userToUpdate: UserToUpdateRequest): Observable<Count> {
     return this.httpClient.put<Count>(`${this.restConstants.getApiURL()}users/${correo}`, userToUpdate);
     }
+
+    public deleteUser(email: string): Observable<void> {
+        return this.httpClient.delete<void>(`${this.restConstants.getApiURL()}users/${email}`);
+    }
+
     // Métodos para manejar el usuario seleccionado
     setSelectedUser(user: Count): void {
         this.selectedUser = user;
