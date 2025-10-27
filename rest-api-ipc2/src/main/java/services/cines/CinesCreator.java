@@ -23,6 +23,10 @@ public class CinesCreator {
         // Crear el cine en la base de datos
         cinesDB.createCine(cine);
         
+        // CREAR CARTERA DIGITAL PARA EL CINE AUTOMÁTICAMENTE
+        CarteraCineService carteraCineService = new CarteraCineService();
+        carteraCineService.crearCarteraParaCine(cine.getIdCine());
+        
         return cine;
     }
     
