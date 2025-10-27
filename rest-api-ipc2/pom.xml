@@ -13,6 +13,8 @@
         <restapi>4.0.0-M4</restapi>
         <!-- Versión de Jackson compatible con Jersey 4.0.0-M4 -->
         <jackson.version>2.15.2</jackson.version>
+        <!-- Versión del conector MySQL -->
+        <mysql.version>8.0.33</mysql.version>
     </properties>
     
     <dependencies>
@@ -82,6 +84,45 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+        
+        <!-- ========== DEPENDENCIAS PARA MYSQL ========== -->
+        
+        <!-- Conector MySQL oficial -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        
+        <!-- Database pool (como en el proyecto guía) -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>11.0.11</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- JDBC API (para conexiones a base de datos) -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        
+        <!-- HikariCP - Connection Pool eficiente (opcional pero recomendado) -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+        
+        <!-- JPA Implementation (opcional, si planeas usar JPA) -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.7.Final</version>
+        </dependency>
+        
     </dependencies>
     
     <build>

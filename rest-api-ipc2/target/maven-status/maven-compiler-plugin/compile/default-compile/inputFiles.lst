@@ -1,20 +1,29 @@
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/JakartaRestConfiguration.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/JakartaEE10Resource.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/LoginResource.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/UsersResource.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/config/JacksonConfig.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/db/UsersDB.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/dtos/login/LoginRequest.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/dtos/login/LoginResponse.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/dtos/users/NewUserRequest.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/dtos/users/UpdateUserRequest.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/dtos/users/UserResponse.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/exceptions/EntityAlreadyExistsException.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/exceptions/EntityNotFoundException.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/exceptions/UserDataInvalidException.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/models/users/RolTypeEnum.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/models/users/Role.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/models/users/User.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/services/login/UsersLoginService.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/services/users/UsersCreator.java
-/home/andy/NetBeansProjects/rest-api-ipc2/src/main/java/services/users/UsersCrudService.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/JakartaRestConfiguration.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/CineResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/JakartaEE10Resource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/LoginResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/UsersResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/config/JacksonConfig.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/CinesDB.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/DBConnectionSingleton.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/UsersDB.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/cines/CineResponse.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/cines/NewCineRequest.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/login/LoginRequest.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/login/LoginResponse.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/users/NewUserRequest.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/users/UpdateUserRequest.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/users/UserResponse.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/EntityAlreadyExistsException.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/EntityNotFoundException.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/UserDataInvalidException.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/cines/Cine.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/cines/CineAdministrador.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/users/RolTypeEnum.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/users/Role.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/users/User.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CinesCreator.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CinesCrudServices.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/login/UsersLoginService.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/users/UsersCreator.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/users/UsersCrudService.java
