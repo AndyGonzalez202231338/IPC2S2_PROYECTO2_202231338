@@ -60,4 +60,27 @@ public class UsersCrudService {
         
     }
     
+    public void deleteUserByEmail(String email) throws EntityNotFoundException {
+        UsersDB usersDB = new UsersDB();
+        Optional<User> userOpt = usersDB.getByEmail(email);
+        if (userOpt.isEmpty()) {
+            throw new EntityNotFoundException(
+                    String.format("El Usuario con email %s no existe", email)
+            );
+        }
+        // Obtener el ID del usuario encontrado
+        User user = userOpt.get();
+        int userId = user.getIdUsuario();
+        usersDB.deleteUser(userId);
+    }
+    
+    public User getUserById(int idUsuario) throws EntityNotFoundException {
+    Optional<User> userOpt = new UsersDB().getById(idUsuario);
+    if (userOpt.isEmpty()) {
+        throw new EntityNotFoundException("Usuario no encontrado con id " + idUsuario);
+    }
+    return userOpt.get();
+}
+
+    
 }

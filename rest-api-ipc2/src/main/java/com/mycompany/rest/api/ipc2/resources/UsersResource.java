@@ -1,4 +1,4 @@
- /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -11,6 +11,7 @@ import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityNotFoundException;
 import exceptions.UserDataInvalidException;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -32,9 +33,10 @@ import services.users.UsersCrudService;
  */
 @Path("users")
 public class UsersResource {
+
     @Context
     UriInfo uriInfo;
-          
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createEvent(NewUserRequest userRequest) {
@@ -51,7 +53,7 @@ public class UsersResource {
             return Response.status(Response.Status.CONFLICT).build();
         }
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEvents() {
@@ -63,7 +65,7 @@ public class UsersResource {
 
         return Response.ok(users).build();
     }
-    
+
     @GET
     @Path("{correo}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -77,7 +79,20 @@ public class UsersResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-    
+
+    @GET
+    @Path("id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserById(@PathParam("id") int idUsuario) {
+        UsersCrudService userCrudService = new UsersCrudService();
+        try {
+            User user = userCrudService.getUserById(idUsuario); // nuevo método en tu servicio
+            return Response.ok(new UserResponse(user)).build();
+        } catch (EntityNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
     @PUT
     @Path("{correo}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -93,6 +108,21 @@ public class UsersResource {
             return Response.ok(new UserResponse(userUpdated)).build();
         } catch (UserDataInvalidException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (EntityNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @DELETE
+    @Path("{correo}")
+    public Response deleteEvent(@PathParam("correo") String email) {
+        UsersCrudService userCrudService = new UsersCrudService();
+
+        try {
+
+            userCrudService.deleteUserByEmail(email);
+
+            return Response.ok().build();
         } catch (EntityNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
