@@ -1,0 +1,163 @@
+<!-- components/crear-anuncio/crear-anuncio-component.html -->
+<div class="crear-anuncio-container">
+  
+  <!-- Mensaje de éxito -->
+  @if(operationDone) {
+    <div class="alert alert-success d-flex align-items-center">
+      <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+      <div>
+        Operación realizada con éxito.
+      </div>
+    </div>
+  }
+
+  <h2>Crear Nuevo Anuncio</h2>
+
+  <form [formGroup]="newAnuncioForm" (ngSubmit)="onSubmit()" class="anuncio-form" enctype="multipart/form-data">
+    
+    <!-- Tipo de Anuncio -->
+<div class="form-group">
+  <label for="tipoAnuncio">Tipo de Anuncio *</label>
+  <select 
+    id="tipoAnuncio" 
+    formControlName="idTipoAnuncio"
+    class="form-control"
+    [class.is-invalid]="hasError('idTipoAnuncio', 'required')">
+    <option value="">Selecciona un tipo</option>
+    <option 
+      *ngFor="let tipo of tiposAnuncio" 
+      [value]="tipo.idTipoAnuncio">  <!-- Cambiado a [value] -->
+      {{ tipo.nombre }} - ${{ tipo.precioAnuncio }}
+    </option>
+  </select>
+  <div *ngIf="hasError('idTipoAnuncio', 'required')" class="invalid-feedback">
+    Tipo de anuncio es requerido
+  </div>
+</div>
+
+<!-- Período de Duración -->
+<div class="form-group">
+  <label for="periodoAnuncio">Duración del Anuncio *</label>
+  <select 
+    id="periodoAnuncio"
+    formControlName="idPeriodo"
+    class="form-control"
+    [class.is-invalid]="hasError('idPeriodo', 'required')">
+    <option value="">Selecciona una duración</option>
+    <option 
+      *ngFor="let periodo of periodosAnuncio" 
+      [value]="periodo.idPeriodo">
+      {{ periodo.nombre }} ({{ periodo.diasDuracion }} días) - ${{ periodo.precioDuracion }}
+    </option>
+  </select>
+  <div *ngIf="hasError('idPeriodo', 'required')" class="invalid-feedback">
+    Período es requerido
+  </div>
+</div>
+
+    <!-- Título -->
+    <div class="form-group">
+      <label for="titulo">Título del Anuncio *</label>
+      <input 
+        type="text" 
+        id="titulo" 
+        formControlName="titulo"
+        class="form-control"
+        [class.is-invalid]="hasError('titulo', 'required') || hasError('titulo', 'minlength')"
+        placeholder="Ingresa un título atractivo">
+      <div *ngIf="hasError('titulo', 'required')" class="invalid-feedback">
+        Título es requerido
+      </div>
+      <div *ngIf="hasError('titulo', 'minlength')" class="invalid-feedback">
+        Título debe tener al menos 5 caracteres
+      </div>
+    </div>
+
+    <!-- Contenido de Texto -->
+    <div class="form-group">
+      <label for="contenido">Contenido del Anuncio</label>
+      <textarea 
+        id="contenido" 
+        formControlName="contenido_texto"
+        class="form-control"
+        rows="4"
+        placeholder="Describe tu producto o servicio..."></textarea>
+    </div>
+
+    <!-- NUEVO: Selección de Imagen -->
+    <div class="form-group">
+      <label for="imagenFile">Imagen del Anuncio</label>
+      <input 
+        type="file" 
+        id="imagenFile"
+        class="form-control"
+        (change)="onFileSelected($event)"
+        accept="image/jpeg, image/png, image/gif, image/webp">
+      <small class="form-text text-muted">
+        Solo para anuncios de tipo "TEXTO E IMAGEN". Formatos permitidos: JPEG, PNG, GIF, WebP (máx. 5MB)
+      </small>
+      
+      <!-- Preview de la imagen -->
+      <div *ngIf="imagePreview" class="image-preview mt-2">
+        <div class="preview-container">
+          <img [src]="imagePreview" alt="Vista previa" class="preview-image">
+          <button type="button" class="btn btn-sm btn-danger remove-btn" (click)="removeImage()">
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- URL de Video -->
+    <div class="form-group">
+      <label for="video">URL de Video</label>
+      <input 
+        type="url" 
+        id="video" 
+        formControlName="video_url"
+        class="form-control"
+        placeholder="https://ejemplo.com/video.mp4">
+      <small class="form-text text-muted">
+        Solo para anuncios de tipo "TEXTO Y VIDEO"
+      </small>
+    </div>
+
+    <!-- Resumen de Costos -->
+    <div class="cost-summary" *ngIf="costoTotal > 0">
+      <h4>Resumen de Costos</h4>
+      <div class="cost-breakdown">
+        <div class="cost-item" *ngIf="getTipoSeleccionado()">
+          <span>Tipo de anuncio:</span>
+          <span>${{ getTipoSeleccionado()?.precioAnuncio }}</span>
+        </div>
+        <div class="cost-item" *ngIf="getPeriodoSeleccionado()">
+          <span>Duración ({{ getPeriodoSeleccionado()?.diasDuracion }} días):</span>
+          <span>${{ getPeriodoSeleccionado()?.precioDuracion }}</span>
+        </div>
+        <div class="cost-total">
+          <strong>Total a pagar:</strong>
+          <strong>${{ costoTotal }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Creando...' : 'Crear Anuncio' }}
+      </button>
+      
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        (click)="resetForm()"
+        [disabled]="loading">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

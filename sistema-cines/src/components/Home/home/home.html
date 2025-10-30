@@ -1,6 +1,16 @@
-<!-- hacer un cambio de hearder-->
 
-<app-header-admin-sistema></app-header-admin-sistema>
+<!-- hacer un cambio de hearder-->
+ <ng-container *ngIf="currentUser"> 
+    <ng-container [ngSwitch]="currentUser.rol.nombreRol"> 
+      <app-header-admin-sistema *ngSwitchCase="'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema> 
+      <app-header-admin-cine *ngSwitchCase="'ADMINISTRADOR DE CINE'"></app-header-admin-cine> 
+      <app-header-anunciante *ngSwitchCase="'ANUNCIANTE'"></app-header-anunciante> 
+      <app-header *ngSwitchCase="'COMUN'"></app-header> 
+      <app-header *ngSwitchDefault></app-header> 
+    </ng-container>
+  </ng-container>
+
+
 <div class="container">
   <div class="row">
     <div class="col">
@@ -11,7 +21,7 @@
         <h3>¡Inicio de sesión exitoso!</h3>
         <p><strong>Nombre:</strong> {{ currentUser.nombreCompleto }}</p>
         <p><strong>Email:</strong> {{ currentUser.email }}</p>
-        <p><strong>Rol:</strong> {{ currentUser.role }}</p>
+        <p><strong>Rol:</strong> {{ currentUser.rol.nombreRol }}</p>
       </div>
       
       <div *ngIf="!currentUser" class="alert alert-warning">

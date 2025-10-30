@@ -55,7 +55,7 @@ export class CountsService {
     private testUsers: User[] = [
   {
     idUsuario: 1,
-    role: {
+    rol: {
       idRol: 1,
       nombreRol: 'ADMINISTRADOR DE SISTEMA',
       descripcion: 'Usuario encargado de cines, películas y reportes de ganancias del sistema en anuncios. Gestiona las cuentas de los usuarios de la web.'
@@ -68,7 +68,7 @@ export class CountsService {
   },
   {
     idUsuario: 2,
-    role: {
+    rol: {
       idRol: 2,
       nombreRol: 'ADMINISTRADOR DE CINE',
       descripcion: 'Usuario encargado de un cine, administración de salas, funciones, bloqueo de anuncios y reportes de ganancias generadas por compra de boletos.'
@@ -81,7 +81,7 @@ export class CountsService {
   },
   {
     idUsuario: 3,
-    role: {
+    rol: {
       idRol: 3,
       nombreRol: 'ANUNCIANTE',
       descripcion: 'Usuario con capacidad para crear anuncios y gestionar sus publicaciones en la web.'
@@ -94,7 +94,7 @@ export class CountsService {
   },
   {
     idUsuario: 4,
-    role: {
+    rol: {
       idRol: 4,
       nombreRol: 'COMUN',
       descripcion: 'Usuario que compra boletos para funciones de cine dentro del sistema.'
@@ -119,7 +119,7 @@ export class CountsService {
     password: user.password,
     estado: user.estado,
     fechaCreacion: user.fechaCreacion,
-    role: user.role //ya es un objeto Role, no hace falta mapear
+    rol: user.rol //ya es un objeto Role, no hace falta mapear
   }));
 
   return of(mockUsers);
