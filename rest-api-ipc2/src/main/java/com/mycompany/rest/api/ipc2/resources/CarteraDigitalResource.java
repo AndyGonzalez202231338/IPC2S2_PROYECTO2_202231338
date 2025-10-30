@@ -26,6 +26,7 @@ import services.users.CarteraDigitalService;
  *
  * @author andy
  */
+@Path("wallet")
 public class CarteraDigitalResource {
     
     private CarteraDigitalService carteraService;
