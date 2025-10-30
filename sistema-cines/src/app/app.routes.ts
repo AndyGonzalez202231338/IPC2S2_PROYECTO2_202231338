@@ -12,6 +12,10 @@ import { CreateCinesComponent } from '../components/cines-gestion/create-cines-c
 import { CreateCinePage } from '../pages/create-cine-page/create-cine-page';
 import { UpdateCinePage } from '../pages/update-cine-page/update-cine-page';
 import { RoleGuardService } from '../services/security/role-guard.service';
+import { CarteraUsuarioPage } from '../pages/cartera-usuario-page/cartera-usuario-page';
+import { AnuncionsPage } from '../pages/anuncions-page/anuncions-page';
+import { CreateAnuncioComponent } from '../components/anuncios-gestion/create-anuncio-component/create-anuncio-component';
+import { CreateAnuncioPage } from '../pages/create-anuncio-page/create-anuncio-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -120,6 +124,18 @@ export const routes: Routes = [
         redirectTo: 'admin/users/create' 
     },
 
+    {
+        path: 'cartera-usuario',
+        component: CarteraUsuarioPage
+    },
+    {
+        path: 'create-anuncio-page',
+        component: CreateAnuncioPage
+    },
+    {
+        path: 'anuncios',
+        component: AnuncionsPage
+    },
     // Ruta comodín
     { 
         path: '**', 

@@ -1,0 +1,45 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ selectedAnuncio.titulo }}</span>
+        <span class="badge" 
+              [class.badge-active]="selectedAnuncio.estado === 'ACTIVO'"
+              [class.badge-inactive]="selectedAnuncio.estado === 'INACTIVO'">
+            {{ selectedAnuncio.estado }}
+        </span>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Costo: ${{ selectedAnuncio.costoTotal }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Fecha de Inicio: {{ selectedAnuncio.fechaInicio | date:'dd/MM/yyyy HH:mm' }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Fecha de Fin: {{ selectedAnuncio.fechaFin | date:'dd/MM/yyyy HH:mm' }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Estado del Anuncio: 
+            <span [class.text-success]="selectedAnuncio.estado === 'ACTIVO'"
+                  [class.text-danger]="selectedAnuncio.estado === 'INACTIVO'">
+                {{ selectedAnuncio.estado }}
+            </span>
+        </h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Tipo de Anuncio: {{ selectedAnuncio.tipoAnuncio?.nombre }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Periodo de Tiempo: {{ selectedAnuncio.periodoAnuncio?.diasDuracion }} días
+        </h6>
+
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary" 
+                    (click)="toggleEstado()"
+                    [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ selectedAnuncio.estado === 'ACTIVO' ? 'Desactivar' : 'Activar' }}
+            </button>
+            <a [routerLink]="['/admin/users/update', selectedAnuncio.idAnuncio]" 
+               class="btn btn-primary">
+                Editar anuncio
+            </a>
+        </div>
+    </div>
+</div>

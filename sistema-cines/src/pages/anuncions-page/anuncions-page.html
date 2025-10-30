@@ -1,0 +1,48 @@
+<div>
+  <app-header-admin-sistema *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema>
+  <app-header-admin-cine *ngIf="currentUser?.rol?.nombreRol === 'ANUNCIADOR DE CINE'"></app-header-admin-cine>
+  <app-header-anunciante *ngIf="currentUser?.rol?.nombreRol === 'ANUNCIANTE'"></app-header-anunciante>
+</div>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a routerLink="/create-anuncio-page" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i>
+      Crear Nuevo Anuncio
+    </a>
+  </div>
+    <div class="row">
+      <div class="col-12">
+        
+        <div *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA'">
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Esta es una lista de todos los anuncios registrados en el sistema.
+          </div>
+        </div>
+        <div *ngIf="currentUser?.rol?.nombreRol === 'ANUNCIANTE'">
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Esta es una lista de los anuncios que has creado.
+          </div>
+        </div>
+      </div>
+
+      @for (anuncio of anuncios; track anuncio.idAnuncio) {
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <app-anuncio-card-component 
+              [selectedAnuncio]="anuncio">
+            </app-anuncio-card-component>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i>
+            No hay anuncios registrados en el sistema.
+          </div>
+        </div>
+      }
+    </div>
+  
+</div>
+<app-footer></app-footer>
