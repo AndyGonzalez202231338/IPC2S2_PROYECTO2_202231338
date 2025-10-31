@@ -16,6 +16,8 @@ import { CarteraUsuarioPage } from '../pages/cartera-usuario-page/cartera-usuari
 import { AnuncionsPage } from '../pages/anuncions-page/anuncions-page';
 import { CreateAnuncioComponent } from '../components/anuncios-gestion/create-anuncio-component/create-anuncio-component';
 import { CreateAnuncioPage } from '../pages/create-anuncio-page/create-anuncio-page';
+import { MoviesPage } from '../pages/movies-page/movies-page';
+import { CreateMoviesPage } from '../pages/create-movies-page/create-movies-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -136,6 +138,16 @@ export const routes: Routes = [
         path: 'anuncios',
         component: AnuncionsPage
     },
+    {
+        path: 'movies',
+        component: MoviesPage
+    },
+    {
+        path: 'create-movies-page',
+        component: CreateMoviesPage
+    },
+
+
     // Ruta comodín
     { 
         path: '**', 

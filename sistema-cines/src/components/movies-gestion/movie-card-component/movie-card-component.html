@@ -1,0 +1,84 @@
+<div class="card h-100 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <strong>Película #{{ movie.idPelicula }}</strong>
+    </div>
+    
+    <!-- Poster de la película -->
+    <div class="text-center mt-3">
+        @if (posterUrl) {
+            <img [src]="posterUrl" 
+                 [alt]="movie.titulo" 
+                 class="card-img-top mx-auto" 
+                 style="max-width: 200px; max-height: 300px; object-fit: cover;">
+        } @else {
+            <div class="bg-light d-flex align-items-center justify-content-center mx-auto" 
+                 style="width: 200px; height: 300px;">
+                <i class="bi bi-camera text-muted" style="font-size: 3rem;"></i>
+                <small class="text-muted mt-2">Sin poster</small>
+            </div>
+        }
+    </div>
+
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title text-primary">{{ movie.titulo }}</h5>
+        
+        <!-- Información básica -->
+        <div class="mb-2">
+            <strong><i class="bi bi-clock"></i> Duración:</strong> 
+            {{ movie.duracionMinutos }} minutos
+        </div>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-tags"></i> Clasificación:</strong> 
+            <span class="badge bg-secondary ms-2">{{ movie.clasificacion }}</span>
+        </div>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-calendar"></i> Fecha de estreno:</strong> 
+            <br>
+            <small class="text-muted">{{ formatFecha(movie.fechaEstreno) }}</small>
+        </div>
+        
+        <div class="mb-3">
+            <strong><i class="bi bi-circle-fill"></i> Estado:</strong> 
+            <span [class]="movie.estado === 'ACTIVA' ? 'badge bg-success ms-2' : 'badge bg-danger ms-2'">
+                {{ movie.estado }}
+            </span>
+        </div>
+        
+        <!-- Director -->
+        <div class="mb-2">
+            <strong><i class="bi bi-person"></i> Director:</strong> 
+            {{ movie.director }}
+        </div>
+        
+        <!-- Reparto -->
+        <div class="mb-3">
+            <strong><i class="bi bi-people"></i> Reparto:</strong> 
+            <br>
+            <small class="text-muted">{{ getRepartoPreview() }}</small>
+        </div>
+        
+        <!-- Sinopsis -->
+        <div class="mb-3 flex-grow-1">
+            <strong><i class="bi bi-text-paragraph"></i> Sinopsis:</strong> 
+            <p class="card-text mt-1 small text-muted">{{ getSinopsisPreview() }}</p>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="d-grid gap-2 mt-auto">
+            <!-- Botón para cambiar estado -->
+            <button class="btn btn-sm" 
+                    [class]="movie.estado === 'ACTIVA' ? 'btn-warning' : 'btn-success'"
+                    (click)="toggleEstado()">
+                <i class="bi" [class]="movie.estado === 'ACTIVA' ? 'bi-pause-circle' : 'bi-play-circle'"></i>
+                {{ movie.estado === 'ACTIVA' ? 'Desactivar' : 'Activar' }}
+            </button>
+            
+            <!-- Botón para editar -->
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Editar Película
+            </button>
+        </div>
+    </div>
+</div>
