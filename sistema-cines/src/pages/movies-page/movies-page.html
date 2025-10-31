@@ -1,0 +1,46 @@
+<div>
+  <app-header-admin-sistema *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema>
+  <app-header *ngIf="currentUser?.rol?.nombreRol === 'COMUN'"></app-header>
+</div>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <a routerLink="/create-movies-page" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i>
+      Crear Nueva Película
+    </a>
+  </div>
+  
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA'">
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          Esta es una lista de todas las películas registradas en el sistema.
+        </div>
+      </div>
+      <div *ngIf="currentUser?.rol?.nombreRol === 'COMUN'">
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          Esta es una lista de las películas disponibles.
+        </div>
+      </div>
+    </div>
+
+    @for (movie of movies; track movie.idPelicula) {
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <app-movie-card-component [movie]="movie">
+        </app-movie-card-component>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="alert alert-info text-center">
+          <i class="bi bi-info-circle"></i>
+          No hay películas registradas en el sistema.
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

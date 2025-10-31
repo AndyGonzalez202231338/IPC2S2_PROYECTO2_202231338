@@ -1,0 +1,194 @@
+@if(operationDone) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Operación realizada con éxito.
+    </div>
+</div>
+}
+
+<form [formGroup]="newMovieForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <!-- Título -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="titulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" id="titulo" formControlName="titulo"
+                [class.is-invalid]="newMovieForm.controls['titulo'].invalid && newMovieForm.controls['titulo'].touched">
+            @if (newMovieForm.controls['titulo'].invalid && newMovieForm.controls['titulo'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['titulo'].errors?.['required']) {
+                <div>El título es requerido</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Duración -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="duracionMinutos" class="form-label">Duración (minutos):</label>
+            <input type="number" class="form-control" id="duracionMinutos" formControlName="duracionMinutos"
+                [class.is-invalid]="newMovieForm.controls['duracionMinutos'].invalid && newMovieForm.controls['duracionMinutos'].touched">
+            @if (newMovieForm.controls['duracionMinutos'].invalid && newMovieForm.controls['duracionMinutos'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['duracionMinutos'].errors?.['required']) {
+                <div>La duración es requerida</div>
+                }
+                @if (newMovieForm.controls['duracionMinutos'].errors?.['min']) {
+                <div>La duración mínima es de 1 minuto</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Género - MÚLTIPLE SELECT -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="categorias" class="form-label">Géneros:</label>
+            <select multiple class="form-control" id="categorias" formControlName="categorias"
+                [class.is-invalid]="newMovieForm.controls['categorias'].invalid && newMovieForm.controls['categorias'].touched">
+                <option *ngFor="let categoria of categoriasPeliculas" [value]="categoria.idCategoria">
+                    {{ categoria.nombreCategoria }}
+                </option>
+            </select>
+            <small class="form-text text-muted">Mantén presionada la tecla Ctrl (Cmd en Mac) para seleccionar múltiples géneros</small>
+            @if (newMovieForm.controls['categorias'].invalid && newMovieForm.controls['categorias'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['categorias'].errors?.['required']) {
+                <div>Al menos un género es requerido</div>
+                }
+                @if (newMovieForm.controls['categorias'].errors?.['minlength']) {
+                <div>Selecciona al menos un género</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Clasificación -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="clasificacion" class="form-label">Clasificación:</label>
+            <select class="form-control" id="clasificacion" formControlName="clasificacion"
+                [class.is-invalid]="newMovieForm.controls['clasificacion'].invalid && newMovieForm.controls['clasificacion'].touched">
+                <option value="">Seleccione clasificación</option>
+                <option value="AA">AA</option>
+                <option value="A">A</option>
+                <option value="B12">B12</option>
+                <option value="B15">B15</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+            @if (newMovieForm.controls['clasificacion'].invalid && newMovieForm.controls['clasificacion'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['clasificacion'].errors?.['required']) {
+                <div>La clasificación es requerida</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Sinopsis -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="sinopsis" class="form-label">Sinopsis:</label>
+            <textarea class="form-control" id="sinopsis" formControlName="sinopsis"
+                [class.is-invalid]="newMovieForm.controls['sinopsis'].invalid && newMovieForm.controls['sinopsis'].touched"></textarea>
+            @if (newMovieForm.controls['sinopsis'].invalid && newMovieForm.controls['sinopsis'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['sinopsis'].errors?.['required']) {
+                <div>La sinopsis es requerida</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Reparto -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="reparto" class="form-label">Reparto:</label>
+            <input type="text" class="form-control" id="reparto" formControlName="reparto"
+                [class.is-invalid]="newMovieForm.controls['reparto'].invalid && newMovieForm.controls['reparto'].touched">
+            @if (newMovieForm.controls['reparto'].invalid && newMovieForm.controls['reparto'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['reparto'].errors?.['required']) {
+                <div>El reparto es requerido</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Director -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="director" class="form-label">Director:</label>
+            <input type="text" class="form-control" id="director" formControlName="director"
+                [class.is-invalid]="newMovieForm.controls['director'].invalid && newMovieForm.controls['director'].touched">
+            @if (newMovieForm.controls['director'].invalid && newMovieForm.controls['director'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['director'].errors?.['required']) {
+                <div>El director es requerido</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Fecha de Estreno -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="fechaEstreno" class="form-label">Fecha de Estreno:</label>
+            <input type="date" class="form-control" id="fechaEstreno" formControlName="fechaEstreno"
+                [class.is-invalid]="newMovieForm.controls['fechaEstreno'].invalid && newMovieForm.controls['fechaEstreno'].touched">
+            @if (newMovieForm.controls['fechaEstreno'].invalid && newMovieForm.controls['fechaEstreno'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['fechaEstreno'].errors?.['required']) {
+                <div>La fecha de estreno es requerida</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Poster - ARCHIVO -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="posterFile" class="form-label">Poster (Archivo):</label>
+            <input type="file" class="form-control" id="posterFile" (change)="onFileSelected($event)"
+                accept="image/*"
+                [class.is-invalid]="!selectedFile && newMovieForm.controls['posterFile'].touched">
+            @if (!selectedFile && newMovieForm.controls['posterFile'].touched) {
+            <div class="invalid-feedback">
+                <div>El poster es requerido</div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-12">
+        <div class="form-group">
+            <label for="estado" class="form-label">Estado:</label>
+            <select class="form-control" id="estado" formControlName="estado"
+                [class.is-invalid]="newMovieForm.controls['estado'].invalid && newMovieForm.controls['estado'].touched">
+                <option value="">Seleccione un estado</option>
+                <option value="ACTIVA">Activa</option>
+                <option value="INACTIVA">Inactiva</option>
+            </select>
+            @if (newMovieForm.controls['estado'].invalid && newMovieForm.controls['estado'].touched) {
+            <div class="invalid-feedback">
+                @if (newMovieForm.controls['estado'].errors?.['required']) {
+                <div>El estado es requerido</div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3" [disabled]="newMovieForm.invalid || !selectedFile">Crear Película</button>
+</form>
