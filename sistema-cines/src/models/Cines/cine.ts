@@ -1,5 +1,5 @@
 export interface Cine {
-    idCine?: number;
+    idCine: number;
     nombre: string;
     direccion: string;
     fechaCreacion?: string | Date;

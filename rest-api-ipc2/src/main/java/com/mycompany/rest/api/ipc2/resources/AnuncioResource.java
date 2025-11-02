@@ -273,4 +273,21 @@ public class AnuncioResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+    
+    @GET
+    @Path("con-publicidad-activa")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAnunciosConPublicidadActiva() {
+        AnunciosCrudService anuncioService = new AnunciosCrudService();
+        try {
+            List<AnuncioCompletoResponse> anuncios = anuncioService.getAnunciosConPublicidadActiva()
+                    .stream()
+                    .map(AnuncioCompletoResponse::new)
+                    .toList();
+            return Response.ok(anuncios).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

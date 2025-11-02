@@ -4,6 +4,7 @@ import { RestConstants } from "../../shared/restapi/rest-constants";
 import { HttpClient } from "@angular/common/http";
 import { Observable, tap } from "rxjs";
 import { Role } from "../../models/Counts/role";
+import { Cine } from "../../models/Cines/cine";
 
 export interface User {
   idUsuario: number;
@@ -13,6 +14,15 @@ export interface User {
   nombreCompleto: string;
   estado: 'ACTIVO' | 'INACTIVO';
   fechaCreacion: string;
+}
+
+export interface CineCartera {
+    idCine: number;
+    nombre: string;
+    direccion: string;
+    fechaCreacion?: string | Date;
+    estado?: 'ACTIVO' | 'INACTIVO';
+    administradores?: number[]; // Array de IDs de usuarios administradores
 }
 
 export interface LoginResponse {
@@ -27,6 +37,7 @@ export interface LoginResponse {
 export class HomesService {
   restConstants = new RestConstants();
   private currentUser: User | null = null;
+    private cineSeleccionado: Cine | null = null;
   private isBrowser: boolean;
 
   constructor(
@@ -76,9 +87,31 @@ export class HomesService {
   }
 
   logout(): void {
+    console.log('Cerrando sesión del usuario:');
     this.currentUser = null;
-    if (this.isBrowser) {
-      localStorage.removeItem('currentUser');
-    }
+    this.cineSeleccionado = null;
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('cineSeleccionado');
   }
+
+  setCineSeleccionado(cine: Cine): void {
+    this.cineSeleccionado = cine;
+    localStorage.setItem('cineSeleccionado', JSON.stringify(cine));
+  }
+
+  getCineSeleccionado(): Cine | null {
+    if (!this.cineSeleccionado) {
+      const cineStr = localStorage.getItem('cineSeleccionado');
+      if (cineStr) {
+        this.cineSeleccionado = JSON.parse(cineStr);
+      }
+    }
+    return this.cineSeleccionado;
+  }
+
+  clearCineSeleccionado(): void {
+    this.cineSeleccionado = null;
+    localStorage.removeItem('cineSeleccionado');
+  }
+  
 }

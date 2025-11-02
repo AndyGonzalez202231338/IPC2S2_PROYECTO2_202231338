@@ -1,12 +1,17 @@
+import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HomesService, User } from '../../../services/homes/homes.services';
 import { CarteraResponse, CarteraService, CompraRequest, DepositoRequest } from '../../../services/counts/cartera.service';
+import { RouterLink } from '@angular/router';
+import { HeaderAnunciante } from '../../header-anunciante/header-anunciante';
+import { Header } from '../../header/header';
+import { Footer } from '../../footer/footer';
 
 @Component({
   selector: 'app-cartera-usuario-form',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,],
   templateUrl: './cartera-usuario-form.html',
   styleUrl: './cartera-usuario-form.css'
 })

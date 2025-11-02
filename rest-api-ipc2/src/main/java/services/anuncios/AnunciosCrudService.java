@@ -174,4 +174,9 @@ public class AnunciosCrudService {
         }
         anunciosDB.deleteAnuncio(idAnuncio);
     }
+    
+    public List<Anuncio> getAnunciosConPublicidadActiva() {
+        AnunciosDB anunciosDB = new AnunciosDB();
+        return anunciosDB.getAnunciosConPublicidadActiva();
+    }
 }

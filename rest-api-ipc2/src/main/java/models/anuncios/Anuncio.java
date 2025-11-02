@@ -6,6 +6,7 @@ package models.anuncios;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import models.publicidad.Publicidad;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Anuncio {
     private TipoAnuncio tipoAnuncio;
     private PeriodoAnuncio periodoAnuncio;
-    
+    private Publicidad publicidad;
     private int idAnuncio;
     private int idUsuario;
     private int idTipoAnuncio;
@@ -28,6 +29,7 @@ public class Anuncio {
     private LocalDateTime fechaFin;
     private BigDecimal costoTotal;
     private String estado;
+    
 
     public Anuncio(int idAnuncio, int idUsuario, int idTipoAnuncio, int idPeriodo, String titulo, String contenidoTexto, byte[] imagenUrl, String videoUrl, LocalDateTime fechaInicio, LocalDateTime fechaFin, BigDecimal costoTotal, String estado) {
         this.idAnuncio = idAnuncio;
@@ -186,7 +188,13 @@ public class Anuncio {
     public void setPeriodoAnuncio(PeriodoAnuncio periodoAnuncio) {
         this.periodoAnuncio = periodoAnuncio;
     }
-    
-    
+
+    public Publicidad getPublicidad() {
+        return publicidad;
+    }
+
+    public void setPublicidad(Publicidad publicidad) {
+        this.publicidad = publicidad;
+    }
     
 }

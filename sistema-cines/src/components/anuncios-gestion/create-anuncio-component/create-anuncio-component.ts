@@ -67,6 +67,7 @@ export class CreateAnuncioComponent {
     this.anunciosService.getTiposAnuncio().subscribe({
       next: (tipos) => {
         this.tiposAnuncio = tipos;
+        console.log('Tipos de anuncio cargados:', this.tiposAnuncio);
       },
       error: (error) => {
       }
@@ -76,6 +77,7 @@ export class CreateAnuncioComponent {
     this.anunciosService.getPeriodosAnuncio().subscribe({
       next: (periodos) => {
         this.periodosAnuncio = periodos;
+        console.log('Períodos de anuncio cargados:', this.periodosAnuncio);
       },
       error: (error) => {
         console.error('Error cargando períodos de anuncio:', error);

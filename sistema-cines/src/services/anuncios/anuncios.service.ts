@@ -7,10 +7,30 @@ import { Anuncio } from "../../models/Anuncio/anuncio";
 import { TipoAnuncio } from "../../models/Anuncio/TipoAnuncio";
 import { PeriodoAnuncio } from "../../models/Anuncio/PeriodoAnuncio";
 
+export interface Publicidad {
+    idPublicidad: number;
+    idAnuncio: number;
+    idUsuario: number;
+    precioBloqueo: number;
+    estado: string; // Cambiar a string
+}
+
+export interface BloqueoPublicidad {
+  id_bloqueo_publicidad: number;
+  id_cine: number;
+  id_publicidad: number;
+  fecha_inicio: string;
+  fecha_fin: string;
+  costo_total: number;
+  fecha_pago: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AnunciosService {
+
+
     private restConstants = new RestConstants();
 
     constructor(private httpClient: HttpClient) { }
@@ -177,4 +197,88 @@ export class AnunciosService {
         updateRequest
     );
     }
+
+    crearPublicidad(idAnuncio: number, idUsuario: number, precioBloqueo: number): Observable<Publicidad> {
+    const request = {
+        idAnuncio,
+        idUsuario,
+        precioBloqueo
+    };
+
+    console.log('Creando publicidad con datos:', request);
+  
+    return this.httpClient.post<Publicidad>(
+      `${this.restConstants.getApiURL()}publicidades`,
+      request
+    );
+    }
+
+    // Actualizar precio de publicidad
+    actualizarPublicidad(idPublicidad: number, precioBloqueo: number): Observable<Publicidad> {
+    const request = { precioBloqueo };
+    
+        return this.httpClient.put<Publicidad>(
+            `${this.restConstants.getApiURL()}publicidades/${idPublicidad}`,
+            request
+        );
+    }
+
+     //trear todas las publicidades
+    getAllPublicidades(): Observable<Publicidad[]> {
+        return this.httpClient.get<Publicidad[]>(
+        `${this.restConstants.getApiURL()}publicidades`
+        );
+    }
+
+    // Revisar publicidad en anuncio
+    getPublicidadByAnuncioId(idAnuncio: number): Observable<Publicidad | null> {
+  return this.httpClient.get<Publicidad | null>(
+    `${this.restConstants.getApiURL()}publicidades/anuncio/${idAnuncio}`
+  );
+}
+
+    getAnunciosConPublicidad(): Observable<AnuncioCompleto[]> {
+        return this.httpClient.get<AnuncioCompleto[]>(
+        `${this.restConstants.getApiURL()}anuncios/con-publicidad-activa`
+        );
+    }
+
+    // Verificar si un anuncio ya está bloqueado por un cine específico
+  verificarAnuncioBloqueado(idAnuncio: number, idCine: number): Observable<BloqueoPublicidad | null> {
+    return this.httpClient.get<BloqueoPublicidad | null>(
+      `${this.restConstants.getApiURL()}bloqueo-publicidad/anuncio/${idAnuncio}/cine/${idCine}`
+    );
+  }
+
+  // Obtener todos los bloqueos de un cine
+  getBloqueosPorCine(idCine: number): Observable<BloqueoPublicidad[]> {
+    return this.httpClient.get<BloqueoPublicidad[]>(
+      `${this.restConstants.getApiURL()}bloqueo-publicidad/cine/${idCine}`
+    );
+  }
+
+  // Bloquear anuncio 
+  bloquearAnuncio(idAnuncio: number, idCine: number, idPublicidad: number, costoTotal: number): Observable<BloqueoPublicidad> {
+    const request = {
+      idAnuncio,
+      idCine,
+      idPublicidad,
+      costoTotal
+    };
+
+    console.log('Bloqueando anuncio con datos:', request);
+    return this.httpClient.post<BloqueoPublicidad>(
+      `${this.restConstants.getApiURL()}bloqueo-publicidad`,
+      request
+    );
+  }
+
+  // Obtener bloqueos activos de un anuncio
+  getBloqueosActivosPorAnuncio(idAnuncio: number): Observable<BloqueoPublicidad[]> {
+    return this.httpClient.get<BloqueoPublicidad[]>(
+      `${this.restConstants.getApiURL()}bloqueo-publicidad/anuncio/${idAnuncio}/activos`
+    );
+  }
+
+
 }
