@@ -8,7 +8,7 @@ export interface AnuncioCompleto {
   idUsuario: number;
   titulo: string;
   contenidoTexto: string;
-  imagenUrl: String; // o string si conviertes a base64
+  imagenUrl: String;
   videoUrl: string;
   fechaInicio: string;
   fechaFin: string;
@@ -16,4 +16,15 @@ export interface AnuncioCompleto {
   estado: string;
   tipoAnuncio: TipoAnuncio;
   periodoAnuncio: PeriodoAnuncio;
+  idTipoAnuncio?: number;
+  idPeriodo?: number;
+  
+  // Mantener como objeto literal pero verificar nombres
+  publicidad?: {
+    idPublicidad: number;
+    idAnuncio: number;
+    idUsuario: number;
+    precioBloqueo: number;
+    estado: string; // Cambiar a string
+  };
 }

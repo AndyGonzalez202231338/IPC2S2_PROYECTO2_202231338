@@ -1,44 +1,115 @@
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <span>{{ selectedAnuncio.titulo }}</span>
+<div class="card h-100 shadow-sm">
+      <!-- Mensaje de éxito -->
+  @if(operationDone) {
+    <div class="alert alert-success d-flex align-items-center">
+      <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+      <div>
+        Operación realizada con éxito.
+      </div>
+    </div>
+  }
+    <div class="card-header d-flex justify-content-between align-items-center" 
+         [class.bg-success]="selectedAnuncio.estado === 'ACTIVO'"
+         [class.bg-secondary]="selectedAnuncio.estado === 'INACTIVO'"
+         [class.text-white]="true">
+        <span><strong>Anuncio #{{ selectedAnuncio.idAnuncio }}</strong></span>
         <span class="badge" 
-              [class.badge-active]="selectedAnuncio.estado === 'ACTIVO'"
-              [class.badge-inactive]="selectedAnuncio.estado === 'INACTIVO'">
+              [class.bg-light]="selectedAnuncio.estado === 'ACTIVO'"
+              [class.bg-warning]="selectedAnuncio.estado === 'INACTIVO'"
+              [class.text-dark]="true">
             {{ selectedAnuncio.estado }}
         </span>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Costo: ${{ selectedAnuncio.costoTotal }}</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">
-            Fecha de Inicio: {{ selectedAnuncio.fechaInicio | date:'dd/MM/yyyy HH:mm' }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">
-            Fecha de Fin: {{ selectedAnuncio.fechaFin | date:'dd/MM/yyyy HH:mm' }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">
-            Estado del Anuncio: 
-            <span [class.text-success]="selectedAnuncio.estado === 'ACTIVO'"
-                  [class.text-danger]="selectedAnuncio.estado === 'INACTIVO'">
-                {{ selectedAnuncio.estado }}
-            </span>
-        </h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">
-            Tipo de Anuncio: {{ selectedAnuncio.tipoAnuncio?.nombre }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-body-secondary">
-            Periodo de Tiempo: {{ selectedAnuncio.periodoAnuncio?.diasDuracion }} días
-        </h6>
+    
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title text-primary">{{ selectedAnuncio.titulo }}</h5>
+        
+        <!-- Información básica -->
+        <div class="mb-2">
+            <strong><i class="bi bi-person"></i> Anunciante:</strong> 
+            ID: {{ selectedAnuncio.idUsuario }}
+        </div>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-currency-dollar"></i> Costo:</strong> 
+            ${{ selectedAnuncio.costoTotal }}
+        </div>
+        
+        <!-- Tipo de anuncio-->
+        <div class="mb-2">
+            <strong><i class="bi bi-tag"></i> Tipo:</strong> 
+            {{ getNombreTipoAnuncio() }}
+        </div>
+        
+        <!-- Período de anuncio -->
+        <div class="mb-2">
+            <strong><i class="bi bi-calendar-range"></i> Período:</strong> 
+            {{ getDuracionPeriodoAnuncio() }}
+        </div>
+        
+        <div class="mb-2">
+            <strong><i class="bi bi-calendar"></i> Fecha Inicio:</strong> 
+            <br>
+            <small class="text-muted">{{ selectedAnuncio.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</small>
+        </div>
+        
+        <div class="mb-3">
+            <strong><i class="bi bi-calendar-check"></i> Fecha Fin:</strong> 
+            <br>
+            <small class="text-muted">{{ selectedAnuncio.fechaFin | date:'dd/MM/yyyy HH:mm' }}</small>
+        </div>
 
-        <div class="btn-group" role="group">
-            <button class="btn btn-outline-primary" 
+        <!-- Información de publicidad (solo para administradores) -->
+        <div *ngIf="showPublicidadInfo" class="mb-3 p-2 border rounded bg-light">
+            <strong><i class="bi bi-megaphone"></i> Publicidad:</strong>
+            <div *ngIf="selectedAnuncio.publicidad">
+                <small class="d-block">
+                    <strong>Precio bloqueo:</strong> ${{ selectedAnuncio.publicidad.precioBloqueo }}
+                </small>
+                <small class="d-block">
+                    <strong>Estado:</strong> 
+                    <span class="badge" [class]="getPublicidadEstadoBadgeClass()">
+                        {{ selectedAnuncio.publicidad.estado }}
+                    </span>
+                </small>
+            </div>
+            <div *ngIf="!selectedAnuncio.publicidad" class="text-warning">
+                <small><i class="bi bi-exclamation-triangle"></i> Sin autorización</small>
+            </div>
+        </div>
+        
+        <!-- Contenido del anuncio -->
+        <div class="mb-3 flex-grow-1">
+            <strong><i class="bi bi-text-paragraph"></i> Contenido:</strong> 
+            <p class="card-text mt-1 small text-muted">{{ getContenidoPreview() }}</p>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="d-grid gap-2 mt-auto">
+            <!-- Botón para cambiar estado básico -->
+            <button class="btn btn-sm" 
+                    [class]="getEstadoButtonClass()"
                     (click)="toggleEstado()"
                     [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ selectedAnuncio.estado === 'ACTIVO' ? 'Desactivar' : 'Activar' }}
+                <i class="bi" [class]="getEstadoIconClass()"></i>
+                {{ getEstadoButtonText() }}
+                <span *ngIf="loading" class="spinner-border spinner-border-sm ms-1"></span>
             </button>
-            <a [routerLink]="['/admin/users/update', selectedAnuncio.idAnuncio]" 
-               class="btn btn-primary">
-                Editar anuncio
+            
+            <!-- Botón para autorizar publicidad (solo para administradores) -->
+            <button *ngIf="showAutorizarButton" 
+                    class="btn btn-success btn-sm"
+                    (click)="autorizarPublicidad()"
+                    [disabled]="loadingAutorizacion">
+                <i class="bi bi-check-circle"></i> Convertir a Publicidad
+                <span *ngIf="loadingAutorizacion" class="spinner-border spinner-border-sm ms-1"></span>
+            </button>
+
+            
+            <!-- Botón para ver detalles -->
+            <a [routerLink]="['/anuncios/detalle', selectedAnuncio.idAnuncio]" 
+               class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-eye"></i> Ver Detalles
             </a>
         </div>
     </div>

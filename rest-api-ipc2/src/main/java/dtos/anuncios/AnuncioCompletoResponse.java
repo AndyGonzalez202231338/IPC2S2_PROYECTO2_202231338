@@ -1,6 +1,7 @@
 package dtos.anuncios;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dtos.publicidad.PublicidadResponse;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import models.anuncios.Anuncio;
@@ -20,6 +21,7 @@ import models.anuncios.Anuncio;
     private String estado;
     private TipoAnuncioResponse tipoAnuncio;
     private PeriodoAnuncioResponse periodoAnuncio;
+    private PublicidadResponse publicidad;
     
     public AnuncioCompletoResponse(Anuncio anuncio) {
         this.idAnuncio = anuncio.getIdAnuncio();
@@ -41,6 +43,11 @@ import models.anuncios.Anuncio;
         if (anuncio.getPeriodoAnuncio() != null) {
             this.periodoAnuncio = new PeriodoAnuncioResponse(anuncio.getPeriodoAnuncio());
         }
+        
+        if (anuncio.getPublicidad()!= null) {
+            this.publicidad = new PublicidadResponse(anuncio.getPublicidad());
+        }
+        
     }
 
     public int getIdAnuncio() {

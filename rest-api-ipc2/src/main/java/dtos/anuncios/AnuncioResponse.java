@@ -1,6 +1,7 @@
 package dtos.anuncios;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dtos.publicidad.PublicidadResponse;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import models.anuncios.Anuncio;
@@ -10,6 +11,7 @@ import models.anuncios.TipoAnuncio;
 public class AnuncioResponse {
     private TipoAnuncioResponse tipoAnuncio;
     private PeriodoAnuncioResponse periodoAnuncio;
+    private PublicidadResponse publicidad;
     private int idAnuncio;
     private int idUsuario;
     private int idTipoAnuncio;
@@ -38,6 +40,7 @@ public class AnuncioResponse {
         this.fechaFin = anuncio.getFechaFin();
         this.costoTotal = anuncio.getCostoTotal();
         this.estado = anuncio.getEstado();
+        
         // Incluir los objetos completos
         if (anuncio.getTipoAnuncio() != null) {
             this.tipoAnuncio = new TipoAnuncioResponse(anuncio.getTipoAnuncio());
@@ -45,6 +48,10 @@ public class AnuncioResponse {
         
         if (anuncio.getPeriodoAnuncio() != null) {
             this.periodoAnuncio = new PeriodoAnuncioResponse(anuncio.getPeriodoAnuncio());
+        }
+
+        if (anuncio.getPublicidad() != null) {
+            this.publicidad = new PublicidadResponse(anuncio.getPublicidad());
         }
     }
 
@@ -143,6 +150,32 @@ public class AnuncioResponse {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public TipoAnuncioResponse getTipoAnuncio() {
+        return tipoAnuncio;
+    }
+
+    public void setTipoAnuncio(TipoAnuncioResponse tipoAnuncio) {
+        this.tipoAnuncio = tipoAnuncio;
+    }
+
+    public PeriodoAnuncioResponse getPeriodoAnuncio() {
+        return periodoAnuncio;
+    }
+
+    public void setPeriodoAnuncio(PeriodoAnuncioResponse periodoAnuncio) {
+        this.periodoAnuncio = periodoAnuncio;
+    }
+
+    public PublicidadResponse getPublicidad() {
+        return publicidad;
+    }
+
+    public void setPublicidad(PublicidadResponse publicidad) {
+        this.publicidad = publicidad;
+    }
+    
+    
     
     
 }

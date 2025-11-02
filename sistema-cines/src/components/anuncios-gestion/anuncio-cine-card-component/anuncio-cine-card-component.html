@@ -1,0 +1,127 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h5 class="card-title mb-0">{{ selectedAnuncio.titulo }}</h5>
+    <small class="text-muted">ID: {{ selectedAnuncio.idAnuncio }}</small>
+  </div>
+  
+  <div class="card-body">
+    <!-- Información básica del anuncio -->
+    <div class="mb-3">
+      <p class="card-text">{{ getContenidoPreview() }}</p>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-6">
+        <strong>Tipo:</strong><br>
+        <span class="badge bg-primary">{{ getNombreTipoAnuncio() }}</span>
+      </div>
+      <div class="col-6">
+        <strong>Duración:</strong><br>
+        <span class="badge bg-info">{{ getDuracionPeriodoAnuncio() }}</span>
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-6">
+        <strong>Costo Total:</strong><br>
+        ${{ selectedAnuncio.costoTotal }}
+      </div>
+      <div class="col-6">
+        <strong>Estado:</strong><br>
+        <span [class]="selectedAnuncio.estado === 'ACTIVO' ? 'badge bg-success' : 'badge bg-warning'">
+          {{ selectedAnuncio.estado }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Sección de Publicidad -->
+    <div class="publicidad-section mt-3 p-3 border rounded">
+      <h6 class="border-bottom pb-2">
+        Información de Publicidad
+        <button *ngIf="!loadingPublicidad" class="btn btn-sm btn-outline-secondary ms-2" (click)="recargarPublicidad()">
+            <i class="bi bi-arrow-clockwise"></i> Recargar
+        </button>
+      </h6>
+      
+      <div *ngIf="loadingPublicidad" class="text-center">
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Cargando publicidad...</span>
+        </div>
+        <small class="text-muted ms-2">Cargando publicidad...</small>
+      </div>
+
+      <div *ngIf="!loadingPublicidad && tienePublicidad()" class="mt-2">
+        <div class="row">
+          <div class="col-6">
+            <strong>Precio de Bloqueo:</strong><br>
+            <span class="h5 text-success">${{ publicidadCargada!.precioBloqueo }}</span>
+          </div>
+          <div class="col-6">
+            <strong>Estado Publicidad:</strong><br>
+            <span [class]="getPublicidadEstadoBadgeClass()">
+              {{ publicidadCargada!.estado }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Información de Bloqueo Actual -->
+        <div *ngIf="loadingEstadoBloqueo" class="text-center mt-2">
+          <div class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Verificando bloqueo...</span>
+          </div>
+          <small class="text-muted ms-2">Verificando estado de bloqueo...</small>
+        </div>
+
+        <div *ngIf="!loadingEstadoBloqueo && estaBloqueadoParaMiCine()" class="alert alert-info mt-2">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-info fs-4 me-2"></i>
+            <div>
+              <strong>Ya Bloqueado para su Cine</strong><br>
+              <small>
+                Bloqueado desde: {{ formatearFecha(bloqueoActual!.fecha_inicio) }} hasta: {{ formatearFecha(bloqueoActual!.fecha_fin) }}<br>
+                Costo pagado: ${{ bloqueoActual!.costo_total }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!loadingEstadoBloqueo && !estaBloqueadoParaMiCine() && bloqueosActivos.length > 0" class="alert alert-warning mt-2">
+          <small>
+            <strong> Bloqueado por otros cines:</strong><br>
+            {{ getCinesBloqueadores() }}
+          </small>
+        </div>
+        
+        <div class="mt-3">
+          <button 
+            class="btn btn-primary w-100" 
+            (click)="bloquearAnuncio()"
+            [disabled]="loadingBloqueo || estaBloqueadoParaMiCine() || publicidadCargada?.estado !== 'ACTIVO'">
+            <span *ngIf="loadingBloqueo" class="spinner-border spinner-border-sm me-2"></span>
+            {{ loadingBloqueo ? 'Procesando...' : 
+               estaBloqueadoParaMiCine() ? 'Ya Bloqueado' : 
+               publicidadCargada?.estado !== 'ACTIVO' ? 'Publicidad No Disponible' :
+               'Bloquear Anuncio' }}
+          </button>
+        </div>
+      </div>
+      
+      <div *ngIf="!loadingPublicidad && !tienePublicidad()" class="alert alert-warning mt-2">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-exclamation-triangle-fill text-warning fs-4 me-2"></i>
+          <div>
+            <strong>Sin publicidad</strong><br>
+            <small>Este anuncio no tiene publicidad configurada</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-footer text-muted">
+    <small>
+      Inicio: {{ selectedAnuncio.fechaInicio | date:'short' }} | 
+      Fin: {{ selectedAnuncio.fechaFin | date:'short' }}
+    </small>
+  </div>
+</div>

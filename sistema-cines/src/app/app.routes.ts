@@ -18,6 +18,7 @@ import { CreateAnuncioComponent } from '../components/anuncios-gestion/create-an
 import { CreateAnuncioPage } from '../pages/create-anuncio-page/create-anuncio-page';
 import { MoviesPage } from '../pages/movies-page/movies-page';
 import { CreateMoviesPage } from '../pages/create-movies-page/create-movies-page';
+import { CarteraCinePage } from '../pages/cartera-cine-page/cartera-cine-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -145,6 +146,10 @@ export const routes: Routes = [
     {
         path: 'create-movies-page',
         component: CreateMoviesPage
+    },
+    {
+        path: 'cartera-cine-page',
+        component: CarteraCinePage
     },
 
 

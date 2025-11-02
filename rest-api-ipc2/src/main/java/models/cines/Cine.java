@@ -32,7 +32,13 @@ public class Cine {
         this.administradores = administradores;
     }
 
-    
+    public Cine(Integer idCine, String nombre, String direccion, LocalDateTime fechaCreacion, String estado) {
+        this.idCine = idCine;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.fechaCreacion = fechaCreacion;
+        this.estado = estado;
+    }    
 
     // Getters y Setters
     public Integer getIdCine() { return idCine; }

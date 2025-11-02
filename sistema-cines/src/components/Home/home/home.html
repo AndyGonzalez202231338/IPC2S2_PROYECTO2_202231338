@@ -1,15 +1,13 @@
-
 <!-- hacer un cambio de hearder-->
- <ng-container *ngIf="currentUser"> 
-    <ng-container [ngSwitch]="currentUser.rol.nombreRol"> 
-      <app-header-admin-sistema *ngSwitchCase="'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema> 
-      <app-header-admin-cine *ngSwitchCase="'ADMINISTRADOR DE CINE'"></app-header-admin-cine> 
-      <app-header-anunciante *ngSwitchCase="'ANUNCIANTE'"></app-header-anunciante> 
-      <app-header *ngSwitchCase="'COMUN'"></app-header> 
-      <app-header *ngSwitchDefault></app-header> 
-    </ng-container>
+<ng-container *ngIf="currentUser"> 
+  <ng-container [ngSwitch]="currentUser.rol.nombreRol"> 
+    <app-header-admin-sistema *ngSwitchCase="'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema> 
+    <app-header-admin-cine *ngSwitchCase="'ADMINISTRADOR DE CINE'"></app-header-admin-cine> 
+    <app-header-anunciante *ngSwitchCase="'ANUNCIANTE'"></app-header-anunciante> 
+    <app-header *ngSwitchCase="'COMUN'"></app-header> 
+    <app-header *ngSwitchDefault></app-header> 
   </ng-container>
-
+</ng-container>
 
 <div class="container">
   <div class="row">
@@ -22,16 +20,63 @@
         <p><strong>Nombre:</strong> {{ currentUser.nombreCompleto }}</p>
         <p><strong>Email:</strong> {{ currentUser.email }}</p>
         <p><strong>Rol:</strong> {{ currentUser.rol.nombreRol }}</p>
+        
+        <!-- Información del cine seleccionado para administradores de cine -->
+        <div *ngIf="isAdminCine() && cineSeleccionado" class="mt-3 p-3 bg-light rounded">
+          <h5><i class="bi bi-building"></i> Cine Seleccionado</h5>
+          <p><strong>Nombre:</strong> {{ cineSeleccionado.nombre }}</p>
+          <p><strong>Dirección:</strong> {{ cineSeleccionado.direccion }}</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm" (click)="irADashboardCine()">
+              <i class="bi bi-speedometer2"></i> Ir al Dashboard
+            </button>
+            <button *ngIf="cines.length > 1" class="btn btn-outline-secondary btn-sm" (click)="cambiarCine()">
+              <i class="bi bi-arrow-repeat"></i> Cambiar Cine
+            </button>
+          </div>
+        </div>
       </div>
       
       <div *ngIf="!currentUser" class="alert alert-warning">
         <p>No hay usuario logueado</p>
       </div>
+
+      <!-- Selector de cine para administradores con múltiples cines -->
+      <div *ngIf="mostrarSelectorCine && isAdminCine()" class="modal show d-block" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Seleccionar Cine</h5>
+            </div>
+            <div class="modal-body">
+              <p>Selecciona el cine que deseas administrar:</p>
+              <div class="list-group">
+                <button *ngFor="let cine of cines" 
+                        class="list-group-item list-group-item-action"
+                        (click)="seleccionarCine(cine)">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ cine.nombre }}</h6>
+                    <small class="text-muted">ID: {{ cine.idCine }}</small>
+                  </div>
+                  <p class="mb-1">{{ cine.direccion }}</p>
+                  <small class="text-muted">Estado: {{ cine.estado }}</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       
-      <!-- Tu contenido del home aquí -->
+      <!-- Contenido principal -->
       <div class="mt-4">
         <h2>Contenido Principal</h2>
         <p>Este es el contenido de tu aplicación...</p>
+        
+        <!-- Mensaje para administradores de cine sin cine seleccionado -->
+        <div *ngIf="isAdminCine() && !cineSeleccionado && !mostrarSelectorCine" class="alert alert-info">
+          <i class="bi bi-info-circle"></i>
+          Cargando información de tus cines asignados...
+        </div>
       </div>
     </div>
   </div>
