@@ -1,0 +1,80 @@
+<div class="card h-100">
+    <div class="card-body d-flex flex-column">
+        <!-- Header con título -->
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <h5 class="card-title text-primary mb-0">
+                <i class="bi bi-door-open me-2"></i>
+                {{ selectedSala.nombreSala }}
+            </h5>
+            <span class="badge bg-secondary">ID: {{ selectedSala.idSala }}</span>
+        </div>
+        
+        <!-- Información básica -->
+        <div class="mb-3">
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-people-fill text-muted me-2"></i>
+                <span class="text-muted">Capacidad:</span>
+                <strong class="ms-2">{{ getCapacidadTotal() }} asientos</strong>
+            </div>
+            <small class="text-muted">
+                ({{ selectedSala.filas }} filas × {{ selectedSala.columnas }} columnas)
+            </small>
+        </div>
+
+        <!-- Botón para Comentarios -->
+        <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="bi bi-chat-dots text-muted me-2"></i>
+                    <span class="text-muted">Comentarios:</span>
+                </div>
+                <button 
+                    type="button" 
+                    [class]="getButtonClassComentarios() + ' btn-sm'"
+                    (click)="toggleComentarios()"
+                    [disabled]="loadingComentarios">
+                    <span *ngIf="loadingComentarios" class="spinner-border spinner-border-sm me-1"></span>
+                    {{ selectedSala.permiteComentario === 'SI' ? 'Permitidos' : 'No Permitidos' }}
+                </button>
+            </div>
+            <small class="text-muted d-block mt-1">
+                {{ selectedSala.permiteComentario === 'SI' ? 'Los usuarios pueden comentar' : 'Comentarios desactivados' }}
+            </small>
+        </div>
+
+        <!-- Botón para Estado -->
+        <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="bi bi-power text-muted me-2"></i>
+                    <span class="text-muted">Estado:</span>
+                </div>
+                <button 
+                    type="button" 
+                    [class]="getButtonClassEstado() + ' btn-sm'"
+                    (click)="toggleEstado()"
+                    [disabled]="loadingEstado">
+                    <span *ngIf="loadingEstado" class="spinner-border spinner-border-sm me-1"></span>
+                    {{ selectedSala.estado === 'ACTIVA' ? 'Activa' : 'Bloqueada' }}
+                </button>
+            </div>
+            <small class="text-muted d-block mt-1">
+                {{ selectedSala.estado === 'ACTIVA' ? 'Sala disponible para uso' : 'Sala no disponible' }}
+            </small>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="mt-auto pt-3 border-top">
+            <div class="row text-center">
+                <div class="col-6">
+                    <small class="text-muted d-block">Filas</small>
+                    <strong>{{ selectedSala.filas }}</strong>
+                </div>
+                <div class="col-6">
+                    <small class="text-muted d-block">Columnas</small>
+                    <strong>{{ selectedSala.columnas }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

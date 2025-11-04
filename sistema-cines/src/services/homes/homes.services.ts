@@ -37,7 +37,7 @@ export interface LoginResponse {
 export class HomesService {
   restConstants = new RestConstants();
   private currentUser: User | null = null;
-    private cineSeleccionado: Cine | null = null;
+  private cineSeleccionado: Cine | null = null;
   private isBrowser: boolean;
 
   constructor(

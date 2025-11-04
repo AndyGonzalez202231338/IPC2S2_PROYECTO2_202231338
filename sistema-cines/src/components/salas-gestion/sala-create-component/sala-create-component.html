@@ -1,0 +1,205 @@
+@if(operationDone) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Sala creada con éxito en <strong>{{ currentCine?.nombre }}</strong>.
+    </div>
+</div>
+}
+
+@if(errorMessage) {
+<div class="alert alert-danger d-flex align-items-center">
+    <i class="bi bi-exclamation-triangle flex-shrink-0 me-2"></i>
+    <div>
+        {{ errorMessage }}
+    </div>
+</div>
+}
+
+@if(!currentCine) {
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    No se ha encontrado información del cine. Por favor, inicie sesión nuevamente.
+</div>
+}
+
+@if(currentCine) {
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+            <i class="bi bi-building me-2"></i>
+            Crear Nueva Sala
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Información del Cine -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Cine Asignado
+                    </h6>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <strong>Nombre:</strong> {{ currentCine.nombre }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Dirección:</strong> {{ currentCine.direccion }}
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-md-6">
+                            <strong>ID del Cine:</strong> {{ currentCine.idCine }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Estado:</strong> 
+                            <span [class]="currentCine.estado === 'ACTIVO' ? 'badge bg-success' : 'badge bg-secondary'">
+                                {{ currentCine.estado }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form [formGroup]="newSalaForm" (ngSubmit)="submit()">
+            <div class="row g-3">
+                <!-- Nombre de la Sala -->
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="nombreSala" class="form-label">Nombre de la Sala:</label>
+                        <input type="text" class="form-control" id="nombreSala" formControlName="nombreSala"
+                            [class.is-invalid]="nombreSala?.invalid && nombreSala?.touched"
+                            placeholder="Ej: Sala 1, Sala Premium, Sala 3D, etc.">
+                        @if (nombreSala?.invalid && nombreSala?.touched) {
+                        <div class="invalid-feedback">
+                            @if (nombreSala?.errors?.['required']) {
+                            <div>El nombre de la sala es requerido</div>
+                            }
+                            @if (nombreSala?.errors?.['maxlength']) {
+                            <div>El nombre debe tener máximo 100 caracteres</div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Configuración de Asientos -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="filas" class="form-label">Número de Filas:</label>
+                        <input type="number" class="form-control" id="filas" formControlName="filas"
+                            [class.is-invalid]="filas?.invalid && filas?.touched"
+                            placeholder="Ej: 10" min="1" max="50">
+                        @if (filas?.invalid && filas?.touched) {
+                        <div class="invalid-feedback">
+                            @if (filas?.errors?.['required']) {
+                            <div>El número de filas es requerido</div>
+                            }
+                            @if (filas?.errors?.['min']) {
+                            <div>Mínimo 1 fila</div>
+                            }
+                            @if (filas?.errors?.['max']) {
+                            <div>Máximo 50 filas</div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="columnas" class="form-label">Número de Columnas:</label>
+                        <input type="number" class="form-control" id="columnas" formControlName="columnas"
+                            [class.is-invalid]="columnas?.invalid && columnas?.touched"
+                            placeholder="Ej: 15" min="1" max="50">
+                        @if (columnas?.invalid && columnas?.touched) {
+                        <div class="invalid-feedback">
+                            @if (columnas?.errors?.['required']) {
+                            <div>El número de columnas es requerido</div>
+                            }
+                            @if (columnas?.errors?.['min']) {
+                            <div>Mínimo 1 columna</div>
+                            }
+                            @if (columnas?.errors?.['max']) {
+                            <div>Máximo 50 columnas</div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Información de Capacidad -->
+                <div class="col-12">
+                    <div class="alert alert-secondary">
+                        <i class="bi bi-calculator me-2"></i>
+                        <strong>Capacidad total calculada:</strong> 
+                        {{ capacidadTotal }} asientos
+                        ({{ filas?.value || 0 }} filas × {{ columnas?.value || 0 }} columnas)
+                    </div>
+                </div>
+
+                <!-- Permitir comentario en la sala -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="permiteComentario" class="form-label">Permitir Comentarios:</label>
+                        <select class="form-select" id="permiteComentario" formControlName="permiteComentario"
+                            [class.is-invalid]="permiteComentario?.invalid && permiteComentario?.touched">
+                            <option value="true">Sí</option>
+                            <option value="false">No</option>
+                        </select>
+                        @if (permiteComentario?.invalid && permiteComentario?.touched) {
+                        <div class="invalid-feedback">
+                            Esta selección es requerida
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Estado -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="estado" class="form-label">Estado Inicial:</label>
+                        <select class="form-select" id="estado" formControlName="estado"
+                            [class.is-invalid]="estado?.invalid && estado?.touched">
+                            <option value="ACTIVA">Activa</option>
+                            <option value="BLOQUEADA">Bloqueada</option>
+                        </select>
+                        @if (estado?.invalid && estado?.touched) {
+                        <div class="invalid-feedback">
+                            Esta selección es requerida
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="col-12">
+                    <div class="d-flex gap-2">
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            [disabled]="newSalaForm.invalid || loading">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                            {{ loading ? 'Creando Sala...' : 'Crear Sala' }}
+                        </button>
+                        
+                        <button 
+                            type="button" 
+                            class="btn btn-outline-secondary" 
+                            (click)="newSalaForm.reset({
+                                permiteComentario: 'true',
+                                estado: 'ACTIVA'
+                            })"
+                            [disabled]="loading">
+                            <i class="bi bi-arrow-clockwise me-2"></i>
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div> 
+        </form>
+    </div>
+</div>
+}

@@ -1,3 +1,4 @@
+models/salas/Sala.class
 dtos/login/LoginRequest.class
 config/JacksonConfig.class
 com/mycompany/rest/api/ipc2/resources/PublicidadResource.class
@@ -25,8 +26,10 @@ db/DBConnectionSingleton.class
 dtos/cines/CineResponse.class
 dtos/anuncios/AnuncioResponse.class
 services/cines/CineAdministradorService.class
+dtos/salas/NewSalaRequest.class
 exceptions/EntityAlreadyExistsException.class
 models/movies/CategoriaPelicula.class
+dtos/salas/SalaResponse.class
 dtos/operacionCarteraCine/PagoRequest.class
 db/CineAdministradorDB.class
 com/mycompany/rest/api/ipc2/resources/CategoriaPeliculaResources.class
@@ -35,11 +38,13 @@ exceptions/InvalidAmountException.class
 dtos/movies/NewMovieRequest.class
 models/users/CarteraDigital.class
 dtos/movies/UpdateMovieRequest.class
+com/mycompany/rest/api/ipc2/resources/SalaResource.class
 services/Movies/CategoriaPeliculaService.class
 com/mycompany/rest/api/ipc2/resources/PeliculaResource.class
 dtos/operacionCarteraCine/CarteraCineResponse.class
 services/bloqueo/BloqueoPublicidadCreator.class
 com/mycompany/rest/api/ipc2/resources/AnuncioResource.class
+db/SalasDB.class
 exceptions/AnuncioDataInvalidException.class
 services/anuncios/TiposAnuncioService.class
 com/mycompany/rest/api/ipc2/resources/CineResource.class
@@ -71,9 +76,11 @@ dtos/anuncios/TipoAnuncioResponse.class
 db/MovieDB.class
 dtos/users/UpdateUserRequest.class
 models/movies/Movies.class
+services/salas/SalasCrudService.class
 models/cines/Cine.class
 exceptions/SaldoInsuficienteException.class
 services/cines/CinesCreator.class
+services/salas/SalasCreator.class
 services/Movies/MoviesCreator.class
 models/cines/CarteraCine.class
 models/users/RolTypeEnum.class
@@ -96,3 +103,4 @@ models/publicidad/Publicidad.class
 dtos/publicidad/CrearPublicidadRequest.class
 com/mycompany/rest/api/ipc2/resources/JakartaEE10Resource.class
 com/mycompany/rest/api/ipc2/resources/BloqueoAnuncioResource.class
+dtos/salas/UpdateSalaRequest.class
