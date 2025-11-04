@@ -19,6 +19,9 @@ import { CreateAnuncioPage } from '../pages/create-anuncio-page/create-anuncio-p
 import { MoviesPage } from '../pages/movies-page/movies-page';
 import { CreateMoviesPage } from '../pages/create-movies-page/create-movies-page';
 import { CarteraCinePage } from '../pages/cartera-cine-page/cartera-cine-page';
+import { SalasPage } from '../pages/salas-page/salas-page';
+import { SalaCreateComponent } from '../components/salas-gestion/sala-create-component/sala-create-component';
+import { CreateSalasPage } from '../pages/create-salas-page/create-salas-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -150,6 +153,14 @@ export const routes: Routes = [
     {
         path: 'cartera-cine-page',
         component: CarteraCinePage
+    },
+    {
+        path: 'salas',
+        component: SalasPage
+    },
+    {
+        path: 'create-sala-page',
+        component: CreateSalasPage
     },
 
 
