@@ -1,0 +1,137 @@
+@if(operationDone) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Operación realizada con éxito.
+    </div>
+</div>
+}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="bi bi-plus-circle"></i>
+            Crear Nueva Función
+          </h4>
+        </div>  
+        
+        <div class="card-body">
+          <!-- Información de la película -->
+          @if (pelicula) {
+            <div class="alert alert-info">
+              <h6>Película seleccionada:</h6>
+              <strong>{{ pelicula.titulo }}</strong> - {{ pelicula.duracionMinutos }} min
+              <br>
+              <small class="text-muted">Clasificación: {{ pelicula.clasificacion }}</small>
+              <br>
+              <strong>Fecha de estreno Global:</strong> -{{ pelicula.fechaEstreno | date: 'longDate' }}
+            </div>
+          }
+
+          <form [formGroup]="funcionForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Selección de Sala -->
+            <div class="mb-3">
+              <label for="sala" class="form-label">Sala *</label>
+              <select id="sala" class="form-select" formControlName="idSala"
+                      [class.is-invalid]="funcionForm.get('idSala')?.invalid && funcionForm.get('idSala')?.touched">
+                <option value="">Seleccione una sala</option>
+                @for (sala of salas; track sala.idSala) {
+                  <option [value]="sala.idSala">
+                    {{ sala.nombreSala }} (Capacidad: {{ sala.columnas * sala.filas }} asientos)
+                  </option>
+                }
+              </select>
+              @if (funcionForm.get('idSala')?.invalid && funcionForm.get('idSala')?.touched) {
+                <div class="invalid-feedback d-block">
+                  Por favor seleccione una sala
+                </div>
+              }
+            </div>
+
+            <!-- Fecha y Hora de la Función -->
+            <div class="mb-3">
+              <label for="fechaHora" class="form-label">Fecha y Hora de la Función *</label>
+              <input type="datetime-local" id="fechaHora" class="form-control" 
+                     formControlName="fechaHoraFuncion"
+                     [class.is-invalid]="funcionForm.get('fechaHoraFuncion')?.invalid && funcionForm.get('fechaHoraFuncion')?.touched">
+              @if (funcionForm.get('fechaHoraFuncion')?.invalid && funcionForm.get('fechaHoraFuncion')?.touched) {
+                <div class="invalid-feedback d-block">
+                  Por favor ingrese una fecha y hora válida
+                </div>
+              }
+            </div>
+
+            <!-- Precio Boleto Adulto -->
+            <div class="mb-3">
+              <label for="precioAdulto" class="form-label">Precio Boleto Adulto ($) *</label>
+              <input type="number" id="precioAdulto" class="form-control" 
+                     step="0.01" min="0" formControlName="precioBoletoAdulto"
+                     [class.is-invalid]="funcionForm.get('precioBoletoAdulto')?.invalid && funcionForm.get('precioBoletoAdulto')?.touched">
+              @if (funcionForm.get('precioBoletoAdulto')?.invalid && funcionForm.get('precioBoletoAdulto')?.touched) {
+                <div class="invalid-feedback d-block">
+                  @if (funcionForm.get('precioBoletoAdulto')?.errors?.['required']) {
+                    El precio para adultos es requerido
+                  }
+                  @if (funcionForm.get('precioBoletoAdulto')?.errors?.['min']) {
+                    El precio debe ser mayor a 0
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Precio Boleto Niño -->
+            <div class="mb-3">
+              <label for="precioNino" class="form-label">Precio Boleto Niño ($)</label>
+              <input type="number" id="precioNino" class="form-control" 
+                     step="0.01" min="0" formControlName="precioBoletoNino"
+                     [class.is-invalid]="funcionForm.get('precioBoletoNino')?.invalid && funcionForm.get('precioBoletoNino')?.touched">
+              @if (funcionForm.get('precioBoletoNino')?.invalid && funcionForm.get('precioBoletoNino')?.touched) {
+                <div class="invalid-feedback d-block">
+                  El precio para niños debe ser mayor o igual a 0
+                </div>
+              }
+            </div>
+
+            <!-- Asientos Disponibles -->
+            <div class="mb-3">
+              <label for="asientos" class="form-label">Asientos Disponibles *</label>
+              <input type="number" id="asientos" class="form-control" 
+                     min="1" formControlName="asientosDisponibles"
+                     [class.is-invalid]="funcionForm.get('asientosDisponibles')?.invalid && funcionForm.get('asientosDisponibles')?.touched">
+              @if (funcionForm.get('asientosDisponibles')?.invalid && funcionForm.get('asientosDisponibles')?.touched) {
+                <div class="invalid-feedback d-block">
+                  @if (funcionForm.get('asientosDisponibles')?.errors?.['required']) {
+                    Los asientos disponibles son requeridos
+                  }
+                  @if (funcionForm.get('asientosDisponibles')?.errors?.['min']) {
+                    Debe haber al menos 1 asiento disponible
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="button" class="btn btn-secondary me-md-2" 
+                      (click)="cancelar()">
+                <i class="bi bi-x-circle"></i> Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary" 
+                      [disabled]="funcionForm.invalid || isLoading">
+                @if (isLoading) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  Creando...
+                } @else {
+                  <i class="bi bi-check-circle"></i> Crear Función
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

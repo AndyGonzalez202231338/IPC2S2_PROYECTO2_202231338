@@ -6,6 +6,7 @@ import exceptions.EntityNotFoundException;
 import models.salas.Sala;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SalasCrudService {
 
@@ -24,9 +25,15 @@ public class SalasCrudService {
     }
 
     public Sala getSalaById(int idSala) throws EntityNotFoundException {
-        return salasDB.findById(idSala)
-                .orElseThrow(() -> new EntityNotFoundException("Sala no encontrada con id: " + idSala));
+    SalasDB salaDB = new SalasDB();
+    Optional<Sala> salaOpt = salaDB.findById(idSala);
+    if (salaOpt.isEmpty()) {
+        throw new EntityNotFoundException(
+            String.format("No existe la sala con id %d", idSala)
+        );
     }
+    return salaOpt.get();
+}
 
     public Sala updateSala(int idSala, UpdateSalaRequest salaRequest) throws EntityNotFoundException {
         return salasDB.findById(idSala)

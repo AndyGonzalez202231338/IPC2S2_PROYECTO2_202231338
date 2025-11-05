@@ -1,6 +1,7 @@
 <div>
   <app-header-admin-sistema *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA'"></app-header-admin-sistema>
   <app-header *ngIf="currentUser?.rol?.nombreRol === 'COMUN'"></app-header>
+  <app-header-admin-cine *ngIf="currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE CINE'"></app-header-admin-cine>
 </div>
 
 <div class="container mt-4">

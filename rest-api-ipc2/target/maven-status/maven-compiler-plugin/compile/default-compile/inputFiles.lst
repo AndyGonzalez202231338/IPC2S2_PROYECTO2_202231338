@@ -6,6 +6,7 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/CategoriaPeliculaResources.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/CineAdministradorResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/CineResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/FuncionResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/JakartaEE10Resource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/LoginResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/PeliculaResource.java
@@ -23,6 +24,7 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/CineAdministradorDB.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/CinesDB.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/DBConnectionSingleton.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/FuncionDB.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/MovieDB.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/PeliculaCategoriasDB.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/db/PeriodoAnuncioDB.java
@@ -40,6 +42,8 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/bloqueo/NewBloqueoRequest.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/cines/CineResponse.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/cines/NewCineRequest.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/funciones/FuncionResponse.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/funciones/NewFuncionRequest.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/login/LoginRequest.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/login/LoginResponse.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/dtos/movies/CategoriaPeliculaResponse.java
@@ -63,6 +67,7 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/AnuncioDataInvalidException.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/EntityAlreadyExistsException.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/EntityNotFoundException.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/FuncionDataInvalidException.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/InsufficientFundsException.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/InvalidAmountException.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/exceptions/MovieDataInvalidException.java
@@ -75,6 +80,7 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/cines/CarteraCine.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/cines/Cine.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/cines/CineAdministrador.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/funcion/Funcion.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/movies/CategoriaPelicula.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/movies/Movies.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/models/publicidad/Publicidad.java
@@ -97,6 +103,8 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CineAdministradorService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CinesCreator.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CinesCrudServices.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/funciones/FuncionesCreator.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/funciones/FuncionesCrudService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/login/UsersLoginService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/publicidad/PublicidadService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/SalasCreator.java
