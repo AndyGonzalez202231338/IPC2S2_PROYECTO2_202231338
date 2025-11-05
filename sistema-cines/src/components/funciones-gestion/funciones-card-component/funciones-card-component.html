@@ -1,0 +1,103 @@
+<div class="card h-100 shadow-sm">
+  <!-- Header con estado -->
+  <div class="card-header" [ngClass]="{
+    'bg-success': selectedFuncion.estado === 'PROGRAMADA',
+    'bg-warning': selectedFuncion.estado === 'COMPLETADA', 
+    'bg-danger': selectedFuncion.estado === 'CANCELADA'
+  }">
+    <div class="d-flex justify-content-between align-items-center">
+      <strong class="text-white">Función #{{ selectedFuncion.idFuncion }}</strong>
+      <span class="badge bg-light text-dark">
+        {{ selectedFuncion.estado }}
+      </span>
+    </div>
+  </div>
+  
+  <div class="card-body">
+    <!-- Información de la Película -->
+    <div class="mb-3">
+      <h6 class="card-title text-primary">
+        <i class="bi bi-film"></i>
+        @if (selectedPelicula) {
+          {{ selectedPelicula.titulo }}
+        } @else {
+          <span class="text-muted">Cargando película...</span>
+        }
+      </h6>
+      
+      @if (selectedPelicula) {
+        <div class="small text-muted">
+          <span class="me-2">{{ selectedPelicula.duracionMinutos }} min</span>
+          <span class="badge bg-secondary">{{ selectedPelicula.clasificacion }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Información de la Sala -->
+    <div class="mb-3">
+      <strong><i class="bi bi-door-closed"></i> Sala:</strong>
+      @if (selectedSala) {
+        <div>
+          {{ selectedSala.nombreSala }} (ID: {{ selectedSala.idSala }})
+          <br>
+          <small class="text-muted">
+            Capacidad: {{ selectedSala.filas * selectedSala.columnas }} asientos
+            ({{ selectedSala.filas }}x{{ selectedSala.columnas }})
+          </small>
+        </div>
+      } @else {
+        <span class="text-muted">Cargando sala...</span>
+      }
+    </div>
+
+    <!-- Fecha y Hora -->
+    <div class="mb-3">
+      <strong><i class="bi bi-calendar-event"></i> Fecha y Hora:</strong>
+      <br>
+      <small class="text-muted">{{ formatFechaHora(selectedFuncion.fechaHoraFuncion) }}</small>
+    </div>
+
+    <!-- Precios -->
+    <div class="mb-3">
+      <strong><i class="bi bi-ticket-perforated"></i> Precios:</strong>
+      <div class="small">
+        <span class="me-3">Adulto: ${{ selectedFuncion.precioBoletoAdulto }}</span>
+        <span>Niño: ${{ selectedFuncion.precioBoletoNino }}</span>
+      </div>
+    </div>
+
+    <!-- Asientos Disponibles -->
+    <div class="mb-3">
+      <strong><i class="bi bi-people"></i> Asientos Disponibles:</strong>
+      <span class="badge ms-2" [ngClass]="{
+        'bg-success': selectedFuncion.asientosDisponibles > 20,
+        'bg-warning': selectedFuncion.asientosDisponibles > 0 && selectedFuncion.asientosDisponibles <= 20,
+        'bg-danger': selectedFuncion.asientosDisponibles === 0
+      }">
+        {{ selectedFuncion.asientosDisponibles }}
+      </span>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="d-grid gap-2">
+      <button class="btn btn-outline-primary btn-sm" (click)="editarFuncion()">
+        <i class="bi bi-pencil"></i> Editar
+      </button>
+      
+      <button class="btn btn-sm" 
+              [class]="selectedFuncion.estado === 'PROGRAMADA' ? 'btn-warning' : 'btn-success'"
+              (click)="cambiarEstado()"
+              [disabled]="esFuncionPasada()">
+        <i class="bi" [class]="selectedFuncion.estado === 'PROGRAMADA' ? 'bi-pause-circle' : 'bi-play-circle'"></i>
+        {{ selectedFuncion.estado === 'PROGRAMADA' ? 'Cancelar' : 'Reprogramar' }}
+      </button>
+
+      <!-- Mensaje si la función ya pasó -->
+      @if (esFuncionPasada()) {
+        <small class="text-danger text-center">
+          <i class="bi bi-exclamation-triangle"></i> Esta función ya ha pasado
+        </small>
+      }
+    </div>
+  </div>
+</div>

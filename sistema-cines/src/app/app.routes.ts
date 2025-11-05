@@ -22,6 +22,8 @@ import { CarteraCinePage } from '../pages/cartera-cine-page/cartera-cine-page';
 import { SalasPage } from '../pages/salas-page/salas-page';
 import { SalaCreateComponent } from '../components/salas-gestion/sala-create-component/sala-create-component';
 import { CreateSalasPage } from '../pages/create-salas-page/create-salas-page';
+import { CreateFunctionPageComponent } from '../pages/create-function-page-component/create-function-page-component';
+import { FuncionesPage } from '../pages/funciones-page/funciones-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -161,6 +163,14 @@ export const routes: Routes = [
     {
         path: 'create-sala-page',
         component: CreateSalasPage
+    },
+     { 
+        path: 'create-function/:idPelicula', 
+        component: CreateFunctionPageComponent 
+    },
+    {
+        path: 'functions',
+        component: FuncionesPage
     },
 
 

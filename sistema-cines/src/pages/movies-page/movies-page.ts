@@ -8,10 +8,11 @@ import { RouterLink } from '@angular/router';
 import { MovieCardComponent } from '../../components/movies-gestion/movie-card-component/movie-card-component';
 import { Movie } from '../../models/Movies/Movie';
 import { MoviesService } from '../../services/movies/movies.service';
+import { HeaderAdminCine } from '../../components/header-admin-cine/header-admin-cine';
 
 @Component({
   selector: 'app-movies-page',
-  imports: [Footer, HeaderAdminSistema, Header, NgIf, RouterLink, MovieCardComponent],
+  imports: [Footer, HeaderAdminSistema, HeaderAdminCine, Header, NgIf, RouterLink, MovieCardComponent],
   templateUrl: './movies-page.html',
   styleUrl: './movies-page.css'
 })

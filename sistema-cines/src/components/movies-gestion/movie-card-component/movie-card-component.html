@@ -68,17 +68,32 @@
         <!-- Botones de acción -->
         <div class="d-grid gap-2 mt-auto">
             <!-- Botón para cambiar estado -->
+             @if (currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA') {
             <button class="btn btn-sm" 
                     [class]="movie.estado === 'ACTIVA' ? 'btn-warning' : 'btn-success'"
                     (click)="toggleEstado()">
                 <i class="bi" [class]="movie.estado === 'ACTIVA' ? 'bi-pause-circle' : 'bi-play-circle'"></i>
                 {{ movie.estado === 'ACTIVA' ? 'Desactivar' : 'Activar' }}
             </button>
-            
-            <!-- Botón para editar -->
-            <button class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-pencil"></i> Editar Película
-            </button>
+            }
+
+            <!-- Botón para editar (solo para admin de sistema) -->
+            @if (currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA') {
+                <button class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-pencil"></i> Editar Película
+                </button>
+            }
+
+            <!-- Botón para crear función (solo para admin de cine) -->
+            @if (currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE CINE') {
+                @if (movie.estado === 'ACTIVA') {   
+                <button class="btn btn-info btn-sm" 
+                        (click)="crearFuncion()">
+                    <i class="bi bi-plus-circle"></i> Crear Función
+                </button>
+                }
+            }
+
         </div>
     </div>
 </div>

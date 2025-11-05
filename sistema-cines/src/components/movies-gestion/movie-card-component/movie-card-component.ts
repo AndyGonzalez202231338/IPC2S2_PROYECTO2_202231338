@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Movie } from '../../../models/Movies/Movie';
 import { MoviesService } from '../../../services/movies/movies.service';
+import { HomesService, User } from '../../../services/homes/homes.services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-card-component',
@@ -10,10 +12,13 @@ import { MoviesService } from '../../../services/movies/movies.service';
 export class MovieCardComponent implements OnInit {
   @Input() movie!: Movie;
   posterUrl: string = '';
+  currentUser: User | null = null;
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService, private homeService: HomesService,
+    private router: Router) {}
 
   ngOnInit(): void {
+    this.currentUser = this.homeService.getCurrentUser();
     this.generatePosterUrl();
   }
 
@@ -104,5 +109,10 @@ export class MovieCardComponent implements OnInit {
       posterLength: this.movie.posterUrl?.length,
       posterUrl: this.posterUrl?.substring(0, 100) + '...'
     });
+  }
+
+  crearFuncion(): void {
+    console.log('Creando función para película:', this.movie.idPelicula);
+    this.router.navigate(['/create-function', this.movie.idPelicula]);
   }
 }

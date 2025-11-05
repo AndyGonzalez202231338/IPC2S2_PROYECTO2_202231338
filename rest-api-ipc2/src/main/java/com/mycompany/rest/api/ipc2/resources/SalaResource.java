@@ -102,4 +102,25 @@ public class SalaResource {
                     .build();
         }
     }
+    
+    @GET
+@Path("{idSala}")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getSalaById(@PathParam("idSala") int idSala) {
+    SalasCrudService salasCrudService = new SalasCrudService();
+    
+    try {
+        Sala sala = salasCrudService.getSalaById(idSala);
+        SalaResponse response = new SalaResponse(sala);
+        return Response.ok(response).build();
+    } catch (EntityNotFoundException e) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity(e.getMessage())
+                .build();
+    } catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("Error interno del servidor")
+                .build();
+    }
+}
 }

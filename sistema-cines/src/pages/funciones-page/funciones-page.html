@@ -1,0 +1,26 @@
+<app-header-admin-cine></app-header-admin-cine>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h4 mb-0">Funciones Registradas para este cine</h2>
+  </div>
+
+  <div class="row">
+    @for (funcion of funciones; track funcion.idFuncion) {
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <app-funciones-card-component
+          [selectedFuncion]="funcion">
+        </app-funciones-card-component>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="alert alert-info text-center">
+          <i class="bi bi-info-circle"></i>
+          No hay Funciones registradas en el Cine.
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>
