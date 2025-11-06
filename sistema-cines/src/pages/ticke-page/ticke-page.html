@@ -1,0 +1,213 @@
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="text-primary">
+        <i class="bi bi-ticket-perforated"></i>
+        Compra de Boletos
+      </h2>
+      <p class="text-muted">Selecciona una función y la cantidad de boletos</p>
+    </div>
+  </div>
+
+  <!-- Mensaje de operación exitosa -->
+  @if(operationDone) {
+    <div class="alert alert-success d-flex align-items-center">
+      <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+      <div>
+        Operación realizada con éxito.
+      </div>
+    </div>
+  }
+
+  <div class="row">
+    <!-- Lista de Funciones -->
+    <div class="col-12 col-lg-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="bi bi-calendar-event"></i>
+            Funciones Disponibles
+          </h5>
+        </div>
+        <div class="card-body">
+          @if (funciones.length > 0) {
+            <div class="list-group">
+              @for (funcion of funciones; track funcion.idFuncion) {
+                <div class="list-group-item list-group-item-action" 
+                     [class.active]="selectedFuncion?.idFuncion === funcion.idFuncion"
+                     (click)="seleccionarFuncion(funcion)">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ formatFechaHora(funcion.fechaHoraFuncion) }}</h6>
+                    <span class="badge" [ngClass]="{
+                      'bg-success': funcion.estado === 'PROGRAMADA',
+                      'bg-warning': funcion.estado === 'COMPLETADA',
+                      'bg-danger': funcion.estado === 'CANCELADA'
+                    }">
+                      {{ funcion.estado }}
+                    </span>
+                  </div>
+                  <p class="mb-1">
+                    <small class="text-muted">
+                      Adulto: ${{ funcion.precioBoletoAdulto }} | 
+                      Niño: ${{ funcion.precioBoletoNino }}
+                    </small>
+                  </p>
+                  <small>
+                    <i class="bi bi-people"></i>
+                    {{ funcion.asientosDisponibles }} asientos disponibles
+                  </small>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="alert alert-info text-center">
+              <i class="bi bi-info-circle"></i>
+              No hay funciones disponibles para esta película.
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de la Función Seleccionada y Compra -->
+    <div class="col-12 col-lg-6">
+      @if (selectedFuncion) {
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+              <i class="bi bi-info-circle"></i>
+              Información de la Función
+            </h5>
+          </div>
+          <div class="card-body">
+            <!-- Información del Cine -->
+            @if (cine) {
+              <div class="mb-3">
+                <h6 class="text-primary">
+                  <i class="bi bi-building"></i>
+                  {{ cine.nombre }}
+                </h6>
+                <p class="mb-1 small text-muted">
+                  <i class="bi bi-geo-alt"></i>
+                  {{ cine.direccion }}
+                </p>
+              </div>
+            }
+
+            <!-- Información de la Sala -->
+            @if (sala) {
+              <div class="mb-3">
+                <h6 class="text-secondary">
+                  <i class="bi bi-door-closed"></i>
+                  Sala: {{ sala.nombreSala }}
+                </h6>
+                <p class="mb-1 small text-muted">
+                  Capacidad: {{ sala.filas * sala.columnas }} asientos 
+                  ({{ sala.filas }} filas × {{ sala.columnas }} columnas)
+                </p>
+              </div>
+            }
+
+            <!-- Detalles de la Función -->
+            <div class="mb-3">
+              <h6 class="text-success">
+                <i class="bi bi-clock"></i>
+                {{ formatFechaHora(selectedFuncion.fechaHoraFuncion) }}
+              </h6>
+              <div class="row">
+                <div class="col-6">
+                  <small class="text-muted">Precio Adulto:</small>
+                  <br>
+                  <strong>${{ selectedFuncion.precioBoletoAdulto }}</strong>
+                </div>
+                <div class="col-6">
+                  <small class="text-muted">Precio Niño:</small>
+                  <br>
+                  <strong>${{ selectedFuncion.precioBoletoNino }}</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Formulario de Compra -->
+            <form [formGroup]="funcionForm" (ngSubmit)="comprarBoletos()">
+              <input type="hidden" formControlName="funcionId" [value]="selectedFuncion.idFuncion">
+
+              <!-- Cantidad de Adultos -->
+              <div class="mb-3">
+                <label for="cantidadAdultos" class="form-label">
+                  <i class="bi bi-person"></i> Boletos Adultos
+                </label>
+                <div class="input-group">
+                  <button class="btn btn-outline-secondary" type="button" 
+                          (click)="decrementarAdultos()" [disabled]="cantidadAdultos === 0">
+                    <i class="bi bi-dash"></i>
+                  </button>
+                  <input type="number" id="cantidadAdultos" class="form-control text-center" 
+                         formControlName="cantidadAdultos" min="0" readonly>
+                  <button class="btn btn-outline-secondary" type="button" 
+                          (click)="incrementarAdultos()"
+                          [disabled]="(cantidadAdultos + cantidadNinos) >= selectedFuncion.asientosDisponibles">
+                    <i class="bi bi-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cantidad de Niños -->
+              <div class="mb-3">
+                <label for="cantidadNinos" class="form-label">
+                  <i class="bi bi-person"></i> Boletos Niños
+                </label>
+                <div class="input-group">
+                  <button class="btn btn-outline-secondary" type="button" 
+                          (click)="decrementarNinos()" [disabled]="cantidadNinos === 0">
+                    <i class="bi bi-dash"></i>
+                  </button>
+                  <input type="number" id="cantidadNinos" class="form-control text-center" 
+                         formControlName="cantidadNinos" min="0" readonly>
+                  <button class="btn btn-outline-secondary" type="button" 
+                          (click)="incrementarNinos()"
+                          [disabled]="(cantidadAdultos + cantidadNinos) >= selectedFuncion.asientosDisponibles">
+                    <i class="bi bi-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Total -->
+              <div class="mb-3 p-3 bg-light rounded">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong>Total a pagar:</strong>
+                  <span class="h5 text-success mb-0">${{ total }}</span>
+                </div>
+                <small class="text-muted">
+                  {{ cantidadAdultos + cantidadNinos }} boleto(s) seleccionado(s)
+                </small>
+              </div>
+
+              <!-- Botones -->
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success" 
+                        [disabled]="funcionForm.invalid || total === 0 || selectedFuncion.asientosDisponibles === 0">
+                  <i class="bi bi-credit-card"></i>
+                  Comprar Boletos
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
+                  <i class="bi bi-arrow-left"></i>
+                  Volver
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      } @else {
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+            <h5 class="text-muted mt-3">Selecciona una función</h5>
+            <p class="text-muted">Elige una función de la lista para ver los detalles y comprar boletos</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

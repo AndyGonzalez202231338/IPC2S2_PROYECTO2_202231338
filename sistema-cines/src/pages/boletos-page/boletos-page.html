@@ -1,0 +1,24 @@
+<!-- boletos-page.html -->
+<app-header></app-header>
+
+<div class="container mt-4">
+  <h2 class="h4 mb-0">Funciones en los que compraste boleto</h2>
+  <div class="row">
+    @for (ticketInfo of ticketsInfo; track ticketInfo.boleto.idBoleto) {
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <app-ticket-card-component
+          [ticketInfo]="ticketInfo">
+        </app-ticket-card-component>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="alert alert-info text-center">
+          <i class="bi bi-info-circle"></i>
+          No hay boletos registrados.
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

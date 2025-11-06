@@ -94,6 +94,18 @@
                 }
             }
 
+            <!-- Botón para comprar boleto -->
+            @if (currentUser?.rol?.nombreRol === 'COMUN') {
+                @if (movie.estado === 'ACTIVA') {   
+                <button class="btn btn-info btn-sm" 
+                        (click)="compraBoletos()">
+                    <i class="bi bi-ticket"></i> Comprar Boleto
+                </button>
+                }
+            }
+
+
+
         </div>
     </div>
 </div>

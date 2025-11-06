@@ -1,0 +1,93 @@
+@if(operationDone) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Tu comentario ha sido registrado con éxito. ¡Gracias por tu opinión!
+    </div>
+</div>
+}
+<!-- ticket-card-component.html -->
+<div class="card h-100 shadow-sm">
+  <div class="card-body d-flex flex-column">
+    <!-- Header con información del boleto -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <h5 class="card-title text-primary mb-0">
+        <i class="bi bi-ticket-perforated me-2"></i>
+        {{ ticketInfo.boleto.codigoBoleto }}
+      </h5>
+      <span class="badge bg-secondary">ID: {{ ticketInfo.boleto.idBoleto }}</span>
+    </div>
+
+    <!-- Información de la película -->
+    <div class="mb-3">
+      <h6 class="fw-bold text-dark mb-2">{{ ticketInfo.pelicula.titulo }}</h6>
+      <p class="text-muted small mb-1">
+        <i class="bi bi-clock me-1"></i>
+        {{ ticketInfo.pelicula.duracionMinutos }} minutos
+      </p>
+    </div>
+
+    <!-- Información de la función y sala -->
+    <div class="mb-3">
+      <p class="mb-1">
+        <strong><i class="bi bi-clock-history me-1"></i>Hora:</strong> 
+        {{ getHoraFuncion() }}
+      </p>
+      <p class="mb-1">
+        <strong><i class="bi bi-door-closed me-1"></i>Sala:</strong> 
+        {{ ticketInfo.sala.nombreSala }}
+      </p>
+      <p class="mb-1">
+        <strong><i class="bi bi-currency-dollar me-1"></i>Precio pagado:</strong> 
+        ${{ ticketInfo.boleto.precioPagado }}
+      </p>
+      <p class="mb-0">
+        <strong><i class="bi bi-calendar me-1"></i>Fecha compra:</strong><br>
+        {{ ticketInfo.boleto.fechaCompra}}
+      </p>
+    </div>
+
+    <!-- Botones de comentarios -->
+    <div class="mt-auto pt-3 border-top">
+      <div class="row g-2">
+        @if (ticketInfo.puedeCalificarSala) {
+          <div class="col-12 col-sm-6">
+            <button class="btn btn-outline-primary btn-sm w-100" 
+                    (click)="realizarComentarioSala()">
+              <i class="bi bi-chat-square-text me-1"></i>
+              Comentar Sala
+            </button>
+          </div>
+        }
+        @if (ticketInfo.puedeCalificarPelicula) {
+          <div class="col-12 col-sm-6">
+            <button class="btn btn-outline-success btn-sm w-100" 
+                    (click)="realizarComentarioPelicula()">
+              <i class="bi bi-star me-1"></i>
+              Comentar Película
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modales -->
+@if (mostrarModalSala) {
+  <app-comentario-sala-modal-component
+    [idSala]="ticketInfo.sala.idSala"
+    [nombreSala]="ticketInfo.sala.nombreSala"
+    (comentarioGuardado)="onComentarioSalaGuardado()"
+    (cerrar)="cerrarModalSala()">
+  </app-comentario-sala-modal-component>
+}
+
+@if (mostrarModalPelicula) {
+  <app-comentario-pelicula-modal-component
+    [idPelicula]="ticketInfo.pelicula.idPelicula"
+    [tituloPelicula]="ticketInfo.pelicula.titulo"
+    (comentarioGuardado)="onComentarioPeliculaGuardado()"
+    (cerrar)="cerrarModalPelicula()">
+  </app-comentario-pelicula-modal-component>
+}

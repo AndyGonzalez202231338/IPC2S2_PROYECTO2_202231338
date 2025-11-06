@@ -1,0 +1,104 @@
+!-- comentario-pelicula-modal.component.html -->
+<div class="modal-backdrop show" style="display: block;"></div>
+<div class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+        @if(operacionDone) {
+          <div class="alert alert-success d-flex align-items-center">
+          <i class="bi bi-check-circle-fill flex-shrink-0 me-2"></i>
+          <div>
+              Se registro el comentario con exito.
+          </div>
+        </div>
+        }
+
+        @if(operacionError) {
+          <div class="alert alert-danger d-flex align-items-center">
+          <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+          <div>
+              Ya has realizado un comentario para esta película anteriormente. ¡Gracias por tu opinión!
+          </div>
+        </div>
+        }
+
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="bi bi-star me-2"></i>
+          Comentar Película: {{ tituloPelicula }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form [formGroup]="comentarioForm">
+          <!-- Calificación con estrellas -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Calificación</label>
+            <div class="d-flex justify-content-center">
+              @for (star of getStarsArray(); track star) {
+                <button 
+                  type="button"
+                  class="btn btn-link p-1"
+                  (click)="seleccionarCalificacion(star)"
+                >
+                  <i 
+                    [class]="star <= comentarioForm.get('calificacion')?.value ? 
+                             'bi bi-star-fill text-warning' : 
+                             'bi bi-star text-warning'"
+                    style="font-size: 1.5rem;"
+                  ></i>
+                </button>
+              }
+            </div>
+            <div class="text-center text-muted small mt-1">
+              {{ comentarioForm.get('calificacion')?.value }} de 5 estrellas
+            </div>
+          </div>
+
+          <!-- Comentario -->
+          <div class="mb-3">
+            <label for="comentario" class="form-label fw-bold">Comentario</label>
+            <textarea
+              id="comentario"
+              class="form-control"
+              formControlName="comentario"
+              rows="4"
+              placeholder="Escribe tu opinión sobre esta película..."
+            ></textarea>
+            @if (comentarioForm.get('comentario')?.invalid && comentarioForm.get('comentario')?.touched) {
+              <div class="text-danger small">
+                @if (comentarioForm.get('comentario')?.errors?.['required']) {
+                  <div>El comentario es requerido</div>
+                }
+                @if (comentarioForm.get('comentario')?.errors?.['minlength']) {
+                  <div>El comentario debe tener al menos 10 caracteres</div>
+                }
+              </div>
+            }
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">
+          <i class="bi bi-x-circle me-1"></i>
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-success" 
+          (click)="guardarComentario()"
+          [disabled]="!comentarioForm.valid || enviando"
+        >
+          @if (enviando) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          } @else {
+            <i class="bi bi-check-circle me-1"></i>
+          }
+          Guardar Comentario
+        </button>
+      </div>
+    </div>
+  </div>
+</div>      

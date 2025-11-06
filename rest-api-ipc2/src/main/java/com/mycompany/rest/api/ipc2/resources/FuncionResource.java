@@ -105,4 +105,19 @@ public class FuncionResource {
 
         return Response.ok(funciones).build();
     }
+
+    /**
+     * Obtiene todas las funciones por una película
+     */
+    @GET
+    @Path("pelicula/{idPelicula}") 
+    public Response getFuncionesByPelicula(@PathParam("idPelicula") int idPelicula) {  
+        FuncionesCrudService funcionesCrudService = new FuncionesCrudService();
+        List<FuncionResponse> funciones = funcionesCrudService.getFuncionesByMovie(idPelicula) 
+                .stream()
+                .map(FuncionResponse::new)
+                .toList();
+
+        return Response.ok(funciones).build();
+    }
 }

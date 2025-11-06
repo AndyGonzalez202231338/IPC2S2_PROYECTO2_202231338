@@ -5,7 +5,9 @@
 package services.cines;
 
 import db.CinesDB;
+import exceptions.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import models.cines.Cine;
 
 /**
@@ -19,4 +21,15 @@ public class CinesCrudServices {
         //return eventsDb.getAllEvents();
         return cinesDB.getAllCines();
     }
+    
+    public Cine getCineById(int id) throws EntityNotFoundException {
+    CinesDB cinesDB = new CinesDB();
+    Optional<Cine> cineOpt = cinesDB.getCineById(id);
+    if (cineOpt.isEmpty()) {
+        throw new EntityNotFoundException(
+            String.format("No existe el cine con id %d", id)
+        );
+    }
+    return cineOpt.get();
+}
 }

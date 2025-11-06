@@ -24,6 +24,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
+import java.util.Optional;
+import models.cines.Cine;
 import models.users.User;
 import services.cines.CinesCreator;
 import services.cines.CinesCrudServices;
@@ -36,9 +38,10 @@ import services.users.UsersCrudService;
  */
 @Path("cines")
 public class CineResource {
+
     @Context
     UriInfo uriInfo;
-          
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCine(NewCineRequest cineRequest) {
@@ -56,7 +59,7 @@ public class CineResource {
         }
 
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEvents() {
@@ -68,21 +71,28 @@ public class CineResource {
 
         return Response.ok(cines).build();
     }
-    
-    @GET
-    @Path("{correo}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getEventByEmail(@PathParam("correo") String correo) {
-        UsersCrudService userCrudService = new UsersCrudService();
-        try {
-            User existingEvent = userCrudService.getUserByEmail(correo);
 
-            return Response.ok(new UserResponse(existingEvent)).build();
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSalaById(@PathParam("id") int id) {
+        CinesCrudServices cinesCrudService = new CinesCrudServices();
+
+        try {
+            Cine cine = cinesCrudService.getCineById(id);
+            CineResponse response = new CineResponse(cine);
+            return Response.ok(response).build();
         } catch (EntityNotFoundException e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error interno del servidor")
+                    .build();
         }
     }
-    
+
     @PUT
     @Path("{correo}")
     @Consumes(MediaType.APPLICATION_JSON)

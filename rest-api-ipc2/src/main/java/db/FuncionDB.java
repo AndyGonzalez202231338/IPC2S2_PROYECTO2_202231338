@@ -27,7 +27,10 @@ public class FuncionDB {
         "SELECT f.* FROM funcion f " +
         "INNER JOIN sala s ON f.id_sala = s.id_sala " +
         "WHERE s.id_cine = ?";
-
+    
+    private static final String FUNCIONES_POR_MOVIE_QUERY =
+        "SELECT * FROM funcion WHERE id_pelicula = ?";
+    
     private static final String ACTUALIZAR_FUNCION_QUERY =
         "UPDATE funcion SET id_sala = ?, id_pelicula = ?, fecha_hora_funcion = ?, precio_boleto_adulto = ?, precio_boleto_nino = ?, asientos_disponibles = ?, estado = ? " +
         "WHERE id_funcion = ?";
@@ -149,7 +152,23 @@ public class FuncionDB {
         }
         return funciones;
     }
-
+    
+    /** Obtiene todas las funciones de una pelicula */
+    public List<Funcion> getByMovie(int idMovie) {
+        List<Funcion> funciones = new ArrayList<>();
+        Connection connection = DBConnectionSingleton.getInstance().getConnection();
+        try (PreparedStatement query = connection.prepareStatement(FUNCIONES_POR_MOVIE_QUERY)) {
+            query.setInt(1, idMovie);
+            ResultSet resultSet = query.executeQuery();
+            while (resultSet.next()) {
+                funciones.add(mapResultSetToFuncion(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return funciones;
+    }
+    
     /** Actualiza una función */
     public Funcion updateFuncion(int idFuncion, Funcion funcionToUpdate) {
         Connection connection = DBConnectionSingleton.getInstance().getConnection();
