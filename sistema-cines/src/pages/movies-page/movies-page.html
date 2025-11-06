@@ -5,12 +5,15 @@
 </div>
 
 <div class="container mt-4">
+@if (currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA') {
+  
   <div class="d-flex justify-content-between align-items-center mb-4">
     <a routerLink="/create-movies-page" class="btn btn-primary">
       <i class="bi bi-plus-circle"></i>
       Crear Nueva Película
     </a>
   </div>
+}
   
   <div class="row">
     <div class="col-12">
@@ -42,6 +45,6 @@
       </div>
     }
   </div>
-</div>
 
+</div>
 <app-footer></app-footer>

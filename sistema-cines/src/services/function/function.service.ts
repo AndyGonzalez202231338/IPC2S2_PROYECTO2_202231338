@@ -57,5 +57,10 @@ export class FunctionsService {
   getFunctionsByCine(idCine: number): Observable<Funcion[]> {
     return this.HttpClient.get<Funcion[]>(`${this.estConstants.getApiURL()}funciones/cine/${idCine}`);
   }
+
+  //treaer todas las funciones de una pelicula
+  getFunctionsByPelicula(idPelicula: number): Observable<Funcion[]> {
+    return this.HttpClient.get<Funcion[]>(`${this.estConstants.getApiURL()}funciones/pelicula/${idPelicula}`);
+  }
   
 }

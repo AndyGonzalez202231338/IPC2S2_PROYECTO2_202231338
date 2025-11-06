@@ -1,9 +1,14 @@
+models/comentario/ComentarioPelicula.class
+db/BoletosDB.class
 models/salas/Sala.class
+dtos/comentariosSalas/NewComentarioSalaRequest.class
+dtos/comentariosPeliculas/NewComentarioPeliculaRequest.class
 dtos/login/LoginRequest.class
 config/JacksonConfig.class
 com/mycompany/rest/api/ipc2/resources/PublicidadResource.class
 exceptions/MovieDataInvalidException.class
 services/cines/CarteraCineService.class
+com/mycompany/rest/api/ipc2/resources/ComentarioSalaResource.class
 dtos/movies/MovieResponse.class
 com/mycompany/rest/api/ipc2/resources/CineAdministradorResource.class
 db/TipoAnuncioDB.class
@@ -17,6 +22,7 @@ com/mycompany/rest/api/ipc2/resources/CarteraCineResource.class
 dtos/operacionCartera/CarteraResponse.class
 db/BloqueoPublicidadDB.class
 models/anuncios/PeriodoAnuncio.class
+services/comentariosSalas/ComentariosSalasCreator.class
 dtos/anuncios/NewAnuncioRequest.class
 dtos/movies/CategoriaPeliculaResponse.class
 models/users/PasswordHasher.class
@@ -41,6 +47,7 @@ exceptions/InsufficientFundsException.class
 exceptions/InvalidAmountException.class
 dtos/movies/NewMovieRequest.class
 models/users/CarteraDigital.class
+services/boletos/BoletoCrudService.class
 dtos/movies/UpdateMovieRequest.class
 com/mycompany/rest/api/ipc2/resources/SalaResource.class
 services/Movies/CategoriaPeliculaService.class
@@ -53,6 +60,7 @@ db/SalasDB.class
 exceptions/AnuncioDataInvalidException.class
 dtos/funciones/NewFuncionRequest.class
 services/anuncios/TiposAnuncioService.class
+services/comentariosPeliculas/ComentariosPeliculasCreator.class
 com/mycompany/rest/api/ipc2/resources/CineResource.class
 exceptions/EntityNotFoundException.class
 db/CarteraCineDB.class
@@ -63,8 +71,10 @@ db/PublicidadDB.class
 com/mycompany/rest/api/ipc2/resources/TipoAnuncioResource.class
 dtos/users/NewUserRequest.class
 dtos/login/LoginResponse.class
+models/Boleto.class
 db/FuncionDB.class
 com/mycompany/rest/api/ipc2/resources/UsersResource.class
+services/boletos/BoletosCreator.class
 dtos/users/UserResponse.class
 services/login/UsersLoginService.class
 services/users/UsersCrudService.class
@@ -81,7 +91,9 @@ services/cines/CinesCrudServices.class
 dtos/bloqueo/NewBloqueoRequest.class
 dtos/anuncios/TipoAnuncioResponse.class
 db/MovieDB.class
+db/ComentariosSalasDB.class
 dtos/users/UpdateUserRequest.class
+db/ComentariosPeliculasDB.class
 models/movies/Movies.class
 services/salas/SalasCrudService.class
 models/cines/Cine.class
@@ -91,7 +103,9 @@ services/salas/SalasCreator.class
 services/Movies/MoviesCreator.class
 models/cines/CarteraCine.class
 models/users/RolTypeEnum.class
+models/comentario/ComentarioSala.class
 dtos/publicidad/PublicidadResponse.class
+dtos/boletos/BoletoResponse.class
 models/cines/CineAdministrador.class
 models/users/Role.class
 dtos/operacionCartera/DepositoRequest.class
@@ -105,10 +119,14 @@ db/PeriodoAnuncioDB.class
 services/publicidad/PublicidadService.class
 services/users/CarteraDigitalService.class
 services/anuncios/AnunciosCreator.class
+com/mycompany/rest/api/ipc2/resources/ComentarioPeliculaResource.class
 models/users/User.class
 models/publicidad/Publicidad.class
 dtos/publicidad/CrearPublicidadRequest.class
 com/mycompany/rest/api/ipc2/resources/JakartaEE10Resource.class
+dtos/boletos/NewBoletoRequest.class
 com/mycompany/rest/api/ipc2/resources/FuncionResource.class
 com/mycompany/rest/api/ipc2/resources/BloqueoAnuncioResource.class
 dtos/salas/UpdateSalaRequest.class
+dtos/boletos/BoletoCompletoResponse.class
+com/mycompany/rest/api/ipc2/resources/BoletoResource.class

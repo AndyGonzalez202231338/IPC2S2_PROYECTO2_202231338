@@ -25,6 +25,12 @@ public class FuncionesCrudService {
         return funcionesDB.getByCine(idCine);
     }
     
+    // Obtener todas las funciones de una pelicula
+    public List<Funcion> getFuncionesByMovie(int idMovie) {
+        FuncionDB funcionesDB = new FuncionDB();
+        return funcionesDB.getByMovie(idMovie);
+    }
+    
     public List<Funcion> getfuncionesBySala(int idSala) {
         FuncionDB funcionesDB = new FuncionDB();
         return funcionesDB.getBySala(idSala);

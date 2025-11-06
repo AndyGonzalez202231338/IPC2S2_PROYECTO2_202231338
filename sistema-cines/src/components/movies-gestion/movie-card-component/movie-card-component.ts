@@ -112,7 +112,10 @@ export class MovieCardComponent implements OnInit {
   }
 
   crearFuncion(): void {
-    console.log('Creando función para película:', this.movie.idPelicula);
     this.router.navigate(['/create-function', this.movie.idPelicula]);
+  }
+
+  compraBoletos(): void {
+    this.router.navigate(['/select-seats', this.movie.idPelicula]);
   }
 }

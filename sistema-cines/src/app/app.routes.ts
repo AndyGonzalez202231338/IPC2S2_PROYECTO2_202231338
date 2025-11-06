@@ -24,6 +24,8 @@ import { SalaCreateComponent } from '../components/salas-gestion/sala-create-com
 import { CreateSalasPage } from '../pages/create-salas-page/create-salas-page';
 import { CreateFunctionPageComponent } from '../pages/create-function-page-component/create-function-page-component';
 import { FuncionesPage } from '../pages/funciones-page/funciones-page';
+import { TickePage } from '../pages/ticke-page/ticke-page';
+import { BoletosPage } from '../pages/boletos-page/boletos-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -171,6 +173,14 @@ export const routes: Routes = [
     {
         path: 'functions',
         component: FuncionesPage
+    },
+    {
+        path: 'select-seats/:idPelicula',
+        component: TickePage
+    },
+    {
+        path: 'boletos',
+        component: BoletosPage
     },
 
 
