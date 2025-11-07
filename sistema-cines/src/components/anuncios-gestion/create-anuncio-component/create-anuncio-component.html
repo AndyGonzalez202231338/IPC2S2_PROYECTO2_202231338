@@ -1,4 +1,3 @@
-<!-- components/crear-anuncio/crear-anuncio-component.html -->
 <div class="crear-anuncio-container">
   
   <!-- Mensaje de éxito -->
@@ -16,44 +15,44 @@
   <form [formGroup]="newAnuncioForm" (ngSubmit)="onSubmit()" class="anuncio-form" enctype="multipart/form-data">
     
     <!-- Tipo de Anuncio -->
-<div class="form-group">
-  <label for="tipoAnuncio">Tipo de Anuncio *</label>
-  <select 
-    id="tipoAnuncio" 
-    formControlName="idTipoAnuncio"
-    class="form-control"
-    [class.is-invalid]="hasError('idTipoAnuncio', 'required')">
-    <option value="">Selecciona un tipo</option>
-    <option 
-      *ngFor="let tipo of tiposAnuncio" 
-      [value]="tipo.idTipoAnuncio">  <!-- Cambiado a [value] -->
-      {{ tipo.nombre }} - ${{ tipo.precioAnuncio }}
-    </option>
-  </select>
-  <div *ngIf="hasError('idTipoAnuncio', 'required')" class="invalid-feedback">
-    Tipo de anuncio es requerido
-  </div>
-</div>
+    <div class="form-group">
+      <label for="tipoAnuncio">Tipo de Anuncio *</label>
+      <select 
+        id="tipoAnuncio" 
+        formControlName="idTipoAnuncio"
+        class="form-control"
+        [class.is-invalid]="hasError('idTipoAnuncio', 'required')">
+        <option value="">Selecciona un tipo</option>
+        <option 
+          *ngFor="let tipo of tiposAnuncio" 
+          [value]="tipo.idTipoAnuncio">
+          {{ tipo.nombre }} - ${{ tipo.precioAnuncio }}
+        </option>
+      </select>
+      <div *ngIf="hasError('idTipoAnuncio', 'required')" class="invalid-feedback">
+        Tipo de anuncio es requerido
+      </div>
+    </div>
 
-<!-- Período de Duración -->
-<div class="form-group">
-  <label for="periodoAnuncio">Duración del Anuncio *</label>
-  <select 
-    id="periodoAnuncio"
-    formControlName="idPeriodo"
-    class="form-control"
-    [class.is-invalid]="hasError('idPeriodo', 'required')">
-    <option value="">Selecciona una duración</option>
-    <option 
-      *ngFor="let periodo of periodosAnuncio" 
-      [value]="periodo.idPeriodo">
-      {{ periodo.nombre }} ({{ periodo.diasDuracion }} días) - ${{ periodo.precioDuracion }}
-    </option>
-  </select>
-  <div *ngIf="hasError('idPeriodo', 'required')" class="invalid-feedback">
-    Período es requerido
-  </div>
-</div>
+    <!-- Período de Duración -->
+    <div class="form-group">
+      <label for="periodoAnuncio">Duración del Anuncio *</label>
+      <select 
+        id="periodoAnuncio"
+        formControlName="idPeriodo"
+        class="form-control"
+        [class.is-invalid]="hasError('idPeriodo', 'required')">
+        <option value="">Selecciona una duración</option>
+        <option 
+          *ngFor="let periodo of periodosAnuncio" 
+          [value]="periodo.idPeriodo">
+          {{ periodo.nombre }} ({{ periodo.diasDuracion }} días) - ${{ periodo.precioDuracion }}
+        </option>
+      </select>
+      <div *ngIf="hasError('idPeriodo', 'required')" class="invalid-feedback">
+        Período es requerido
+      </div>
+    </div>
 
     <!-- Título -->
     <div class="form-group">
@@ -84,7 +83,7 @@
         placeholder="Describe tu producto o servicio..."></textarea>
     </div>
 
-    <!-- NUEVO: Selección de Imagen -->
+    <!-- Selección de Imagen (solo para tipos con imagen) -->
     <div class="form-group">
       <label for="imagenFile">Imagen del Anuncio</label>
       <input 
@@ -108,9 +107,9 @@
       </div>
     </div>
 
-    <!-- URL de Video -->
+    <!-- URL de Video (OPCIONAL) -->
     <div class="form-group">
-      <label for="video">URL de Video</label>
+      <label for="video">URL de Video (Opcional)</label>
       <input 
         type="url" 
         id="video" 
@@ -118,7 +117,7 @@
         class="form-control"
         placeholder="https://ejemplo.com/video.mp4">
       <small class="form-text text-muted">
-        Solo para anuncios de tipo "TEXTO Y VIDEO"
+        Ingresa la URL de un video (YouTube, Vimeo, o enlace directo a MP4)
       </small>
     </div>
 

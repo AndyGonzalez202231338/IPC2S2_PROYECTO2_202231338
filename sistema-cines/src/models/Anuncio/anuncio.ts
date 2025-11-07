@@ -7,7 +7,7 @@ export interface Anuncio {
   idPeriodo: number;
   titulo: string;
   contenidoTexto?: string;
-  imagenUrl?: string;  //Solo string para datos recibidos
+  imagenUrl?: Uint8Array | null;
   videoUrl?: string;
   fechaInicio: string;
   fechaFin: string;

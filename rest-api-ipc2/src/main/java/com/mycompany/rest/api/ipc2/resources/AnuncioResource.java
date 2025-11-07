@@ -22,7 +22,11 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import models.anuncios.Anuncio;
 import services.anuncios.AnunciosCreator;
@@ -273,7 +277,7 @@ public class AnuncioResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-    
+
     @GET
     @Path("con-publicidad-activa")
     @Produces(MediaType.APPLICATION_JSON)
@@ -285,6 +289,129 @@ public class AnuncioResource {
                     .map(AnuncioCompletoResponse::new)
                     .toList();
             return Response.ok(anuncios).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @POST
+    @Path("upload-video")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadVideo(
+            @FormDataParam("video") InputStream videoInputStream,
+            @FormDataParam("video") FormDataContentDisposition videoDetail) {
+
+        try {
+            // Validar que se recibió un archivo
+            if (videoInputStream == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("No se recibió ningún archivo de video").build();
+            }
+
+            // Validar tamaño (10MB máximo)
+            if (videoDetail.getSize() > 10 * 1024 * 1024) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("El video no puede ser mayor a 10MB").build();
+            }
+
+            // Validar tipo de archivo
+            String fileName = videoDetail.getFileName().toLowerCase();
+            if (!fileName.endsWith(".mp4") && !fileName.endsWith(".webm") && !fileName.endsWith(".ogg")) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Solo se permiten videos MP4, WebM u OGG").build();
+            }
+
+            // Crear directorio de videos si no existe
+            String webappPath = getWebappPath();
+            File videosDir = new File(webappPath + "videos/");
+
+            System.out.println("Intentando crear directorio en: " + videosDir.getAbsolutePath());
+
+            if (!videosDir.exists()) {
+                boolean created = videosDir.mkdirs();
+                if (created) {
+                    System.out.println("Directorio videos creado exitosamente");
+                } else {
+                    System.out.println("Error al crear directorio videos");
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("Error al crear directorio para videos").build();
+                }
+            }
+
+            // Generar nombre único para el video
+            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            String newFileName = "video_" + System.currentTimeMillis() + fileExtension;
+            String filePath = videosDir.getAbsolutePath() + File.separator + newFileName;
+
+            System.out.println("Guardando video en: " + filePath);
+
+            // Guardar el archivo
+            Files.copy(videoInputStream, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+
+            // Generar URL para acceder al video
+            String videoUrl = "http://localhost:8080/" + getContextPath() + "/videos/" + newFileName;
+
+            System.out.println("Video subido exitosamente: " + videoUrl);
+
+            return Response.ok(videoUrl).build();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al subir el video: " + e.getMessage()).build();
+        }
+    }
+
+// Método auxiliar para obtener la ruta del webapp
+    private String getWebappPath() {
+        // En Tomcat, esto debería apuntar a tu webapp
+        String path = getClass().getClassLoader().getResource("").getPath();
+        // Ajustar la ruta según tu estructura
+        if (path.contains("/WEB-INF/classes")) {
+            path = path.substring(0, path.indexOf("/WEB-INF/classes")) + "/";
+        }
+        return path;
+    }
+
+// Método auxiliar para obtener el context path
+    private String getContextPath() {
+        // Esto depende de cómo esté configurado tu proyecto
+        return "api-ipc2/v1"; // Ajusta según tu configuración
+    }
+
+    /**
+     * anuncios video subir local
+     *
+     * @param fileName
+     * @return
+     */
+
+    @GET
+    @Path("videos/{fileName}")
+    @Produces("video/mp4")
+    public Response serveVideo(@PathParam("fileName") String fileName) {
+        try {
+            String webappPath = getWebappPath();
+            File videoFile = new File(webappPath + "videos/" + fileName);
+
+            System.out.println("Buscando video en: " + videoFile.getAbsolutePath());
+
+            if (!videoFile.exists()) {
+                System.out.println("Video no encontrado: " + fileName);
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            System.out.println("Video encontrado, tamaño: " + videoFile.length() + " bytes");
+
+            // Configurar headers para video streaming
+            return Response.ok(videoFile)
+                    .type("video/mp4")
+                    .header("Content-Length", videoFile.length())
+                    .header("Accept-Ranges", "bytes")
+                    .header("Cache-Control", "public, max-age=3600")
+                    .build();
+
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

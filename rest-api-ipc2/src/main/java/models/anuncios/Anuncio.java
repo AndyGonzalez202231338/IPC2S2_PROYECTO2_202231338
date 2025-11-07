@@ -23,7 +23,7 @@ public class Anuncio {
     private int idPeriodo;
     private String titulo;
     private String contenidoTexto;
-    private byte[] imagenUrl;
+    private Byte[] imagenUrl;
     private String videoUrl;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
@@ -31,7 +31,7 @@ public class Anuncio {
     private String estado;
     
 
-    public Anuncio(int idAnuncio, int idUsuario, int idTipoAnuncio, int idPeriodo, String titulo, String contenidoTexto, byte[] imagenUrl, String videoUrl, LocalDateTime fechaInicio, LocalDateTime fechaFin, BigDecimal costoTotal, String estado) {
+    public Anuncio(int idAnuncio, int idUsuario, int idTipoAnuncio, int idPeriodo, String titulo, String contenidoTexto, Byte[] imagenUrl, String videoUrl, LocalDateTime fechaInicio, LocalDateTime fechaFin, BigDecimal costoTotal, String estado) {
         this.idAnuncio = idAnuncio;
         this.idUsuario = idUsuario;
         this.idTipoAnuncio = idTipoAnuncio;
@@ -46,7 +46,7 @@ public class Anuncio {
         this.estado = estado;
     }
 
-    public Anuncio(int idUsuario, int idTipoAnuncio, int idPeriodo, String titulo, String contenidoTexto, byte[] imagenUrl, String videoUrl, LocalDateTime fechaInicio, LocalDateTime fechaFin, BigDecimal costoTotal, String estado) {
+    public Anuncio(int idUsuario, int idTipoAnuncio, int idPeriodo, String titulo, String contenidoTexto, Byte[] imagenUrl, String videoUrl, LocalDateTime fechaInicio, LocalDateTime fechaFin, BigDecimal costoTotal, String estado) {
         this.idUsuario = idUsuario;
         this.idTipoAnuncio = idTipoAnuncio;
         this.idPeriodo = idPeriodo;
@@ -112,11 +112,11 @@ public class Anuncio {
         this.contenidoTexto = contenidoTexto;
     }
 
-    public byte[] getImagenUrl() {
+    public Byte[] getImagenUrl() {
         return imagenUrl;
     }
 
-    public void setImagenUrl(byte[] imagenUrl) {
+    public void setImagenUrl(Byte[] imagenUrl) {
         this.imagenUrl = imagenUrl;
     }
 

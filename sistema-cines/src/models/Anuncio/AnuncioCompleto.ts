@@ -8,7 +8,7 @@ export interface AnuncioCompleto {
   idUsuario: number;
   titulo: string;
   contenidoTexto: string;
-  imagenUrl: String;
+  imagenUrl: Uint8Array | null;
   videoUrl: string;
   fechaInicio: string;
   fechaFin: string;

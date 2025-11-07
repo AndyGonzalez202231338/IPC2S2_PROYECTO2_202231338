@@ -3,14 +3,14 @@ package dtos.anuncios;
 public class UpdateAnuncioRequest {
     private String titulo;
     private String contenidoTexto;
-    private byte[] imagenUrl;
+    private Byte[] imagenUrl;
     private String videoUrl;
     private String estado;
     
     // Constructores
     public UpdateAnuncioRequest() {}
     
-    public UpdateAnuncioRequest(String titulo, String contenidoTexto, byte[] imagenUrl, 
+    public UpdateAnuncioRequest(String titulo, String contenidoTexto, Byte[] imagenUrl, 
                                String videoUrl, String estado) {
         this.titulo = titulo;
         this.contenidoTexto = contenidoTexto;
@@ -36,13 +36,14 @@ public class UpdateAnuncioRequest {
         this.contenidoTexto = contenidoTexto;
     }
 
-    public byte[] getImagenUrl() {
+    public Byte[] getImagenUrl() {
         return imagenUrl;
     }
 
-    public void setImagenUrl(byte[] imagenUrl) {
+    public void setImagenUrl(Byte[] imagenUrl) {
         this.imagenUrl = imagenUrl;
     }
+
     
     public String getVideoUrl() {
         return videoUrl;

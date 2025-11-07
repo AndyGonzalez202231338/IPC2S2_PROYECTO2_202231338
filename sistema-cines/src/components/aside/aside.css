@@ -1,0 +1,86 @@
+/* Estilos para diferentes tipos de video */
+.video-source {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Contenedores de video */
+.youtube-container iframe,
+.vimeo-container iframe,
+.tiktok-container iframe {
+  border-radius: 8px;
+  background: #000;
+  border: none;
+}
+
+/* TikTok específico */
+.tiktok-container {
+  min-height: 450px;
+}
+
+.tiktok-link .tiktok-placeholder-content {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.tiktok-link .tiktok-placeholder-content i {
+  font-size: 3rem;
+  color: #000;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.tiktok-link .tiktok-placeholder-content p {
+  margin: 15px 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Enlace genérico */
+.link-container .video-link-placeholder {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.link-container .video-link-placeholder i {
+  font-size: 3rem;
+  color: #007bff;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.link-container .video-link-placeholder p {
+  margin: 15px 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Sin contenido multimedia */
+.no-media {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .youtube-container iframe,
+  .vimeo-container iframe {
+    height: 180px;
+  }
+  
+  .tiktok-container {
+    min-height: 400px;
+  }
+}
