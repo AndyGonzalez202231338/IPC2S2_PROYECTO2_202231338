@@ -40,7 +40,7 @@ export class AnuncionsPage {
       );
     } else if (this.currentUser?.rol?.nombreRol === 'ADMINISTRADOR DE SISTEMA') {
       this.anunciosService.getAllAnuncios().subscribe(
-        (anuncios: AnuncioCompleto[]) => {
+        (anuncios) => {
           this.anuncios = anuncios;
           console.log('Anuncios cargados:', this.anuncios);
         }

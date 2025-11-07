@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { AnuncioCompleto } from '../../../models/Anuncio/AnuncioCompleto';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,12 +7,10 @@ import { AnunciosService } from '../../../services/anuncios/anuncios.service';
 import { Anuncio } from '../../../models/Anuncio/anuncio';
 import { CommonModule, NgIf } from '@angular/common';
 import { HomesService, User } from '../../../services/homes/homes.services';
-import { SourceTextModule } from 'vm';
-
 
 @Component({
   selector: 'app-create-anuncio-component',
-  imports: [NgIf, CommonModule, FormsModule, ReactiveFormsModule,],
+  imports: [NgIf, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './create-anuncio-component.html',
   styleUrl: './create-anuncio-component.css'
 })
@@ -34,11 +31,9 @@ export class CreateAnuncioComponent {
   submitted = false;
   costoTotal = 0;
 
-  // NUEVAS PROPIEDADES PARA MANEJO DE ARCHIVOS
+  // Solo mantener propiedades para imagen (sin video)
   selectedFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
-
-  // En la práctica, esto vendría del servicio de autenticación
 
   userSesion: User | null = null;
 
@@ -52,13 +47,13 @@ export class CreateAnuncioComponent {
     this.setupFormListeners();
   }
 
-   createForm(): FormGroup {
+  createForm(): FormGroup {
     return this.fb.group({
-      idTipoAnuncio: ['', Validators.required],  // Cambiado a idTipoAnuncio
-      idPeriodo: ['', Validators.required],      // Cambiado a idPeriodo
+      idTipoAnuncio: ['', Validators.required],
+      idPeriodo: ['', Validators.required],
       titulo: ['', [Validators.required, Validators.minLength(5)]],
       contenido_texto: [''],
-      video_url: ['']
+      video_url: [''] // URL opcional
     });
   }
 
@@ -70,6 +65,7 @@ export class CreateAnuncioComponent {
         console.log('Tipos de anuncio cargados:', this.tiposAnuncio);
       },
       error: (error) => {
+        console.error('Error cargando tipos de anuncio:', error);
       }
     });
 
@@ -86,54 +82,52 @@ export class CreateAnuncioComponent {
   }
 
   setupFormListeners(): void {
-  // Recalcular costo cuando cambien tipo o período
-  // CORREGIDO: usar los nombres correctos de los controles
-  this.newAnuncioForm.get('idTipoAnuncio')?.valueChanges.subscribe(() => {
-    this.calcularCostoTotal();
-  });
+    this.newAnuncioForm.get('idTipoAnuncio')?.valueChanges.subscribe(() => {
+      this.calcularCostoTotal();
+    });
 
-  this.newAnuncioForm.get('idPeriodo')?.valueChanges.subscribe(() => {
-    this.calcularCostoTotal();
-  });
-}
+    this.newAnuncioForm.get('idPeriodo')?.valueChanges.subscribe(() => {
+      this.calcularCostoTotal();
+    });
+  }
+
   calcularCostoTotal(): void {
-  const periodo = this.getPeriodoSeleccionado();
-  const tipo = this.getTipoSeleccionado();
-  this.costoTotal = 500;
+    const periodo = this.getPeriodoSeleccionado();
+    const tipo = this.getTipoSeleccionado();
+    this.costoTotal = 500;
 
-  if (tipo) {
-    this.costoTotal += tipo.precioAnuncio;
+    if (tipo) {
+      this.costoTotal += tipo.precioAnuncio;
+    }
+
+    if (periodo) {
+      this.costoTotal += periodo.precioDuracion;
+    }
   }
-
-  if (periodo) {
-    this.costoTotal += periodo.precioDuracion;
-  }
-
-}
 
   getTipoSeleccionado(): TipoAnuncio | undefined {
-  const tipoId = this.newAnuncioForm.get('idTipoAnuncio')?.value;
-  
-  if (!tipoId) {
-    return undefined;
+    const tipoId = this.newAnuncioForm.get('idTipoAnuncio')?.value;
+    
+    if (!tipoId) {
+      return undefined;
+    }
+    
+    const tipo = this.tiposAnuncio.find(t => t.idTipoAnuncio === +tipoId);
+    return tipo;
   }
-  
-  const tipo = this.tiposAnuncio.find(t => t.idTipoAnuncio === +tipoId);
-  return tipo;
-}
 
-getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
-  const periodoId = this.newAnuncioForm.get('idPeriodo')?.value;
-  
-  if (!periodoId) {
-    return undefined;
+  getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
+    const periodoId = this.newAnuncioForm.get('idPeriodo')?.value;
+    
+    if (!periodoId) {
+      return undefined;
+    }
+    
+    const periodo = this.periodosAnuncio.find(p => p.idPeriodo === +periodoId);
+    return periodo;
   }
-  
-  const periodo = this.periodosAnuncio.find(p => p.idPeriodo === +periodoId);
-  return periodo;
-}
 
-  // NUEVO MÉTODO: Manejar selección de archivo
+  // MÉTODO: Manejar selección de imagen
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     
@@ -145,7 +139,7 @@ getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
         return;
       }
       
-      // Validar tamaño (ejemplo: 5MB máximo)
+      // Validar tamaño (5MB máximo)
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('La imagen no debe superar los 5MB');
@@ -163,7 +157,7 @@ getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
     }
   }
 
-  // NUEVO MÉTODO: Remover imagen seleccionada
+  // MÉTODO: Remover imagen seleccionada
   removeImage(): void {
     this.selectedFile = null;
     this.imagePreview = null;
@@ -173,98 +167,97 @@ getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
     }
   }
 
+  // MÉTODO onSubmit SIMPLIFICADO
   onSubmit(): void {
-  this.submitted = true;
+    this.submitted = true;
 
-  if (this.newAnuncioForm.invalid) {
-    console.log('Formulario inválido. Errores:');
-    Object.keys(this.newAnuncioForm.controls).forEach(key => {
-      const control = this.newAnuncioForm.get(key);
-      if (control?.errors) {
-        console.log(`Control ${key}:`, control.errors);
+    if (this.newAnuncioForm.invalid) {
+      console.log('Formulario inválido. Errores:');
+      Object.keys(this.newAnuncioForm.controls).forEach(key => {
+        const control = this.newAnuncioForm.get(key);
+        if (control?.errors) {
+          console.log(`Control ${key}:`, control.errors);
+        }
+      });
+      return;
+    }
+
+    // Validar que si es tipo con imagen, tenga imagen
+    const tipoSeleccionado = this.getTipoSeleccionado();
+    
+    if (tipoSeleccionado && tipoSeleccionado.nombre.includes('IMAGEN') && !this.selectedFile) {
+      alert('Los anuncios con imagen requieren que subas una imagen');
+      return;
+    }
+
+    this.loading = true;
+
+    // Preparar fechas
+    const fechaInicio = new Date().toISOString().replace('Z', '');
+    const fechaFin = this.calcularFechaFin();
+
+    // Crear anuncio directamente (solo URL de video, no subir archivos)
+    this.crearAnuncioCompleto(fechaInicio, fechaFin);
+  }
+
+  // MÉTODO: Crear anuncio completo
+  private crearAnuncioCompleto(fechaInicio: string, fechaFin: string): void {
+    const formData = new FormData();
+    
+    // Agregar todos los campos al FormData
+    formData.append('id_usuario', this.userSesion ? this.userSesion.idUsuario.toString() : '0');
+    formData.append('id_tipo_anuncio', this.newAnuncioForm.get('idTipoAnuncio')?.value);
+    formData.append('id_periodo', this.newAnuncioForm.get('idPeriodo')?.value);
+    formData.append('titulo', this.newAnuncioForm.get('titulo')?.value);
+    formData.append('contenido_texto', this.newAnuncioForm.get('contenido_texto')?.value || '');
+    formData.append('video_url', this.newAnuncioForm.get('video_url')?.value || ''); // URL opcional
+    formData.append('costo_total', this.costoTotal.toString());
+    formData.append('fecha_inicio', fechaInicio);
+    formData.append('fecha_fin', fechaFin);
+    formData.append('estado', 'ACTIVO');
+    
+    // Agregar imagen si existe
+    if (this.selectedFile) {
+      formData.append('imagen', this.selectedFile, this.selectedFile.name);
+    }
+
+    console.log('FormData preparado:');
+    for (let [key, value] of (formData as any).entries()) {
+      console.log(key + ': ', value);
+    }
+
+    // Usar el servicio para crear el anuncio
+    this.anunciosService.crearAnuncioConImagen(formData).subscribe({
+      next: () => {
+        this.loading = false;
+        this.resetForm();
+        this.operationDone = true;
+        alert('Anuncio creado exitosamente!');
+      },
+      error: (error: any) => {
+        this.loading = false;
+        console.error('Error creando anuncio:', error);
+        alert('Error al crear el anuncio. Por favor, intenta nuevamente.');
       }
     });
-    return;
   }
-
-  // Validar que si es tipo con imagen, tenga imagen
-  const tipoSeleccionado = this.getTipoSeleccionado();
-  console.log('Tipo seleccionado en onSubmit:', tipoSeleccionado);
-  
-  if (tipoSeleccionado && tipoSeleccionado.nombre.includes('IMAGEN') && !this.selectedFile) {
-    alert('Los anuncios con imagen requieren que subas una imagen');
-    return;
-  }
-
-  this.loading = true;
-
-  // Crear FormData en lugar de objeto JSON
-  const formData = new FormData();
-  
-  // Formatear fecha sin Z
-  const fechaInicio = new Date().toISOString().replace('Z', '');
-  const fechaFin = this.calcularFechaFin();
-  
-  // Agregar campos del formulario
-  formData.append('id_usuario', this.userSesion ? this.userSesion.idUsuario.toString() : '0');
-  formData.append('id_tipo_anuncio', this.newAnuncioForm.get('idTipoAnuncio')?.value);
-  formData.append('id_periodo', this.newAnuncioForm.get('idPeriodo')?.value);
-  formData.append('titulo', this.newAnuncioForm.get('titulo')?.value);
-  formData.append('contenido_texto', this.newAnuncioForm.get('contenido_texto')?.value || '');
-  formData.append('video_url', this.newAnuncioForm.get('video_url')?.value || '');
-  formData.append('costo_total', this.costoTotal.toString());
-  formData.append('fecha_inicio', fechaInicio); // Usar fecha formateada
-  formData.append('fecha_fin', fechaFin); // Usar fecha formateada
-  formData.append('estado', 'ACTIVO');
-  
-  // Agregar archivo si existe
-  if (this.selectedFile) {
-    formData.append('imagen', this.selectedFile, this.selectedFile.name);
-  }
-
-  console.log('FormData preparado para envío:');
-  for (let [key, value] of (formData as any).entries()) {
-    console.log(key + ': ', value);
-  }
-
-  // Usar el nuevo servicio que envía FormData
-  this.anunciosService.crearAnuncioConImagen(formData).subscribe({
-    next: () => {
-      this.loading = false;
-      this.resetForm();
-      this.operationDone = true;
-    },
-    error: (error: any) => {
-      this.loading = false;
-      console.error('Error creando anuncio:', error);
-      alert('Error al crear el anuncio. Por favor, intenta nuevamente.');
-    }
-  });
-}
 
   calcularFechaFin(): string {
-  const periodo = this.getPeriodoSeleccionado();
-  console.log('Periodo seleccionado para fecha fin:', periodo);
-  
-  if (!periodo) {
-    console.log('No hay periodo seleccionado, usando fecha por defecto');
+    const periodo = this.getPeriodoSeleccionado();
+    
+    if (!periodo) {
+      const fechaInicio = new Date();
+      const fechaFin = new Date();
+      fechaFin.setDate(fechaInicio.getDate() + 7); // 7 días por defecto
+      return fechaFin.toISOString().replace('Z', '');
+    }
+
     const fechaInicio = new Date();
     const fechaFin = new Date();
-    fechaFin.setDate(fechaInicio.getDate() + 7); // 7 días por defecto
+    fechaFin.setDate(fechaInicio.getDate() + periodo.diasDuracion);
     
-    // Formatear sin la Z (UTC indicator)
     return fechaFin.toISOString().replace('Z', '');
   }
-
-  const fechaInicio = new Date();
-  const fechaFin = new Date();
-  fechaFin.setDate(fechaInicio.getDate() + periodo.diasDuracion);
-  
-  console.log('Fecha fin calculada:', fechaFin.toISOString());
-  
-  // Eliminar la Z del final para que Java pueda parsearlo como LocalDateTime
-  return fechaFin.toISOString().replace('Z', '');
-}
 
   resetForm(): void {
     this.submitted = false;
@@ -275,7 +268,7 @@ getPeriodoSeleccionado(): PeriodoAnuncio | undefined {
     this.operationDone = false;
   }
 
-  // Método mejorado para acceder a los controles del formulario
+  // Método para acceder a los controles del formulario
   getControl(controlName: string) {
     return this.newAnuncioForm.get(controlName);
   }

@@ -11,7 +11,7 @@ import models.anuncios.Anuncio;
     private int idUsuario;
     private String titulo;
     private String contenidoTexto;
-    private byte[] imagenUrl;
+    private Byte[] imagenUrl;
     private String videoUrl;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fechaInicio;
@@ -82,13 +82,23 @@ import models.anuncios.Anuncio;
         this.contenidoTexto = contenidoTexto;
     }
 
-    public byte[] getImagenUrl() {
+    public Byte[] getImagenUrl() {
         return imagenUrl;
     }
 
-    public void setImagenUrl(byte[] imagenUrl) {
+    public void setImagenUrl(Byte[] imagenUrl) {
         this.imagenUrl = imagenUrl;
     }
+
+    public PublicidadResponse getPublicidad() {
+        return publicidad;
+    }
+
+    public void setPublicidad(PublicidadResponse publicidad) {
+        this.publicidad = publicidad;
+    }
+
+    
 
     public String getVideoUrl() {
         return videoUrl;

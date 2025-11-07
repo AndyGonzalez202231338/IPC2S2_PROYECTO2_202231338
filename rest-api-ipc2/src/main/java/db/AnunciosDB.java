@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.io.InputStream;
+import java.util.Arrays;
 import models.publicidad.Publicidad;
 
 public class AnunciosDB {
@@ -97,7 +98,7 @@ public class AnunciosDB {
 
             // Manejar imagen_url como String (puede ser null)
             if (newAnuncio.getImagenUrl() != null) {
-                insert.setBytes(6, newAnuncio.getImagenUrl());
+                insert.setBytes(6, null);
             } else {
                 insert.setNull(6, Types.VARCHAR);
             }
@@ -298,7 +299,7 @@ public class AnunciosDB {
 
             // Manejar imagen_url como String
             if (anuncioToUpdate.getImagenUrl() != null) {
-                updateStmt.setBytes(3, anuncioToUpdate.getImagenUrl());
+                updateStmt.setBytes(3, null);//anuncioToUpdate.getImagenUrl
             } else {
                 updateStmt.setNull(3, Types.VARCHAR);
             }
@@ -423,17 +424,9 @@ public class AnunciosDB {
         anuncio.setTitulo(resultSet.getString("titulo"));
         anuncio.setContenidoTexto(resultSet.getString("contenido_texto"));
 
-        // Manejar imagen_url que ahora puede ser BLOB
-        Blob imagenBlob = resultSet.getBlob("imagen_url");
-        if (imagenBlob != null) {
-            // Si quieres almacenar la imagen como base64 en el objeto, puedes hacerlo aquí
-            // Por ahora lo dejamos como null ya que se manejará por separado
-            anuncio.setImagenUrl(null);
-        } else {
-            // Si era un string URL, mantenerlo
-            anuncio.setImagenUrl(resultSet.getBytes("imagen_url"));
-        }
-
+        anuncio.setImagenUrl(convertToByteObjects(resultSet.getBytes("imagen_url")));
+             
+        
         anuncio.setVideoUrl(resultSet.getString("video_url"));
         anuncio.setFechaInicio(resultSet.getTimestamp("fecha_inicio").toLocalDateTime());
         anuncio.setFechaFin(resultSet.getTimestamp("fecha_fin").toLocalDateTime());
@@ -441,6 +434,31 @@ public class AnunciosDB {
         anuncio.setEstado(resultSet.getString("estado"));
 
         return anuncio;
+    }
+    
+    
+    private byte[] convertToPrimitiveBytes(Byte[] byteObjects) {
+        if (byteObjects == null) {
+            return null;
+        }
+
+        byte[] bytes = new byte[byteObjects.length];
+        for (int i = 0; i < byteObjects.length; i++) {
+            bytes[i] = byteObjects[i];
+        }
+        return bytes;
+    }
+
+    private Byte[] convertToByteObjects(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+
+        Byte[] byteObjects = new Byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            byteObjects[i] = bytes[i];
+        }
+        return byteObjects;
     }
 
     /**
@@ -491,6 +509,7 @@ public class AnunciosDB {
                  // DEBUG FINAL
             System.out.println("=== DEBUG FINAL ANUNCIO ===");
             System.out.println("Anuncio ID: " + anuncio.getIdAnuncio());
+            System.out.println("Imagen"+Arrays.toString(anuncio.getImagenUrl()));
             System.out.println("Tipo Anuncio: " + (anuncio.getTipoAnuncio() != null ? anuncio.getTipoAnuncio().getNombre() : "NULL"));
             System.out.println("Periodo Anuncio: " + (anuncio.getPeriodoAnuncio() != null ? anuncio.getPeriodoAnuncio().getNombre() : "NULL"));
             System.out.println("Publicidad FINAL: " + (anuncio.getPublicidad() != null ? "SÍ - ID: " + anuncio.getPublicidad().getIdPublicidad() : "NO"));
