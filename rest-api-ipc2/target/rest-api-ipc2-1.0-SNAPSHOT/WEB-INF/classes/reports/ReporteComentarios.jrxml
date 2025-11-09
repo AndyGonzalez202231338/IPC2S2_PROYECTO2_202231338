@@ -1,0 +1,91 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReporteComentarios" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cacdec28-3b57-4d0b-9cf1-288f111253de">
+	<parameter name="fechaInicio" class="java.sql.Date"/>
+	<parameter name="fechaFin" class="java.sql.Date"/>
+	<parameter name="totalComentarios" class="java.lang.Integer"/>
+	<parameter name="promedioCalificacion" class="java.lang.Double"/>
+	<field name="nombreSala" class="java.lang.String"/>
+	<field name="nombreUsuario" class="java.lang.String"/>
+	<field name="comentario" class="java.lang.String"/>
+	<field name="calificacion" class="java.lang.Integer"/>
+	<field name="fechaComentario" class="java.time.LocalDateTime"/>
+	<field name="estado" class="java.lang.String"/>
+	<title height="120">
+		<element kind="frame" uuid="5cf96bc8-1da2-4afb-a143-4201faa7a419" mode="Opaque" x="-20" y="-30" width="594" height="102" backcolor="#006699">
+			<element kind="staticText" uuid="918d8fe8-b81f-4a34-9056-c55938f9d8a2" mode="Transparent" x="0" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+				<text><![CDATA[REPORTE 5 IPC2 PROYECTO2]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="f40b8813-58ea-4288-8c2c-5976edb495fa" x="0" y="10" width="555" height="25" fontSize="18.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[REPORTE DE COMENTARIOS DE SALAS]]></text>
+		</element>
+		<element kind="staticText" uuid="cf3371e9-e904-4314-9925-217e1cfe4401" x="0" y="40" width="555" height="15" fontSize="12.0" hTextAlign="Center">
+			<text><![CDATA[Comentarios y Calificaciones de Usuarios]]></text>
+		</element>
+		<element kind="textField" uuid="8e44cc40-a361-41b1-a543-e45a5ef3509e" x="0" y="60" width="555" height="15" fontSize="10.0" hTextAlign="Center">
+			<expression><![CDATA["Período: " + $P{fechaInicio} + " hasta " + $P{fechaFin}]]></expression>
+		</element>
+		<element kind="staticText" uuid="81bb0c41-2cb7-4d11-b1a5-e7f691e2b6c1" x="0" y="80" width="277" height="15" fontSize="10.0" bold="true">
+			<text><![CDATA[Total Comentarios:]]></text>
+		</element>
+		<element kind="textField" uuid="c13c8af7-48fb-4987-9d03-b63e77ddf61a" x="120" y="80" width="50" height="15" fontSize="10.0" bold="true">
+			<expression><![CDATA[$P{totalComentarios}]]></expression>
+		</element>
+		<element kind="staticText" uuid="f6bd66f1-eabc-4a70-99dc-306064519631" x="278" y="80" width="150" height="15" fontSize="10.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[Calificación Promedio:]]></text>
+		</element>
+		<element kind="textField" uuid="0662e576-db46-4929-ac58-c4171ff48850" x="428" y="80" width="50" height="15" fontSize="10.0" bold="true" hTextAlign="Right">
+			<expression><![CDATA[$P{promedioCalificacion} + "/5"]]></expression>
+		</element>
+		<element kind="line" uuid="5ecf8fc0-ea4b-407a-9a93-2f88b8787b98" x="0" y="100" width="555" height="1"/>
+	</title>
+	<pageHeader height="30">
+		<element kind="staticText" uuid="4715d315-af9d-4c17-b773-4a25082f8a82" x="0" y="0" width="120" height="20" fontSize="10.0" bold="true">
+			<text><![CDATA[SALA]]></text>
+		</element>
+		<element kind="staticText" uuid="45471f3f-8d7a-4e64-8d3f-416c2b76c04a" x="120" y="0" width="120" height="20" fontSize="10.0" bold="true">
+			<text><![CDATA[USUARIO]]></text>
+		</element>
+		<element kind="staticText" uuid="bfc0625e-3fc9-40f4-87d1-7f8a9d5e81a6" x="240" y="0" width="150" height="20" fontSize="10.0" bold="true">
+			<text><![CDATA[COMENTARIO]]></text>
+		</element>
+		<element kind="staticText" uuid="4e3a16be-3878-4583-9d14-af7b9462fbe0" x="390" y="0" width="60" height="20" fontSize="10.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[CALIFICACIÓN]]></text>
+		</element>
+		<element kind="staticText" uuid="1c0b841f-e5c8-448a-8548-b51fda253919" x="450" y="0" width="80" height="20" fontSize="10.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[FECHA]]></text>
+		</element>
+		<element kind="staticText" uuid="7c4f69e1-7212-4fb8-bfaa-313d247c6087" x="530" y="0" width="25" height="20" fontSize="10.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[ESTADO]]></text>
+		</element>
+		<element kind="line" uuid="1433f528-3426-4821-a579-664f9392386b" x="0" y="25" width="555" height="1"/>
+	</pageHeader>
+	<detail>
+		<band height="60">
+			<element kind="textField" uuid="44777e57-026b-45fa-8548-08def0329829" x="0" y="0" width="120" height="15" fontSize="9.0">
+				<expression><![CDATA[$F{nombreSala}]]></expression>
+			</element>
+			<element kind="textField" uuid="4a752923-28b5-4ac8-8a75-19638f79f27b" x="120" y="0" width="120" height="15" fontSize="9.0">
+				<expression><![CDATA[$F{nombreUsuario}]]></expression>
+			</element>
+			<element kind="textField" uuid="e46a7623-b79d-46ef-a1c0-47f4240be87b" x="390" y="0" width="60" height="15" fontSize="9.0" hTextAlign="Center">
+				<expression><![CDATA[$F{calificacion} + "/5"]]></expression>
+			</element>
+			<element kind="textField" uuid="20f07222-e579-40e1-ab98-1b6030acb9dc" x="450" y="0" width="80" height="15" fontSize="8.0" hTextAlign="Center">
+				<expression><![CDATA[$F{fechaComentario}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))]]></expression>
+			</element>
+			<element kind="textField" uuid="eddf31c8-a9f1-4a8a-8a9e-3e93d331c46e" x="530" y="0" width="25" height="15" fontSize="8.0" hTextAlign="Center">
+				<expression><![CDATA[$F{estado}]]></expression>
+			</element>
+			<element kind="textField" uuid="d550bf20-c753-4460-a91e-8ca57e75669a" x="0" y="20" width="555" height="35" fontSize="8.0" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{comentario}]]></expression>
+			</element>
+			<element kind="line" uuid="ffe575bd-85cb-46c3-bf6c-cc9dc70a7529" x="0" y="58" width="555" height="1"/>
+		</band>
+	</detail>
+	<summary height="50">
+		<element kind="staticText" uuid="8b69fb9a-2248-4191-9cb0-8a9695cc8901" x="0" y="20" width="555" height="20" bold="true" hTextAlign="Center">
+			<text><![CDATA[--- FIN DEL REPORTE DE COMENTARIOS ---]]></text>
+		</element>
+	</summary>
+</jasperReport>

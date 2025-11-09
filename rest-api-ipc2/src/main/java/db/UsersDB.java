@@ -25,6 +25,11 @@ public class UsersDB {
         "SELECT u.*, r.nombre_rol as nombre_rol, r.descripcion as rol_descripcion " +
         "FROM usuario u INNER JOIN rol r ON u.id_rol = r.id_rol";
     
+    private static final String USUARIOS_ANUNCIANTES_QUERY =
+    "SELECT u.*, r.nombre_rol AS nombre_rol, r.descripcion AS rol_descripcion " +
+    "FROM usuario u INNER JOIN rol r ON u.id_rol = r.id_rol " +
+    "WHERE r.nombre_rol = 'ANUNCIANTE'";
+    
     private static final String ACTUALIZAR_USUARIO_POR_ID_QUERY = 
         "UPDATE usuario SET id_rol = ?, email = ?, password = ?, nombre_completo = ?, estado = ? WHERE id_usuario = ?";
     
@@ -83,6 +88,23 @@ public class UsersDB {
         List<User> users = new ArrayList<>();
         Connection connection = DBConnectionSingleton.getInstance().getConnection();
         try (PreparedStatement query = connection.prepareStatement(TODOS_LOS_USUARIOS_QUERY)) {
+            ResultSet resultSet = query.executeQuery();
+
+            while (resultSet.next()) {
+                User user = mapResultSetToUser(resultSet);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    
+    /** Obtiene todos los usuarios de tipo anunciantes*/
+    public List<User> getAllUsersAnunciante() {
+        List<User> users = new ArrayList<>();
+        Connection connection = DBConnectionSingleton.getInstance().getConnection();
+        try (PreparedStatement query = connection.prepareStatement(USUARIOS_ANUNCIANTES_QUERY)) {
             ResultSet resultSet = query.executeQuery();
 
             while (resultSet.next()) {

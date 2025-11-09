@@ -1,0 +1,93 @@
+<app-header-admin-cine></app-header-admin-cine>
+<div class="container mt-4">
+    <h1>Reportes de tu Cine</h1>
+    <p>Genera reportes detallados de salas y proyecciones.</p>
+    
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <!-- Navegacion pestañas -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'comentarioSalas'" 
+                    (click)="setActiveTab('comentarioSalas')">
+                Reporte de Comentarios de Salas
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'peliculasProyectadas'" 
+                    (click)="setActiveTab('peliculasProyectadas')">
+                Reporte de Películas Proyectadas
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'salasMasGuastadas'" 
+                    (click)="setActiveTab('salasMasGuastadas')">
+                Reporte de Salas Populares
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'boletosVendidos'" 
+                    (click)="setActiveTab('boletosVendidos')">
+                Reporte de Boletos Vendidos
+            </button>
+        </li>
+    </ul>
+
+
+    <!-- Contenido de pestañas -->
+    <div class="tab-content">
+        <!-- Pestaña de Comentarios de Salas -->
+        <div *ngIf="activeTab === 'comentarioSalas'" class="tab-pane fade show active">
+            <div class="row">
+                    <div class="col-md-8">
+                        <app-report-coments-salas-component></app-report-coments-salas-component>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Pestaña de Anuncios -->
+        <div *ngIf="activeTab === 'peliculasProyectadas'" class="tab-pane fade show active">
+            <div class="row">
+                    <div class="col-md-8">
+                        <app-report-peliculas-component></app-report-peliculas-component>
+                    </div>
+            </div>
+
+            
+        </div>
+        <!-- Salas Populares -->
+            <div *ngIf="activeTab === 'salasMasGuastadas'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+
+        <!-- Salas con más Comentarios -->
+            <div *ngIf="activeTab === 'salasMasGuastadas'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                       
+                    </div>
+                </div>
+            </div>
+        <!-- Salas Populares -->
+            <div *ngIf="activeTab === 'boletosVendidos'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                    </div>
+                </div>
+            </div>
+</div>
+<app-footer></app-footer>

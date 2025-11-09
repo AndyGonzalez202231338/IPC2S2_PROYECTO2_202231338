@@ -1,0 +1,102 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReportePeliculasProyectadas" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1a5ab426-c8d4-4efb-8519-ae4990554a74">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="fechaInicio" class="java.util.Date"/>
+	<parameter name="fechaFin" class="java.util.Date"/>
+	<parameter name="totalSalas" class="java.lang.Integer"/>
+	<parameter name="totalPeliculas" class="java.lang.Integer"/>
+	<parameter name="filtroAplicado" class="java.lang.String"/>
+	<field name="nombreSala" class="java.lang.String"/>
+	<field name="peliculas" class="java.util.List"/>
+	<variable name="salaActual" resetType="Group" resetGroup="SalaGroup" class="java.lang.String">
+		<expression><![CDATA[$F{nombreSala}]]></expression>
+	</variable>
+	<group name="SalaGroup">
+		<expression><![CDATA[$F{nombreSala}]]></expression>
+		<groupHeader>
+			<band height="40">
+				<element kind="rectangle" uuid="42b511bd-bba9-4c6b-9b2f-5239807830d1" x="0" y="0" width="555" height="35" backcolor="#3498DB" radius="4"/>
+				<element kind="staticText" uuid="e573ae2d-4490-4a94-b592-4e17f4abf996" x="10" y="10" width="80" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true" vTextAlign="Middle">
+					<text><![CDATA[SALA:]]></text>
+				</element>
+				<element kind="textField" uuid="1b52f6b3-f156-4913-9a72-96046bd59f6f" x="70" y="10" width="475" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{nombreSala}]]></expression>
+				</element>
+			</band>
+		</groupHeader>
+	</group>
+	<background splitType="Stretch"/>
+	<title height="100" splitType="Stretch">
+		<element kind="frame" uuid="4318d7c7-3c21-407b-ab3e-a6b52acec13e" mode="Opaque" x="-20" y="-20" width="595" height="110" backcolor="#006699">
+			<element kind="staticText" uuid="d57a6ada-70cd-4437-bfda-c9b5c70acc1f" mode="Transparent" x="0" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+				<text><![CDATA[REPORTE 2 CINES IPC2 PROYECTO2]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="4b7bb2d8-9ab8-4fd6-9467-5c3ac9428ba6" x="0" y="40" width="555" height="20" forecolor="#0A0A0A" fontName="SansSerif" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Sistema de Gestión de Cines]]></text>
+		</element>
+		<element kind="staticText" uuid="2c84d9a9-65a9-41ed-93ff-a9edf577b127" x="0" y="75" width="100" height="15" fontName="SansSerif" fontSize="10.0" bold="true">
+			<text><![CDATA[Período:]]></text>
+		</element>
+		<element kind="textField" uuid="95e596cb-f44b-4015-bf5e-1be5e66bd35f" x="50" y="75" width="200" height="15" fontName="SansSerif" fontSize="10.0" bold="false">
+			<expression><![CDATA["Del " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin})]]></expression>
+		</element>
+		<element kind="staticText" uuid="99679c7d-9e8b-4290-a7d4-26ae6d3785ad" x="300" y="75" width="80" height="15" fontName="SansSerif" fontSize="10.0" bold="true">
+			<text><![CDATA[Filtro:]]></text>
+		</element>
+		<element kind="textField" uuid="04da5229-e152-4cb6-a5b0-42ad32cbb61b" x="340" y="75" width="215" height="15" fontName="SansSerif" fontSize="10.0" bold="false">
+			<expression><![CDATA[$P{filtroAplicado}]]></expression>
+		</element>
+		<element kind="staticText" uuid="c25f1b2d-3142-42f9-b531-eceefd00b49d" x="0" y="10" width="555" height="30" forecolor="#120F0F" fontName="SansSerif" fontSize="20.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[REPORTE DE PELÍCULAS PROYECTADAS]]></text>
+		</element>
+	</title>
+	<pageHeader height="25" splitType="Stretch">
+		<element kind="rectangle" uuid="f02d03cc-f216-4e18-a506-8e7975021c02" x="0" y="0" width="555" height="20" backcolor="#34495E" radius="2"/>
+		<element kind="staticText" uuid="274de418-ccc2-4fbf-8fab-39a28ce57090" x="10" y="2" width="300" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[PELÍCULA]]></text>
+		</element>
+		<element kind="staticText" uuid="5bdbde54-bc7d-42a0-bfeb-696985fa7a44" x="320" y="2" width="225" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[FECHA Y HORA]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<element kind="frame" uuid="065a9262-3972-4e41-983c-bd20c68e95f1" x="0" y="0" width="555" height="190">
+				<element kind="subreport" uuid="dfa13a95-518d-4646-81d3-258e3a1a87d5" x="0" y="0" width="555" height="180">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{peliculas})]]></dataSourceExpression>
+					<expression><![CDATA["reports/SubreportePeliculas.jasper"]]></expression>
+				</element>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="30" splitType="Stretch">
+		<element kind="line" uuid="5e23a10d-9161-4c66-9414-20f6844a750f" x="0" y="0" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</element>
+		<element kind="textField" uuid="d2874e58-e702-4c90-b1f9-a97f31ca666d" x="0" y="5" width="275" height="15" fontName="SansSerif" fontSize="9.0" evaluationTime="Report">
+			<expression><![CDATA["Página " + $V{PAGE_NUMBER} + " de " + $V{PAGE_COUNT}]]></expression>
+		</element>
+		<element kind="textField" uuid="5e88aad5-d141-4caf-9dd2-bb66235541a7" x="280" y="5" width="275" height="15" fontName="SansSerif" fontSize="9.0" hTextAlign="Right">
+			<expression><![CDATA["Sistema de Gestión de Cines - " + new java.util.Date()]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="80" splitType="Stretch">
+		<element kind="rectangle" uuid="01d23a01-2346-4f72-a4f9-906ae9ead06f" x="0" y="0" width="555" height="60" backcolor="#2C3E50" radius="4"/>
+		<element kind="staticText" uuid="4f3c0f31-3cf6-41b3-aefc-c737ef5adf5c" x="20" y="15" width="150" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[TOTALES GENERALES]]></text>
+		</element>
+		<element kind="staticText" uuid="9aa78e3f-4d18-493f-bd3b-45b887c2a174" x="20" y="35" width="120" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Total Salas:]]></text>
+		</element>
+		<element kind="textField" uuid="f72db7c3-543d-4e12-a5ac-7f0cbfd457b4" x="140" y="35" width="50" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$P{totalSalas}]]></expression>
+		</element>
+		<element kind="staticText" uuid="caed5676-6464-46c5-b19f-e08644d8c227" x="300" y="35" width="120" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Total Películas:]]></text>
+		</element>
+		<element kind="textField" uuid="af2e6f30-f176-44fa-96ce-057968472ad2" x="420" y="35" width="50" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$P{totalPeliculas}]]></expression>
+		</element>
+	</summary>
+</jasperReport>

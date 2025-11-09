@@ -1,0 +1,70 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReporteSalasPopulares" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d834e046-17a2-45b5-94e2-2fa8fad2bf00">
+	<parameter name="fechaInicio" class="java.sql.Date"/>
+	<parameter name="fechaFin" class="java.sql.Date"/>
+	<parameter name="totalSalas" class="java.lang.Integer"/>
+	<field name="nombreSala" class="java.lang.String"/>
+	<field name="promedioCalificacion" class="java.lang.Double"/>
+	<field name="totalBoletosVendidos" class="java.lang.Integer"/>
+	<field name="usuarios" class="java.util.List"/>
+	<title height="100">
+		<element kind="frame" uuid="ddae9182-dbb1-4365-ba80-7d657ba49c45" mode="Opaque" x="-20" y="-30" width="595" height="102" backcolor="#006699">
+			<element kind="staticText" uuid="d45f854f-0632-470e-8576-396da738be40" mode="Transparent" x="-1" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+				<text><![CDATA[REPORTE 3 IPC2 PROYECTO2]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="35b3e489-fc38-47c1-911e-5b0ca05cfedf" x="0" y="10" width="555" height="25" fontSize="18.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[REPORTE DE LAS 5 SALAS MÁS POPULARES]]></text>
+		</element>
+		<element kind="staticText" uuid="fb77be18-cf1b-4750-943f-99993a47e06a" x="0" y="40" width="555" height="15" fontSize="12.0" hTextAlign="Center">
+			<text><![CDATA[Por Calificación de Usuarios]]></text>
+		</element>
+		<element kind="textField" uuid="45537235-cc3e-4ba2-a178-914765dafb93" x="0" y="60" width="555" height="15" fontSize="10.0" hTextAlign="Center">
+			<expression><![CDATA["Período: " + $P{fechaInicio} + " hasta " + $P{fechaFin}]]></expression>
+		</element>
+		<element kind="line" uuid="35b3238d-a24d-4706-b909-373ea0101173" x="0" y="80" width="555" height="1"/>
+	</title>
+	<detail>
+		<band height="200">
+			<element kind="textField" uuid="a3d149de-610d-451d-8145-fbf109334c04" x="0" y="10" width="555" height="20" fontSize="14.0" bold="true">
+				<expression><![CDATA["RANKING #" + $V{REPORT_COUNT}]]></expression>
+			</element>
+			<element kind="line" uuid="49fbbe34-dbb0-4680-b22c-6f292251d341" x="0" y="35" width="555" height="1"/>
+			<element kind="staticText" uuid="b88eea92-8067-40b0-b0d4-44fbd9f77878" x="20" y="45" width="80" height="15" bold="true">
+				<text><![CDATA[Sala:]]></text>
+			</element>
+			<element kind="textField" uuid="d927205f-d870-4306-ad1a-2cd62ef36c0f" x="100" y="45" width="300" height="15">
+				<expression><![CDATA[$F{nombreSala}]]></expression>
+			</element>
+			<element kind="staticText" uuid="abea491c-0642-4d94-854e-f6bcf2f7f35d" x="20" y="65" width="130" height="15" bold="true">
+				<text><![CDATA[Calificación:]]></text>
+			</element>
+			<element kind="textField" uuid="dc2ec23f-ed6d-47aa-8044-ce784dbee6a2" x="150" y="65" width="80" height="15">
+				<expression><![CDATA[$F{promedioCalificacion} + "/5"]]></expression>
+			</element>
+			<element kind="staticText" uuid="343a2fd1-d5d6-4e09-996a-65f9b315f786" x="20" y="85" width="130" height="15" bold="true">
+				<text><![CDATA[Total Boletos:]]></text>
+			</element>
+			<element kind="textField" uuid="ae40bc4d-7a80-4e33-a0ad-4d4a78ae3297" x="150" y="85" width="80" height="15">
+				<expression><![CDATA[$F{totalBoletosVendidos}]]></expression>
+			</element>
+			<element kind="staticText" uuid="cce7fb7e-d8f1-4cd7-ba43-3e189d9d3f2e" x="20" y="110" width="200" height="15" bold="true">
+				<text><![CDATA[Usuarios que compraron boletos:]]></text>
+			</element>
+			<element kind="subreport" uuid="61e9b630-3905-44da-82b9-cd59c6bb3b3a" x="40" y="130" width="475" height="60">
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{usuarios})]]></dataSourceExpression>
+				<expression><![CDATA["reports/SubreporteUsuarios.jasper"]]></expression>
+			</element>
+			<element kind="textField" uuid="4078278f-a5ff-4ad2-b3a4-7fd6f7a9465f" x="40" y="130" width="475" height="15" fontSize="9.0" italic="true">
+				<printWhenExpression><![CDATA[$F{usuarios} == null || $F{usuarios}.isEmpty()]]></printWhenExpression>
+				<expression><![CDATA["No se registraron compras de boletos en este período"]]></expression>
+			</element>
+			<element kind="line" uuid="11f57961-551a-4ae5-bc2b-5dc57369305d" x="0" y="195" width="555" height="1"/>
+		</band>
+	</detail>
+	<summary height="30">
+		<element kind="staticText" uuid="97139026-658b-40c3-9958-4870b1ca226d" x="0" y="10" width="555" height="15" bold="true" hTextAlign="Center">
+			<text><![CDATA[--- FIN DEL REPORTE ---]]></text>
+		</element>
+	</summary>
+</jasperReport>
