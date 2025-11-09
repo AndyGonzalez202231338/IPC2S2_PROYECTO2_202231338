@@ -26,6 +26,8 @@ import { CreateFunctionPageComponent } from '../pages/create-function-page-compo
 import { FuncionesPage } from '../pages/funciones-page/funciones-page';
 import { TickePage } from '../pages/ticke-page/ticke-page';
 import { BoletosPage } from '../pages/boletos-page/boletos-page';
+import { ReportPage } from '../pages/report-page/report-page';
+import { ReportCinePage } from '../pages/report-cine-page/report-cine-page';
 
 export const routes: Routes = [
     // Rutas públicas
@@ -181,6 +183,14 @@ export const routes: Routes = [
     {
         path: 'boletos',
         component: BoletosPage
+    },
+    {
+        path: 'reportes',
+        component: ReportPage
+    },
+    {
+        path: 'reportes-cine',
+        component: ReportCinePage
     },
 
 

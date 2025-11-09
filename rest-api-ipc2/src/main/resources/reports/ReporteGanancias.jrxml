@@ -1,0 +1,104 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReporteGanancias" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5e033096-316a-460c-aa0e-1486633e8c60">
+	<parameter name="fechaInicio" class="java.lang.String"/>
+	<parameter name="fechaFin" class="java.lang.String"/>
+	<parameter name="totalCostosTodosCines" class="java.lang.Double"/>
+	<parameter name="totalIngresosAnuncios" class="java.lang.Double"/>
+	<parameter name="totalPorAnuncios" class="java.lang.Double"/>
+	<parameter name="totalGanancia" class="java.lang.Double"/>
+	<field name="nombreCine" class="java.lang.String"/>
+	<field name="costoDiarioTotal" class="java.lang.Double"/>
+	<field name="pagoBloqueoAnuncios" class="java.lang.Double"/>
+	<field name="totalCostoCine" class="java.lang.Double"/>
+	<variable name="sumaCostosDiarios" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{costoDiarioTotal}]]></expression>
+	</variable>
+	<variable name="sumaPagosBloqueo" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{pagoBloqueoAnuncios}]]></expression>
+	</variable>
+	<variable name="sumaTotalCines" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{totalCostoCine}]]></expression>
+	</variable>
+	<title height="100">
+		<element kind="frame" uuid="62f51e09-49f1-4116-abe5-a24815039a0a" mode="Opaque" x="-20" y="-30" width="595" height="102" backcolor="#006699"/>
+		<element kind="staticText" uuid="dc29b1c2-6e81-4175-88c4-3b571ccda83a" x="0" y="0" width="555" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[REPORTE DE GANANCIAS]]></text>
+		</element>
+		<element kind="staticText" uuid="c0047ff3-6eae-46c3-afaf-03ec01a431f7" x="0" y="35" width="555" height="20" fontSize="12.0" hTextAlign="Center">
+			<text><![CDATA[Período: $P{fechaInicio} al $P{fechaFin}]]></text>
+		</element>
+		<element kind="line" uuid="47ff1807-f986-480d-a023-a755255c40b0" x="0" y="70" width="555" height="1"/>
+		<element kind="staticText" uuid="3ca7dd61-47e5-45e4-9257-ddb308c9dbfd" mode="Transparent" x="0" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+			<text><![CDATA[REPORTE  1 IPC2 PROYECTO2]]></text>
+		</element>
+	</title>
+	<columnHeader height="30">
+		<element kind="staticText" uuid="81cb848d-ccbf-47df-bf7e-d4e4c2acf6b2" x="0" y="0" width="200" height="25" backcolor="#E6E6E6" bold="true">
+			<text><![CDATA[Nombre del Cine]]></text>
+		</element>
+		<element kind="staticText" uuid="8c07f703-7cac-4f41-aaf3-99fb88284359" x="200" y="0" width="100" height="25" backcolor="#E6E6E6" bold="true">
+			<text><![CDATA[Costo Diario]]></text>
+		</element>
+		<element kind="staticText" uuid="df6f7338-adda-4927-8b75-93c71bd5a4cc" x="300" y="0" width="130" height="25" backcolor="#E6E6E6" bold="true">
+			<text><![CDATA[Pago Bloqueo]]></text>
+		</element>
+		<element kind="staticText" uuid="2b4fba98-779e-4213-beb7-1cdaad97920c" x="430" y="0" width="125" height="25" backcolor="#E6E6E6" bold="true">
+			<text><![CDATA[Total Cine]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<element kind="textField" uuid="5e7452d2-7589-45c2-9944-8838c7fe10c3" x="0" y="0" width="200" height="20">
+				<expression><![CDATA[$F{nombreCine}]]></expression>
+			</element>
+			<element kind="textField" uuid="6a2d40c3-9bd1-488b-8e57-79bb007ee478" x="200" y="0" width="100" height="20">
+				<expression><![CDATA["Q " + $F{costoDiarioTotal}]]></expression>
+			</element>
+			<element kind="textField" uuid="ef612118-6609-4e98-97df-ce1891bdfd2c" x="300" y="0" width="130" height="20">
+				<expression><![CDATA["Q " + $F{pagoBloqueoAnuncios}]]></expression>
+			</element>
+			<element kind="textField" uuid="43a11467-d2f0-4f7c-a10f-2f132271d97f" x="430" y="0" width="125" height="20">
+				<expression><![CDATA["Q " + $F{totalCostoCine}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="200">
+		<element kind="line" uuid="f1b758a2-6041-4d19-9dc5-2d1be0c2c61b" x="0" y="10" width="555" height="1"/>
+		<element kind="staticText" uuid="ab8d3d1b-59d4-439f-81c0-d8d8547347ae" x="0" y="20" width="200" height="20" bold="true">
+			<text><![CDATA[Totales por columnas:]]></text>
+		</element>
+		<element kind="textField" uuid="100d4d00-f938-408e-b913-b4af3d56d897" x="200" y="20" width="100" height="20">
+			<expression><![CDATA["Q " + $V{sumaCostosDiarios}]]></expression>
+		</element>
+		<element kind="textField" uuid="ecadd753-5804-41be-97ab-a06289e6a961" x="300" y="20" width="130" height="20">
+			<expression><![CDATA["Q " + $V{sumaPagosBloqueo}]]></expression>
+		</element>
+		<element kind="textField" uuid="9230e52a-8d35-44b8-bbe6-d90dfc999545" x="430" y="20" width="125" height="20">
+			<expression><![CDATA["Q " + $V{sumaTotalCines}]]></expression>
+		</element>
+		<element kind="staticText" uuid="8d1b1721-8efd-42cf-af61-62e13513622e" x="0" y="60" width="300" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Total Costos Todos Cines:]]></text>
+		</element>
+		<element kind="textField" uuid="add184a7-fd54-4cbb-bd08-2aa3368b2e92" x="300" y="60" width="150" height="20">
+			<expression><![CDATA["Q " + $P{totalCostosTodosCines}]]></expression>
+		</element>
+		<element kind="staticText" uuid="5c0b67a1-7ef6-45b1-8e4d-39c1da4679be" x="0" y="85" width="300" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Total Ingresos por Anuncios:]]></text>
+		</element>
+		<element kind="textField" uuid="028217c1-28bb-4109-b2bc-6d105ce1dd67" x="300" y="85" width="150" height="20">
+			<expression><![CDATA["Q " + $P{totalIngresosAnuncios}]]></expression>
+		</element>
+		<element kind="staticText" uuid="7cf9d707-5289-474e-ba7d-ad459cfb7b6f" x="0" y="110" width="300" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Total por Anuncios:]]></text>
+		</element>
+		<element kind="textField" uuid="d1144e5e-3c45-4e76-a32e-c8a7a9cca749" x="300" y="110" width="150" height="20">
+			<expression><![CDATA["Q " + $P{totalPorAnuncios}]]></expression>
+		</element>
+		<element kind="staticText" uuid="6b270a74-dfe0-4c34-8b3e-5aa8c53e1811" x="0" y="140" width="300" height="25" fontSize="14.0" bold="true">
+			<text><![CDATA[TOTAL GANANCIA:]]></text>
+		</element>
+		<element kind="textField" uuid="c96cfd08-0d52-401c-871f-dc360da96a1c" x="300" y="140" width="150" height="25" fontSize="14.0" bold="true">
+			<expression><![CDATA["Q " + $P{totalGanancia}]]></expression>
+		</element>
+	</summary>
+</jasperReport>

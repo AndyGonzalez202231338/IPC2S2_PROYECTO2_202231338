@@ -1,0 +1,145 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReporteAnunciantes" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df8eeafa-215f-4e0e-bc3b-8c360bdf60d6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<description><![CDATA[Fecha de inicio del reporte]]></description>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<description><![CDATA[Fecha de fin del reporte]]></description>
+	</parameter>
+	<parameter name="totalAnunciantes" class="java.lang.Integer">
+		<description><![CDATA[Total de anunciantes]]></description>
+	</parameter>
+	<parameter name="totalGeneral" class="java.lang.Double">
+		<description><![CDATA[Total general gastado]]></description>
+	</parameter>
+	<parameter name="filtroAnunciante" class="java.lang.String">
+		<description><![CDATA[Filtro aplicado]]></description>
+	</parameter>
+	<field name="nombreAnunciante" class="java.lang.String">
+		<description><![CDATA[nombreAnunciante]]></description>
+	</field>
+	<field name="totalGastado" class="java.lang.Double">
+		<description><![CDATA[totalGastado]]></description>
+	</field>
+	<field name="anuncios" class="java.util.List">
+		<description><![CDATA[anuncios]]></description>
+	</field>
+	<variable name="totalGrupo" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{totalGastado}]]></expression>
+	</variable>
+	<background splitType="Stretch"/>
+	<title height="120" splitType="Stretch">
+		<element kind="staticText" uuid="3d4bfb56-8374-4aea-91da-f7a7546a6776" x="0" y="10" width="555" height="30" forecolor="#FFFFFF" fontName="SansSerif" fontSize="20.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[REPORTE DE GANANCIAS POR ANUNCIANTE]]></text>
+		</element>
+		<element kind="staticText" uuid="29da1a54-e3f4-4838-b380-00ea9589f33a" x="0" y="40" width="555" height="20" forecolor="#ECF0F1" fontName="SansSerif" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Sistema de Gestión de Anuncios]]></text>
+		</element>
+		<element kind="frame" uuid="67216a89-0698-4771-adde-7d887550fd17" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699">
+			<element kind="staticText" uuid="f6b1b7c9-db8c-4339-9d5a-d15086b81a29" mode="Transparent" x="0" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+				<text><![CDATA[REPORTE 3 IPC2 PROYECTO2]]></text>
+			</element>
+			<element kind="staticText" uuid="b58b7459-4da0-4688-8077-6716063bdbff" x="0" y="20" width="595" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+				<text><![CDATA[REPORTE DE ANUNCIOS PAGADOS]]></text>
+			</element>
+			<element kind="textField" uuid="da7fc444-512a-4df6-9ca7-333671098e8e" x="304" y="48" width="265" height="15" fontName="SansSerif" fontSize="10.0" bold="false">
+				<expression><![CDATA[$P{filtroAnunciante}]]></expression>
+			</element>
+			<element kind="textField" uuid="80cd7230-2a59-43c6-8913-0b02aeb07dee" x="64" y="63" width="150" height="15" fontName="SansSerif" fontSize="9.0" pattern="dd/MM/yyyy HH:mm:ss" bold="false">
+				<expression><![CDATA[new java.util.Date()]]></expression>
+			</element>
+			<element kind="staticText" uuid="1225145a-33a4-472c-96bb-1563129649d6" x="264" y="48" width="80" height="15" fontName="SansSerif" fontSize="10.0" bold="true">
+				<text><![CDATA[Filtro:]]></text>
+			</element>
+			<element kind="textField" uuid="f623aad8-77d4-4e9d-bf8e-5290a82670ef" x="64" y="48" width="150" height="15" fontName="SansSerif" fontSize="10.0" bold="false">
+				<expression><![CDATA["Del " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaInicio}) + " al " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{fechaFin})]]></expression>
+			</element>
+			<element kind="staticText" uuid="1d47e40e-bb60-4527-9fe0-a72146f6734a" x="14" y="63" width="100" height="15" fontName="SansSerif" fontSize="9.0" bold="true">
+				<text><![CDATA[Generado:]]></text>
+			</element>
+			<element kind="staticText" uuid="14863ca3-fc3b-4e0b-b1d9-f9a7a6b0c5af" x="14" y="48" width="100" height="15" fontName="SansSerif" fontSize="10.0" bold="true">
+				<text><![CDATA[Período:]]></text>
+			</element>
+		</element>
+	</title>
+	<pageHeader height="80" splitType="Stretch">
+		<element kind="staticText" uuid="c6c96154-5099-404d-bce5-58f8b76511d1" x="10" y="5" width="200" height="15" forecolor="#0D0C0C" fontName="SansSerif" fontSize="11.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[ANUNCIANTE]]></text>
+		</element>
+		<element kind="staticText" uuid="c55bbeb1-1147-45e5-8957-328a92012bc0" x="400" y="5" width="145" height="15" forecolor="#0D0C0C" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[TOTAL GASTADO]]></text>
+		</element>
+		<element kind="line" uuid="96fe7c6c-98e8-4af4-9f68-d38ce43ce75f" x="0" y="30" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<element kind="frame" uuid="24c7a6fc-49c4-4d5a-b48c-fb8e3330fae9" x="0" y="0" width="555" height="190">
+				<element kind="rectangle" uuid="9e83ebb6-0b77-4317-a6c3-6fd2640c8e7e" x="0" y="0" width="555" height="40" backcolor="#ECF0F1" radius="4"/>
+				<element kind="textField" uuid="7eb4e83f-b929-4dbe-a693-813a2fa6d40e" x="10" y="10" width="300" height="20" fontName="SansSerif" fontSize="12.0" bold="true" vTextAlign="Middle">
+					<expression><![CDATA[$F{nombreAnunciante}]]></expression>
+				</element>
+				<element kind="textField" uuid="3dd8e16a-75c5-4a1c-9276-ddcab34acf5a" x="400" y="10" width="145" height="20" fontName="SansSerif" fontSize="12.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+					<expression><![CDATA["Q " + java.text.NumberFormat.getNumberInstance(java.util.Locale.US).format($F{totalGastado})]]></expression>
+				</element>
+				<element kind="staticText" uuid="ac0043ce-3a3e-42ec-b6cc-1c3a7cab0cb8" x="10" y="45" width="535" height="15" fontName="SansSerif" fontSize="10.0" bold="true">
+					<text><![CDATA[ANUNCIOS:]]></text>
+				</element>
+				<element kind="rectangle" uuid="c6fa0cfa-6291-41f8-b03f-20642b15d7dc" x="10" y="60" width="535" height="20" backcolor="#95A5A6" radius="2"/>
+				<element kind="staticText" uuid="4821a7c4-9554-4b90-89e9-f2ac83e37fd7" x="15" y="62" width="200" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="9.0" bold="true" vTextAlign="Middle">
+					<text><![CDATA[TÍTULO]]></text>
+				</element>
+				<element kind="staticText" uuid="d6eac33c-ae7b-4b7e-a13a-ad59ee6728c3" x="220" y="62" width="80" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="9.0" bold="true" vTextAlign="Middle">
+					<text><![CDATA[FECHA INICIO]]></text>
+				</element>
+				<element kind="staticText" uuid="b5387a08-5bd3-4037-9602-a735ce81777e" x="305" y="62" width="80" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="9.0" bold="true" vTextAlign="Middle">
+					<text><![CDATA[FECHA FIN]]></text>
+				</element>
+				<element kind="staticText" uuid="97a8290f-8325-47ab-bb69-b7f7db708349" x="390" y="62" width="70" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="9.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+					<text><![CDATA[COSTO]]></text>
+				</element>
+				<element kind="staticText" uuid="1c4f2c32-2128-48c4-bdc9-3eb91a4e501a" x="465" y="62" width="75" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="9.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+					<text><![CDATA[ESTADO]]></text>
+				</element>
+				<element kind="subreport" uuid="44a11f06-e056-41c8-844a-016b28d80edd" x="10" y="80" width="535" height="100">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{anuncios})]]></dataSourceExpression>
+					<expression><![CDATA["reports/SubreporteAnuncios.jasper"]]></expression>
+				</element>
+			</element>
+			<element kind="line" uuid="5fdbfc73-1bf9-46e1-a0d8-91c5acd0551a" x="0" y="195" width="555" height="1">
+				<pen lineWidth="0.5" lineColor="#EEEEEE"/>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="30" splitType="Stretch">
+		<element kind="line" uuid="ced96acc-a355-4091-94a8-72d88c79ee9c" x="0" y="0" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</element>
+		<element kind="textField" uuid="2adeb5d9-9854-45fa-a78b-2f20d6c654c6" x="0" y="5" width="275" height="15" fontName="SansSerif" fontSize="9.0" evaluationTime="Report">
+			<expression><![CDATA["Página " + $V{PAGE_NUMBER} + " de " + $V{PAGE_COUNT}]]></expression>
+		</element>
+		<element kind="textField" uuid="50c2423c-b323-4f9c-b102-f5ee44b025e6" x="280" y="5" width="275" height="15" fontName="SansSerif" fontSize="9.0" hTextAlign="Right">
+			<expression><![CDATA["Sistema de Gestión de Anuncios - " + new java.util.Date()]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="80" splitType="Stretch">
+		<element kind="rectangle" uuid="9adf5444-55b8-4cce-b183-eacebeb1761e" x="0" y="0" width="555" height="60" backcolor="#2C3E50" radius="4"/>
+		<element kind="staticText" uuid="44d388b9-855a-47ab-8804-b633fb48f3c7" x="20" y="15" width="200" height="15" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[TOTALES GENERALES]]></text>
+		</element>
+		<element kind="staticText" uuid="4b9a1006-1165-4645-93a4-3751a072e63c" x="20" y="35" width="150" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Total Anunciantes:]]></text>
+		</element>
+		<element kind="textField" uuid="8a4fada9-86be-4793-a1ef-a1f9e3d905af" x="170" y="35" width="50" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<expression><![CDATA[$P{totalAnunciantes}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d9c25ad4-6462-4500-8dd1-c69f27b497a6" x="300" y="15" width="120" height="15" forecolor="#ECF0F1" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Total General:]]></text>
+		</element>
+		<element kind="textField" uuid="6bfad7aa-c62e-464c-805c-ac0e0028d8d9" x="420" y="15" width="115" height="20" forecolor="#FFFFFF" fontName="SansSerif" fontSize="14.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA["Q " + java.text.NumberFormat.getNumberInstance(java.util.Locale.US).format($P{totalGeneral})]]></expression>
+		</element>
+	</summary>
+</jasperReport>

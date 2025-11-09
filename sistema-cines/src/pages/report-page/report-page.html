@@ -1,0 +1,300 @@
+<app-header-admin-sistema></app-header-admin-sistema>
+<div class="container mt-4">
+    <h1>Reportes del Sistema</h1>
+    <p>Genera reportes detallados de ganancias y anuncios del sistema.</p>
+    
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <!-- Navegacion pestañas -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'ganancias'" 
+                    (click)="setActiveTab('ganancias')">
+                Reporte de Ganancias
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'anuncios'" 
+                    (click)="setActiveTab('anuncios')">
+                Reporte de Anuncios
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'salas'" 
+                    (click)="setActiveTab('salas')">
+                Salas Populares
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'comentarios'" 
+                    (click)="setActiveTab('comentarios')">
+                Salas con más Comentarios
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab === 'anunciantes'" 
+                    (click)="setActiveTab('anunciantes')">
+                Anunciantes
+            </button>
+        </li>
+    </ul>
+
+
+    <!-- Contenido de pestañas -->
+    <div class="tab-content">
+        <!-- Pestaña de Ganancias -->
+        <div *ngIf="activeTab === 'ganancias'" class="tab-pane fade show active">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Reporte de Ganancias del Sistema</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Genera un reporte de las ganancias obtenidas en un periodo de tiempo específico.</p>
+                            
+                            <form (ngSubmit)="generarReporteGanancias()" #gananciasForm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fechaInicioGanancias" class="form-label">Fecha de Inicio</label>
+                                            <input 
+                                                type="date" 
+                                                class="form-control" 
+                                                id="fechaInicioGanancias" 
+                                                name="fechaInicioGanancias"
+                                                [(ngModel)]="fechaInicioGanancias"
+                                                required>
+                                            <div class="form-text">Selecciona la fecha inicial del periodo</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fechaFinGanancias" class="form-label">Fecha de Fin</label>
+                                            <input 
+                                                type="date" 
+                                                class="form-control" 
+                                                id="fechaFinGanancias" 
+                                                name="fechaFinGanancias"
+                                                [(ngModel)]="fechaFinGanancias"
+                                                required>
+                                            <div class="form-text">Selecciona la fecha final del periodo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-primary"
+                                        [disabled]="isLoadingGanancias || !fechaInicioGanancias || !fechaFinGanancias">
+                                        <span *ngIf="isLoadingGanancias" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        {{ isLoadingGanancias ? 'Generando...' : 'Generar Reporte PDF' }}
+                                    </button>
+                                    
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-secondary" 
+                                        (click)="limpiarFormularioGanancias()"
+                                        [disabled]="isLoadingGanancias">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Información del reporte -->
+                            <div *ngIf="fechaInicioGanancias && fechaFinGanancias" class="mt-3 p-3 bg-light rounded">
+                                <h6>Resumen del Periodo:</h6>
+                                <p class="mb-1"><strong>Fecha Inicio:</strong> {{ fechaInicioGanancias | date:'dd/MM/yyyy' }}</p>
+                                <p class="mb-0"><strong>Fecha Fin:</strong> {{ fechaFinGanancias | date:'dd/MM/yyyy' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Información del Reporte</h6>
+                        </div>
+                        <div class="card-body">
+                            <p>Este reporte incluye:</p>
+                            <ul>
+                                <li>Costos diarios de cada cine</li>
+                                <li>Pagos por bloqueo de anuncios</li>
+                                <li>Ingresos por anuncios activos</li>
+                                <li>Total de ganancias del sistema</li>
+                            </ul>
+                            <p class="text-muted small">El reporte se generará en formato PDF y se descargará automáticamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestaña de Anuncios -->
+        <div *ngIf="activeTab === 'anuncios'" class="tab-pane fade show active">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Reporte de Anuncios Comprados</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Genera un reporte de los anuncios comprados en un periodo específico, con opción de filtrar por tipo y duración.</p>
+                            
+                            <form (ngSubmit)="generarReporteAnuncios()" #anunciosForm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fechaInicioAnuncios" class="form-label">Fecha de Inicio</label>
+                                            <input 
+                                                type="date" 
+                                                class="form-control" 
+                                                id="fechaInicioAnuncios" 
+                                                name="fechaInicioAnuncios"
+                                                [(ngModel)]="fechaInicioAnuncios"
+                                                required>
+                                            <div class="form-text">Selecciona la fecha inicial del periodo</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fechaFinAnuncios" class="form-label">Fecha de Fin</label>
+                                            <input 
+                                                type="date" 
+                                                class="form-control" 
+                                                id="fechaFinAnuncios" 
+                                                name="fechaFinAnuncios"
+                                                [(ngModel)]="fechaFinAnuncios"
+                                                required>
+                                            <div class="form-text">Selecciona la fecha final del periodo</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="tipoAnuncio" class="form-label">Tipo de Anuncio (Opcional)</label>
+                                            <select 
+                                                class="form-select" 
+                                                id="tipoAnuncio" 
+                                                name="tipoAnuncio"
+                                                [(ngModel)]="tipoAnuncio">
+                                                <option [value]="null">Todos los tipos</option>
+                                                <option *ngFor="let tipo of tiposAnuncio" [value]="tipo.id">
+                                                    {{ tipo.nombre }}
+                                                </option>
+                                            </select>
+                                            <div class="form-text">Filtra por tipo específico de anuncio</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="periodo" class="form-label">Período (Opcional)</label>
+                                            <select 
+                                                class="form-select" 
+                                                id="periodo" 
+                                                name="periodo"
+                                                [(ngModel)]="periodo">
+                                                <option [value]="null">Todos los períodos</option>
+                                                <option *ngFor="let periodo of periodos" [value]="periodo.id">
+                                                    {{ periodo.nombre }}
+                                                </option>
+                                            </select>
+                                            <div class="form-text">Filtra por duración específica</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-primary"
+                                        [disabled]="isLoadingAnuncios || !fechaInicioAnuncios || !fechaFinAnuncios">
+                                        <span *ngIf="isLoadingAnuncios" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        {{ isLoadingAnuncios ? 'Generando...' : 'Generar Reporte PDF' }}
+                                    </button>
+                                    
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-secondary" 
+                                        (click)="limpiarFormularioAnuncios()"
+                                        [disabled]="isLoadingAnuncios">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Información del reporte -->
+                            <div *ngIf="fechaInicioAnuncios && fechaFinAnuncios" class="mt-3 p-3 bg-light rounded">
+                                <h6>Resumen del Periodo:</h6>
+                                <p class="mb-1"><strong>Fecha Inicio:</strong> {{ fechaInicioAnuncios | date:'dd/MM/yyyy' }}</p>
+                                <p class="mb-1"><strong>Fecha Fin:</strong> {{ fechaFinAnuncios | date:'dd/MM/yyyy' }}</p>
+                                <p class="mb-1" *ngIf="tipoAnuncio"><strong>Tipo de Anuncio:</strong> {{ getTipoAnuncioNombre() }}</p>
+                                <p class="mb-0" *ngIf="periodo"><strong>Período:</strong> {{ getPeriodoNombre() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Información del Reporte</h6>
+                        </div>
+                        <div class="card-body">
+                            <p>Este reporte incluye:</p>
+                            <ul>
+                                <li>Listado completo de anuncios comprados</li>
+                                <li>Información de tipo y duración</li>
+                                <li>Costos individuales y totales</li>
+                                <li>Estados de los anuncios</li>
+                                <li>Filtros por tipo y período</li>
+                            </ul>
+                            <p class="text-muted small">El reporte se generará en formato PDF y se descargará automáticamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+        <!-- Salas Populares -->
+            <div *ngIf="activeTab === 'salas'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                        <app-report-salas-populares-component></app-report-salas-populares-component>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+        <!-- Salas con más Comentarios -->
+            <div *ngIf="activeTab === 'comentarios'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                        <app-report-salas-coments-component></app-report-salas-coments-component>
+                    </div>
+                </div>
+            </div>
+        <!-- Salas Populares -->
+            <div *ngIf="activeTab === 'anunciantes'" class="tab-pane fade show active">
+                <div class="row">
+                    <div class="col-md-8">
+                        <app-report-anunciante-component></app-report-anunciante-component>
+                    </div>
+                </div>
+            </div>
+</div>
+<app-footer></app-footer>

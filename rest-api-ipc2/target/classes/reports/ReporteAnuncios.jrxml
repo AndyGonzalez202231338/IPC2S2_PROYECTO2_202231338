@@ -1,0 +1,117 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ReporteAnuncios" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="c4893237-673a-4ae2-8bec-d7c0662da9f0">
+	<parameter name="fechaInicio" class="java.lang.String"/>
+	<parameter name="fechaFin" class="java.lang.String"/>
+	<parameter name="tipoAnuncioFiltro" class="java.lang.String"/>
+	<parameter name="periodoFiltro" class="java.lang.String"/>
+	<field name="idAnuncio" class="java.lang.Integer"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="tipoAnuncio" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.String"/>
+	<field name="fechaInicio" class="java.time.LocalDateTime"/>
+	<field name="fechaFin" class="java.time.LocalDateTime"/>
+	<field name="costoTotal" class="java.lang.Double"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<variable name="totalAnuncios" calculation="Count" class="java.lang.Integer">
+		<expression><![CDATA[$F{idAnuncio}]]></expression>
+	</variable>
+	<variable name="totalCosto" calculation="Sum" class="java.lang.Double">
+		<expression><![CDATA[$F{costoTotal}]]></expression>
+	</variable>
+	<title height="80">
+		<element kind="frame" uuid="08d2bf66-15b1-4bdc-830e-11567e34d59b" mode="Opaque" x="-20" y="-30" width="842" height="102" backcolor="#006699">
+			<element kind="staticText" uuid="c9e295c0-c0a2-44d7-8b7f-d788fe66ee62" mode="Transparent" x="0" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
+				<text><![CDATA[REPORTE 2 IPC2 PROYECTO2]]></text>
+			</element>
+		</element>
+		<element kind="staticText" uuid="95633e44-c40d-4ca2-979a-faf6cb4d229d" x="0" y="0" width="800" height="30" fontSize="18.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[REPORTE DE ANUNCIOS COMPRADOS]]></text>
+		</element>
+		<element kind="staticText" uuid="cf633ed3-6838-4f8f-8380-2accfc3875e4" x="0" y="30" width="800" height="20" fontSize="12.0" hTextAlign="Center">
+			<text><![CDATA[Período: $P{fechaInicio} hasta $P{fechaFin}]]></text>
+		</element>
+		<element kind="textField" uuid="8c2351b8-68b6-41ae-8f74-39482f33fd8f" x="0" y="50" width="800" height="20" fontSize="10.0" hTextAlign="Center">
+			<expression><![CDATA["Filtros aplicados: " + 
+                    ($P{tipoAnuncioFiltro} != null ? "Tipo: " + $P{tipoAnuncioFiltro} : "") +
+                    ($P{periodoFiltro} != null ? " | Período: " + $P{periodoFiltro} : "")]]></expression>
+		</element>
+	</title>
+	<columnHeader height="30">
+		<element kind="rectangle" uuid="01acfb62-5ad8-4d14-8dec-e237e6ad852f" x="0" y="0" width="800" height="30" backcolor="#CCCCCC"/>
+		<element kind="staticText" uuid="d35c789b-296f-42a5-85af-00dcb59c0867" x="0" y="0" width="40" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[ID]]></text>
+		</element>
+		<element kind="staticText" uuid="3c48919f-bebc-4455-91b5-b25b9a563097" x="40" y="0" width="150" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Título]]></text>
+		</element>
+		<element kind="staticText" uuid="76726aa6-0b7a-453c-aa38-96d60eab9514" x="190" y="0" width="100" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Tipo]]></text>
+		</element>
+		<element kind="staticText" uuid="6bb0dccf-fab7-454b-8ae8-6cfac91a2e4b" x="290" y="0" width="80" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Período]]></text>
+		</element>
+		<element kind="staticText" uuid="d1fe07b4-37ff-4cec-87af-d4451e68fdfd" x="370" y="0" width="90" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Fecha Inicio]]></text>
+		</element>
+		<element kind="staticText" uuid="0d0cd4de-278b-4d2c-858d-431392e985f8" x="460" y="0" width="90" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Fecha Fin]]></text>
+		</element>
+		<element kind="staticText" uuid="fde59d0f-dc68-4b34-9970-633eade67e7f" x="550" y="0" width="80" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Costo]]></text>
+		</element>
+		<element kind="staticText" uuid="de883cfc-60de-4c00-aeb9-fc99c5a25909" x="630" y="0" width="70" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Estado]]></text>
+		</element>
+		<element kind="staticText" uuid="e187172a-813d-4895-87c3-53641b89ce44" x="700" y="0" width="100" height="30" fontSize="10.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Usuario]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<element kind="textField" uuid="20d6ad5f-2f76-4f8b-862d-aee3152bfea0" x="0" y="0" width="40" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{idAnuncio}]]></expression>
+			</element>
+			<element kind="textField" uuid="c61587b1-b945-4a1d-9a64-a50117ceb6ef" x="40" y="0" width="150" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{titulo}]]></expression>
+			</element>
+			<element kind="textField" uuid="7b7eca94-8f86-48ae-abf7-9a20ba02e1fe" x="190" y="0" width="100" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{tipoAnuncio}]]></expression>
+			</element>
+			<element kind="textField" uuid="5e05aeec-948a-4fad-9258-0d8118c53e4b" x="290" y="0" width="80" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{periodo}]]></expression>
+			</element>
+			<element kind="textField" uuid="ca264e62-fc5c-496d-b0c5-4aa8dd7dc680" x="370" y="0" width="90" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{fechaInicio}]]></expression>
+			</element>
+			<element kind="textField" uuid="c087f5c8-a58e-4f16-9034-b5efedf41afd" x="460" y="0" width="90" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{fechaFin}]]></expression>
+			</element>
+			<element kind="textField" uuid="1761058e-1e10-4d0c-9947-45c8e932d15e" x="550" y="0" width="80" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA["$" + $F{costoTotal}]]></expression>
+			</element>
+			<element kind="textField" uuid="39e778ca-947b-4046-8a9b-9d385773c749" x="630" y="0" width="70" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{estado}]]></expression>
+			</element>
+			<element kind="textField" uuid="cb5e1cfe-c370-417b-95f7-ddde87edaa0a" x="700" y="0" width="100" height="20" fontSize="9.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{usuario}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="60">
+		<element kind="rectangle" uuid="95bea194-c9fc-4508-b260-f06f73970b07" x="0" y="0" width="800" height="60" backcolor="#2C3E50" radius="4"/>
+		<element kind="line" uuid="0fab2c5a-1d25-4e6d-a084-4dc13da1c1bf" x="0" y="0" width="800" height="1"/>
+		<element kind="staticText" uuid="55cdfcf6-35f7-4931-bb96-c1db06e42e0c" x="0" y="10" width="400" height="20" forecolor="#FCFAFA" fontSize="10.0" bold="true">
+			<text><![CDATA[Total de Anuncios:]]></text>
+		</element>
+		<element kind="textField" uuid="6d324e06-84ab-4f4f-bc45-2c3505b7213d" x="400" y="10" width="100" height="20" forecolor="#FAF3F2" fontSize="10.0" bold="true">
+			<expression><![CDATA[$V{totalAnuncios}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d993b979-c7fe-42d4-8f02-00dc07a6ece5" x="0" y="30" width="400" height="20" forecolor="#FCF7F7" fontSize="10.0" bold="true">
+			<text><![CDATA[Total Costo:]]></text>
+		</element>
+		<element kind="textField" uuid="65d0f04b-6cb6-480a-a61f-5334a348fe83" x="400" y="30" width="100" height="20" forecolor="#FCF7F7" fontSize="10.0" bold="true">
+			<expression><![CDATA["$" + $V{totalCosto}]]></expression>
+		</element>
+	</summary>
+</jasperReport>

@@ -26,6 +26,12 @@ public class UsersCrudService {
         return usersDB.getAllUsers();
     }
     
+    public List<User> getAllUsersAnunciante() {
+        UsersDB usersDB = new UsersDB();
+        
+        return usersDB.getAllUsersAnunciante();
+    }
+    
     public User getUserByEmail(String correo) throws EntityNotFoundException {
         UsersDB usersDB = new UsersDB();
         Optional<User> userOpt = usersDB.getByEmail(correo);

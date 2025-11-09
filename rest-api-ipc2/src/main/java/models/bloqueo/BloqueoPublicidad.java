@@ -22,6 +22,7 @@ public class BloqueoPublicidad {
         this.fechaInicio = fechaInicio;  // Puede ser null
         this.fechaFin = fechaFin;        // Puede ser null
         this.costoTotal = costoTotal;
+        this.fechaPago = (fechaPago != null) ? fechaPago : LocalDateTime.now();
 
     }
 

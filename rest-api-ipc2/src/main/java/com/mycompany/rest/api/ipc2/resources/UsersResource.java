@@ -79,6 +79,19 @@ public class UsersResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+    
+    @GET
+    @Path("anunciantes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUsersAnunciante() {
+        UsersCrudService userCrudService = new UsersCrudService();
+        List<UserResponse> users = userCrudService.getAllUsersAnunciante()
+                .stream()
+                .map(UserResponse::new)
+                .toList();
+
+        return Response.ok(users).build();
+    }
 
     @GET
     @Path("id/{id}")
