@@ -8,7 +8,7 @@
 	<field name="totalBoletosVendidos" class="java.lang.Integer"/>
 	<field name="usuarios" class="java.util.List"/>
 	<title height="100">
-		<element kind="frame" uuid="ddae9182-dbb1-4365-ba80-7d657ba49c45" mode="Opaque" x="-20" y="-30" width="595" height="102" backcolor="#006699">
+		<element kind="frame" uuid="ddae9182-dbb1-4365-ba80-7d657ba49c45" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699">
 			<element kind="staticText" uuid="d45f854f-0632-470e-8576-396da738be40" mode="Transparent" x="-1" y="0" width="555" height="30" backcolor="#FFFAFA" markup="html" fontName="Courier 10 Pitch" fontSize="18.0" bold="false" italic="false" hTextAlign="Left">
 				<text><![CDATA[REPORTE 3 IPC2 PROYECTO2]]></text>
 			</element>

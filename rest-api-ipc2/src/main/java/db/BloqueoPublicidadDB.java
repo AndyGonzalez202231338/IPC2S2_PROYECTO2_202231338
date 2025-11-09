@@ -96,8 +96,11 @@ public class BloqueoPublicidadDB {
 
             stmt.setBigDecimal(5, bloqueo.getCostoTotal());
 
-            // PARÁMETRO 6: fecha_pago - establecer como NULL para que MySQL use DEFAULT CURRENT_TIMESTAMP
-            stmt.setNull(6, Types.TIMESTAMP);
+            if (bloqueo.getFechaPago() != null) {
+                stmt.setTimestamp(6, Timestamp.valueOf(bloqueo.getFechaPago()));
+            } else {
+                stmt.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            }
 
             stmt.executeUpdate();
 
