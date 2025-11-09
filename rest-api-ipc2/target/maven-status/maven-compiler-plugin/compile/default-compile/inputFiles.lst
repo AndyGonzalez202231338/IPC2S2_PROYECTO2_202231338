@@ -17,10 +17,12 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/PublicidadResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteAnunciantesResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteAnunciosResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteBoletosVendidosResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteComentariosResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteComentariosSalasResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteGananciasResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReportePeliculasProyectadasResource.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteSalasGustadasResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/ReporteSalasPopularesResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/SalaResource.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/com/mycompany/rest/api/ipc2/resources/SimpleTestResource.java
@@ -133,6 +135,10 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/bloqueo/BloqueoPublicidadCrudService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/BoletoCrudService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/BoletosCreator.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/report/BoletoUsuarioDto.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/report/ReporteBoletosVendidosDto.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/report/ReporteBoletosVendidosService.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/boletos/report/SalaBoletosDto.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CarteraCineService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CineAdministradorService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/cines/CinesCreator.java
@@ -149,6 +155,10 @@
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/publicidad/PublicidadService.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/SalasCreator.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/SalasCrudService.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/calificacion/report/CalificacionDto.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/calificacion/report/ReporteSalasGustadasDto.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/calificacion/report/ReporteSalasGustadasService.java
+/home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/calificacion/report/SalaCalificacionesDto.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/peliculas/report/PeliculaProyectadaDto.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/peliculas/report/ReportePeliculasProyectadasDto.java
 /home/andy/Escritorio/proyecto1 ipc2 S2/Proyecto2/IPC2S2_PROYECTO2_202231338/rest-api-ipc2/src/main/java/services/salas/peliculas/report/ReportePeliculasProyectadasService.java
